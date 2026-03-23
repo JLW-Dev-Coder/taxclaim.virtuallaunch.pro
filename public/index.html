@@ -89,13 +89,17 @@ input:focus, select:focus, textarea:focus { outline: none; box-shadow: 0 0 0 3px
       </div>
      </div>
      <div class="hidden sm:flex items-center gap-6 text-sm" style="color:#9ca3af;">
-      <a href="#how" class="hover:text-white transition cursor-pointer" onclick="navigateTo('how', event)">How It Works</a> <a href="#reviews" class="hover:text-white transition cursor-pointer" onclick="navigateTo('reviews', event)">Reviews</a> <a href="#pricing" class="hover:text-white transition cursor-pointer" onclick="navigateTo('pricing', event)">Pricing</a> <a href="#support" class="hover:text-white transition cursor-pointer" onclick="navigateTo('support', event)">Support</a> <button onclick="navigateTo('payment', event)" class="px-4 py-2 rounded-lg text-sm font-semibold transition" style="background:#dc2626;color:#fff;">Get Started</button>
+      <a href="#how" class="hover:text-white transition cursor-pointer" onclick="navigateTo('how', event)">How It Works</a> 
+      <a href="#reviews" class="hover:text-white transition cursor-pointer" onclick="navigateTo('reviews', event)">Reviews</a> 
+      <a href="#pricingSection" class="hover:text-white transition cursor-pointer" onclick="navigateTo('pricing', event)">Pricing</a> <a href="#support" class="hover:text-white transition cursor-pointer" onclick="navigateTo('support', event)">Support</a> <button onclick="navigateTo('payment', event)" class="px-4 py-2 rounded-lg text-sm font-semibold transition" style="background:#dc2626;color:#fff;">Get Started</button>
      </div><button class="sm:hidden" style="color:#9ca3af;" onclick="document.getElementById('mobileMenu').classList.toggle('view-hidden')">
-      <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6" /> <line x1="3" y1="12" x2="21" y2="12" /> <line x1="3" y1="18" x2="21" y2="18" />
+      <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+       <line x1="3" y1="6" x2="21" y2="6" /> <line x1="3" y1="12" x2="21" y2="12" /> <line x1="3" y1="18" x2="21" y2="18" />
       </svg></button>
     </nav>
     <div id="mobileMenu" class="view-hidden sm:hidden px-4 pb-4 flex flex-col gap-3 text-sm" style="color:#9ca3af;">
-     <a class="hover:text-white transition cursor-pointer" onclick="navigateTo('how', event);document.getElementById('mobileMenu').classList.add('view-hidden')">How It Works</a> <a class="hover:text-white transition cursor-pointer" onclick="navigateTo('reviews', event);document.getElementById('mobileMenu').classList.add('view-hidden')">Reviews</a> <a class="hover:text-white transition cursor-pointer" onclick="navigateTo('pricing', event);document.getElementById('mobileMenu').classList.add('view-hidden')">Pricing</a> <a class="hover:text-white transition cursor-pointer" onclick="navigateTo('support', event);document.getElementById('mobileMenu').classList.add('view-hidden')">Support</a> <button onclick="navigateTo('pricingSection', event);document.getElementById('mobileMenu').classList.add('view-hidden')" class="px-4 py-2 rounded-lg text-sm font-semibold" style="background:#dc2626;color:#fff;">Get Started</button>
+     <a class="hover:text-white transition cursor-pointer" onclick="navigateTo('how', event);document.getElementById('mobileMenu').classList.add('view-hidden')">How It Works</a> <a class="hover:text-white transition cursor-pointer" onclick="navigateTo('reviews', event);document.getElementById('mobileMenu').classList.add('view-hidden')">Reviews</a> <a class="hover:text-white transition cursor-pointer" onclick="navigateTo('pricing', event);document.getElementById('mobileMenu').classList.add('view-hidden')">Pricing</a> <a class="hover:text-white transition cursor-pointer" onclick="navigateTo('support', event);document.getElementById('mobileMenu').classList.add('view-hidden')">Support</a> 
+     <a href="#pricingSection" class="px-4 py-2 rounded-lg text-sm font-semibold" style="background:#dc2626;color:#fff;">Get Started</a>
     </div>
    </header>
    <section id="viewSupport" class="view-hidden w-full h-full" style="background:#0f1117;">
@@ -170,7 +174,8 @@ input:focus, select:focus, textarea:focus { outline: none; box-shadow: 0 0 0 3px
        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div class="rounded-xl p-6" style="background:#0f1117;border:1px solid #2a2d3e;">
          <h3 class="font-semibold text-lg mb-3" style="color:#f1f1f4;">Info &amp; Demos</h3>
-         <p class="mb-4" style="color:#9ca3af;">Book a call to learn more and see if this service is the right fit for your needs.</p><button class="w-full py-2 px-4 rounded-lg font-semibold transition hover:scale-[1.02]" style="background:#dc2626;color:#fff;">Book a Demo</button>
+         <p class="mb-4" style="color:#9ca3af;">Book a call to learn more and see if this service is the right fit for your needs.</p>
+         <button class="w-full py-2 px-4 rounded-lg font-semibold transition hover:scale-[1.02]" style="background:#dc2626;color:#fff;">Book a Demo</button>
         </div>
         <div class="rounded-xl p-6" style="background:#0f1117;border:1px solid #2a2d3e;">
          <h3 class="font-semibold text-lg mb-3" style="color:#f1f1f4;">Account Support</h3>
@@ -216,7 +221,8 @@ input:focus, select:focus, textarea:focus { outline: none; box-shadow: 0 0 0 3px
          <div class="text-xs mb-3 px-2 py-1 rounded-md inline-block" style="background:rgba(220,38,38,.1);color:#fca5a5;">
           24-48 hour response
          </div>
-         <p class="text-sm mb-4" style="color:#9ca3af;">Send us an email with your inquiry.</p><button class="w-full py-2 px-3 rounded-lg font-semibold text-sm transition hover:scale-[1.02]" style="background:transparent;border:1px solid rgba(220,38,38,.3);color:#fca5a5;">support@taxclaim.pro</button>
+         <p class="text-sm mb-4" style="color:#9ca3af;">Send us an email with your inquiry.</p>
+         <button class="w-full py-2 px-3 rounded-lg font-semibold text-sm transition hover:scale-[1.02]" style="background:transparent;border:1px solid rgba(220,38,38,.3);color:#fca5a5;">support@taxclaim.pro</button>
         </div>
         <div class="rounded-xl p-6" style="background:#161824;border:1px solid #2a2d3e;">
          <div class="flex items-center gap-2 mb-3"><!-- Link SVG -->
@@ -227,7 +233,8 @@ input:focus, select:focus, textarea:focus { outline: none; box-shadow: 0 0 0 3px
          <div class="text-xs mb-3 px-2 py-1 rounded-md inline-block" style="background:rgba(220,38,38,.1);color:#fca5a5;">
           Follow updates
          </div>
-         <p class="text-sm mb-4" style="color:#9ca3af;">Connect with us on social media.</p><button class="w-full py-2 px-3 rounded-lg font-semibold text-sm transition hover:scale-[1.02]" style="background:transparent;border:1px solid rgba(220,38,38,.3);color:#fca5a5;">TaxClaimPro</button>
+         <p class="text-sm mb-4" style="color:#9ca3af;">Connect with us on social media.</p>
+         <button class="w-full py-2 px-3 rounded-lg font-semibold text-sm transition hover:scale-[1.02]" style="background:transparent;border:1px solid rgba(220,38,38,.3);color:#fca5a5;">TaxClaimPro</button>
         </div>
        </div>
       </div>
@@ -238,14 +245,19 @@ input:focus, select:focus, textarea:focus { outline: none; box-shadow: 0 0 0 3px
         <h2 id="support-faq-title" class="font-display text-3xl sm:text-4xl font-bold mb-2" style="color:#f1f1f4;">Common Questions</h2>
        </div>
        <div class="space-y-3">
-        <div class="rounded-lg overflow-hidden" style="border:1px solid #2a2d3e;"><button class="support-accordion-header w-full px-6 py-4 flex items-center justify-between hover:bg-opacity-60 transition" style="background:#0f1117;"> <h4 class="font-semibold text-left" style="color:#f1f1f4;">How long does it take to hear back?</h4><!-- Chevron-down SVG -->
+        <div class="rounded-lg overflow-hidden" style="border:1px solid #2a2d3e;">
+         <button class="support-accordion-header w-full px-6 py-4 flex items-center justify-between hover:bg-opacity-60 transition" style="background:#0f1117;"> 
+          <h4 class="font-semibold text-left" style="color:#f1f1f4;">How long does it take to hear back?</h4><!-- Chevron-down SVG -->
           <svg width="20" height="20" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewbox="0 0 24 24" style="flex-shrink:0;"><polyline points="6 9 12 15 18 9" />
           </svg></button>
          <div class="support-accordion-content hidden px-6 py-4" style="background:#0f1117;border-top:1px solid #2a2d3e;">
           <p style="color:#9ca3af;">We typically review support requests and reach out within 24–48 hours. Priority members get faster support.</p>
          </div>
+        
         </div>
-        <div class="rounded-lg overflow-hidden" style="border:1px solid #2a2d3e;"><button class="support-accordion-header w-full px-6 py-4 flex items-center justify-between hover:bg-opacity-60 transition" style="background:#0f1117;"> <h4 class="font-semibold text-left" style="color:#f1f1f4;">Where do I find my reference number?</h4>
+        <div class="rounded-lg overflow-hidden" style="border:1px solid #2a2d3e;">
+         <button class="support-accordion-header w-full px-6 py-4 flex items-center justify-between hover:bg-opacity-60 transition" style="background:#0f1117;"> 
+          <h4 class="font-semibold text-left" style="color:#f1f1f4;">Where do I find my reference number?</h4>
           <svg width="20" height="20" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewbox="0 0 24 24" style="flex-shrink:0;"><polyline points="6 9 12 15 18 9" />
           </svg></button>
          <div class="support-accordion-content hidden px-6 py-4" style="background:#0f1117;border-top:1px solid #2a2d3e;">
@@ -273,7 +285,9 @@ input:focus, select:focus, textarea:focus { outline: none; box-shadow: 0 0 0 3px
       <div class="max-w-3xl mx-auto text-center">
        <h2 id="support-cta-title" class="font-display text-3xl sm:text-4xl font-bold mb-4" style="color:#f1f1f4;">Ready to get started?</h2>
        <p id="support-cta-subtitle" class="text-lg mb-8" style="color:#9ca3af;">Join tax professionals who are helping their clients claim refunds. Set up your landing page and start serving clients today.</p>
-       <div class="flex flex-col sm:flex-row gap-4 justify-center"><button onclick="showView('pricingSection')" class="px-8 py-4 rounded-xl font-semibold transition hover:scale-105" style="background:#dc2626;color:#fff;">Get Started Today</button> <button onclick="showView('hero')" class="px-8 py-4 rounded-xl font-semibold transition hover:scale-105" style="background:rgba(255,255,255,.06);color:#f1f1f4;border:1px solid #2a2d3e;">Back to Home</button>
+       <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <button onclick="showView('pricingSection')" class="px-8 py-4 rounded-xl font-semibold transition hover:scale-105" style="background:#dc2626;color:#fff;">Get Started Today</button> 
+        <button onclick="showView('hero')" class="px-8 py-4 rounded-xl font-semibold transition hover:scale-105" style="background:rgba(255,255,255,.06);color:#f1f1f4;border:1px solid #2a2d3e;">Back to Home</button>
        </div>
       </div>
      </section>
