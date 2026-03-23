@@ -1,0 +1,9 @@
+﻿{
+  "auth":{"required":true,"trustClientIdentityFields":false,"type":"session"},
+  "contract":{"authority":["R2_VIRTUAL_LAUNCH"],"governs":"Create a Stripe checkout session","path":"contracts/create-checkout.contract.json","source":"TaxClaim Pro","title":"Create Stripe Checkout","usedOnPages":["/index.html"],"validation":{"enumStrict":true,"normalizeCheckboxToBoolean":true,"rejectUnknownValues":true,"requireJsonContentType":true},"version":1},
+  "delivery":{"endpoint":"/payments/checkout","method":"POST","receiptKeyPattern":"receipts/{source}/{eventId}.json","receiptSource":"payment","signature":{"header":null,"required":false,"secretEnvVar":null}},
+  "effects":{"dedupeKey":"payload.eventId","eventIdFrom":"payload.eventId","receiptAppend":{"to":"receipts/{source}/{eventId}.json"},"canonicalPatch":{"createdAt":"{system.nowIso}","eventId":"{payload.eventId}","recordId":"{payload.eventId}","status":"checkout_created","updatedAt":"{system.nowIso}"},"canonicalUpsert":{"patchFrom":"effects.canonicalPatch","target":"payments/{recordId}.json"},"writeOrder":["receiptAppend","canonicalUpsert"],"writes":["payments"]},
+  "payload":{"additionalProperties":false,"properties":{"eventId":{"type":"string","minLength":1},"proId":{"type":"string","minLength":1},"amount":{"type":"number"},"currency":{"type":"string","minLength":3},"paymentMethod":{"type":"string","minLength":1}},"required":["eventId","proId","amount","currency","paymentMethod"],"type":"object"},
+  "response":{"deduped":{"deduped":true,"eventId":"{effects.eventIdFrom}","ok":true},"error":{"error":"validation_failed","ok":false},"success":{"eventId":"{effects.eventIdFrom}","ok":true,"status":"checkout_created"}},
+  "schema":{"name":"vlp_create_checkout","version":1}
+}

@@ -1,108 +1,133 @@
 <!doctype html>
 <html lang="en" class="h-full">
- <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tax Refund Claim Pro</title>
-  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-  <script src="/_sdk/element_sdk.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Raleway:wght@700;800;900&amp;display=swap" rel="stylesheet">
-  <script>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tax Refund Claim Pro</title>
+<link rel="icon" href="https://virtuallaunch.pro/favicon.ico" sizes="any">
+<link rel="icon" href="https://virtuallaunch.pro/assets/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="https://virtuallaunch.pro/assets/favicon.svg">
+<link rel="apple-touch-icon" href="https://virtuallaunch.pro/assets/favicon.ico" sizes="any">
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script src="/_sdk/element_sdk.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Raleway:wght@700;800;900&display=swap" rel="stylesheet">
+<script>
 tailwind.config = {
-  theme: {
-    extend: {
-      fontFamily: {
-        display: ['Raleway', 'Arial', 'sans-serif'],
-        body: ['DM Sans', 'sans-serif']
-      }
-    }
-  }
+theme: {
+extend: {
+fontFamily: {
+display: ['Raleway', 'Arial', 'sans-serif'],
+body: ['DM Sans', 'sans-serif']
+}
+}
+}
 }
 </script>
-  <style>
-  html, body { height: 100%; margin: 0; }
-  .app-root { height: 100%; overflow-y: auto; overflow-x: hidden; }
-  @keyframes fadeUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
-  @keyframes pulse-glow { 0%,100% { box-shadow: 0 0 0 0 rgba(220,38,38,0.3); } 50% { box-shadow: 0 0 24px 8px rgba(220,38,38,0.15); } }
-  @keyframes heroCardFloat { 0%, 100% { transform: translateY(0px) rotateX(0deg); } 25% { transform: translateY(-12px) rotateX(2deg); } 75% { transform: translateY(-8px) rotateX(-1deg); } }
-  @keyframes shimmer { 0% { background-position: -1000px 0; } 100% { background-position: 1000px 0; } }
-  @keyframes urgencyPulse { 0%, 100% { box-shadow: 0 0 20px rgba(220,38,38,0.15); } 50% { box-shadow: 0 0 40px rgba(220,38,38,0.4), 0 0 60px rgba(220,38,38,0.2); } }
-  @keyframes urgencyBorder { 0%, 100% { border-color: rgba(220,38,38,0.3); } 50% { border-color: rgba(220,38,38,0.6); } }
-  @keyframes skeletonLoad { 0% { background-position: -1000px 0; } 100% { background-position: 1000px 0; } }
-  @keyframes buttonGlow { 0%, 100% { box-shadow: 0 0 12px rgba(220,38,38,0.4), inset 0 0 12px rgba(220,38,38,0.1); } 50% { box-shadow: 0 0 24px rgba(220,38,38,0.6), inset 0 0 8px rgba(220,38,38,0.2); } }
-  .skeleton { background: linear-gradient(90deg, #1e2130 0%, #2a2d3e 50%, #1e2130 100%); background-size: 1000px 100%; animation: skeletonLoad 2s infinite; }
-  button { animation: buttonGlow 3s ease-in-out infinite; }
-  .anim-up { animation: fadeUp .6s ease both; }
-  .hero-card-animate { animation: heroCardFloat 4s ease-in-out infinite; perspective: 1000px; }
-  .shimmer-text { background: linear-gradient(90deg, #f1f1f4 0%, #f87171 50%, #f1f1f4 100%); background-size: 1000px 100%; animation: shimmer 3s infinite; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-  .glow-border { animation: urgencyPulse 2s ease-in-out infinite, urgencyBorder 2s ease-in-out infinite; }
-  .anim-up-d1 { animation: fadeUp .6s ease .1s both; }
-  .anim-up-d2 { animation: fadeUp .6s ease .2s both; }
-  .anim-up-d3 { animation: fadeUp .6s ease .3s both; }
-  .anim-up-d4 { animation: fadeUp .6s ease .4s both; }
-  .pulse-btn { animation: pulse-glow 2.5s ease infinite; }
-  .view-hidden { display: none !important; }
-  .step-card { transition: transform .25s ease, box-shadow .25s ease; }
-  .step-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,.12); }
-  input:focus, select:focus, textarea:focus { outline: none; box-shadow: 0 0 0 3px rgba(220,38,38,0.2); border-color: #dc2626; }
-  .progress-step.active .step-dot { background: #dc2626; color: #fff; }
-  .progress-step.active .step-line { background: #dc2626; }
-  .progress-step .step-dot { background: #e5e7eb; color: #9ca3af; transition: all .3s ease; }
-  .progress-step .step-line { background: #e5e7eb; transition: all .3s ease; }
-  .toast-msg { transition: opacity .4s ease, transform .4s ease; }
+<style>
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+body {
+  min-height: 100vh;
+  height: auto;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+.app-root {
+  width: 100%;
+  min-height: 100vh;
+  height: auto;
+  overflow: visible;
+}
+@keyframes fadeUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+@keyframes pulse-glow { 0%,100% { box-shadow: 0 0 0 0 rgba(220,38,38,0.3); } 50% { box-shadow: 0 0 24px 8px rgba(220,38,38,0.15); } }
+@keyframes heroCardFloat { 0%, 100% { transform: translateY(0px) rotateX(0deg); } 25% { transform: translateY(-12px) rotateX(2deg); } 75% { transform: translateY(-8px) rotateX(-1deg); } }
+@keyframes shimmer { 0% { background-position: -1000px 0; } 100% { background-position: 1000px 0; } }
+@keyframes urgencyPulse { 0%, 100% { box-shadow: 0 0 20px rgba(220,38,38,0.15); } 50% { box-shadow: 0 0 40px rgba(220,38,38,0.4), 0 0 60px rgba(220,38,38,0.2); } }
+@keyframes urgencyBorder { 0%, 100% { border-color: rgba(220,38,38,0.3); } 50% { border-color: rgba(220,38,38,0.6); } }
+@keyframes skeletonLoad { 0% { background-position: -1000px 0; } 100% { background-position: 1000px 0; } }
+@keyframes buttonGlow { 0%, 100% { box-shadow: 0 0 12px rgba(220,38,38,0.4), inset 0 0 12px rgba(220,38,38,0.1); } 50% { box-shadow: 0 0 24px rgba(220,38,38,0.6), inset 0 0 8px rgba(220,38,38,0.2); } }
+.skeleton { background: linear-gradient(90deg, #1e2130 0%, #2a2d3e 50%, #1e2130 100%); background-size: 1000px 100%; animation: skeletonLoad 2s infinite; }
+button { animation: buttonGlow 3s ease-in-out infinite; }
+.anim-up { animation: fadeUp .6s ease both; }
+.hero-card-animate { animation: heroCardFloat 4s ease-in-out infinite; perspective: 1000px; }
+.shimmer-text { background: linear-gradient(90deg, #f1f1f4 0%, #f87171 50%, #f1f1f4 100%); background-size: 1000px 100%; animation: shimmer 3s infinite; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.glow-border { animation: urgencyPulse 2s ease-in-out infinite, urgencyBorder 2s ease-in-out infinite; }
+.anim-up-d1 { animation: fadeUp .6s ease .1s both; }
+.anim-up-d2 { animation: fadeUp .6s ease .2s both; }
+.anim-up-d3 { animation: fadeUp .6s ease .3s both; }
+.anim-up-d4 { animation: fadeUp .6s ease .4s both; }
+.pulse-btn { animation: pulse-glow 2.5s ease infinite; }
+.view-hidden { display: none !important; }
+.step-card { transition: transform .25s ease, box-shadow .25s ease; }
+.step-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,.12); }
+input:focus, select:focus, textarea:focus { outline: none; box-shadow: 0 0 0 3px rgba(220,38,38,0.2); border-color: #dc2626; }
+.progress-step.active .step-dot { background: #dc2626; color: #fff; }
+.progress-step.active .step-line { background: #dc2626; }
+.progress-step .step-dot { background: #e5e7eb; color: #9ca3af; transition: all .3s ease; }
+.progress-step .step-line { background: #e5e7eb; transition: all .3s ease; }
+.toast-msg { transition: opacity .4s ease, transform .4s ease; }
 </style>
-  <style>body { box-sizing: border-box; }</style>
-  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
-  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js" type="text/javascript"></script>
- </head>
+<style>body { box-sizing: border-box; }</style>
+<script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js" type="text/javascript"></script>
+</head>
  <body class="h-full">
-  <div class="app-root w-full font-body" id="appRoot" style="background:#0f1117;"><!-- HEADER -->
+  <div class="app-root w-full font-body" id="appRoot" style="background:#0f1117;">
+    
+   <!-- HEADER -->
    <header class="sticky top-0 z-50 border-b" style="background:rgba(15,17,23,.92);backdrop-filter:blur(12px);border-color:#1e2130;">
     <nav class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
      <div class="flex items-center gap-2">
       <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:#dc2626;">
-       <svg width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path> <polyline points="14 2 14 8 20 8"></polyline>
+       <svg width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path> <polyline points="14 2 14 8 20 8"></polyline>
        </svg>
-      </div><span class="font-display text-lg font-bold" style="color:#f1f1f4;" id="navBrand">TaxClaim Pro</span>
+      </div>
+      <div class="flex flex-col leading-tight"><span class="font-display text-lg font-bold" style="color:#f1f1f4;" id="navBrand">TaxClaim Pro</span><span class="text-xs" style="color:#6b7280;">Powered by Virtual Launch Pro</span>
+      </div>
      </div>
-     <div class="hidden sm:flex items-center gap-6 text-sm" style="color:#9ca3af;">
-      <a href="#features" class="hover:text-white transition cursor-pointer" onclick="scrollToSection('featuresSection')">Features</a> <a href="#how" class="hover:text-white transition cursor-pointer" onclick="scrollToSection('howSection')">How It Works</a> <a href="#pricing" class="hover:text-white transition cursor-pointer" onclick="scrollToSection('pricingSection')">Pricing</a> <a href="#reviews" class="hover:text-white transition cursor-pointer" onclick="scrollToSection('reviewsSection')">Reviews</a> <a href="#support" class="hover:text-white transition cursor-pointer" onclick="showView('support')">Support</a> <button onclick="showView('payment')" class="px-4 py-2 rounded-lg text-sm font-semibold transition" style="background:#dc2626;color:#fff;">Get Started</button>
+     <div class="hidden sm:flex items-center gap-6 text-sm" style="color:#9ca3af;"><a href="#how" class="hover:text-white transition cursor-pointer" onclick="navigateTo('how', event)">How It Works</a> <a href="#reviews" class="hover:text-white transition cursor-pointer" onclick="navigateTo('reviews', event)">Reviews</a> <a href="#pricing" class="hover:text-white transition cursor-pointer" onclick="navigateTo('pricing', event)">Pricing</a> <a href="#support" class="hover:text-white transition cursor-pointer" onclick="navigateTo('support', event)">Support</a> <button onclick="navigateTo('payment', event)" class="px-4 py-2 rounded-lg text-sm font-semibold transition" style="background:#dc2626;color:#fff;">Get Started</button>
      </div><button class="sm:hidden" style="color:#9ca3af;" onclick="document.getElementById('mobileMenu').classList.toggle('view-hidden')">
-      <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"></line> <line x1="3" y1="12" x2="21" y2="12"></line> <line x1="3" y1="18" x2="21" y2="18"></line>
+      <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+       <line x1="3" y1="6" x2="21" y2="6"></line> <line x1="3" y1="12" x2="21" y2="12"></line> <line x1="3" y1="18" x2="21" y2="18"></line>
       </svg></button>
     </nav>
-    <div id="mobileMenu" class="view-hidden sm:hidden px-4 pb-4 flex flex-col gap-3 text-sm" style="color:#9ca3af;">
-     <a class="hover:text-white transition cursor-pointer" onclick="scrollToSection('featuresSection');document.getElementById('mobileMenu').classList.add('view-hidden')">Features</a> <a class="hover:text-white transition cursor-pointer" onclick="scrollToSection('howSection');document.getElementById('mobileMenu').classList.add('view-hidden')">How It Works</a> <a class="hover:text-white transition cursor-pointer" onclick="scrollToSection('pricingSection');document.getElementById('mobileMenu').classList.add('view-hidden')">Pricing</a> <a class="hover:text-white transition cursor-pointer" onclick="scrollToSection('reviewsSection');document.getElementById('mobileMenu').classList.add('view-hidden')">Reviews</a> <a class="hover:text-white transition cursor-pointer" onclick="showView('support');document.getElementById('mobileMenu').classList.add('view-hidden')">Support</a> <button onclick="showView('payment');document.getElementById('mobileMenu').classList.add('view-hidden')" class="px-4 py-2 rounded-lg text-sm font-semibold" style="background:#dc2626;color:#fff;">Get Started</button>
+    <div id="mobileMenu" class="view-hidden sm:hidden px-4 pb-4 flex flex-col gap-3 text-sm" style="color:#9ca3af;"><a class="hover:text-white transition cursor-pointer" onclick="navigateTo('how', event);document.getElementById('mobileMenu').classList.add('view-hidden')">How It Works</a> <a class="hover:text-white transition cursor-pointer" onclick="navigateTo('reviews', event);document.getElementById('mobileMenu').classList.add('view-hidden')">Reviews</a> <a class="hover:text-white transition cursor-pointer" onclick="navigateTo('pricing', event);document.getElementById('mobileMenu').classList.add('view-hidden')">Pricing</a> <a class="hover:text-white transition cursor-pointer" onclick="navigateTo('support', event);document.getElementById('mobileMenu').classList.add('view-hidden')">Support</a> 
+      <button onclick="navigateTo('pricingSection', event);document.getElementById('mobileMenu').classList.add('view-hidden')" class="px-4 py-2 rounded-lg text-sm font-semibold" style="background:#dc2626;color:#fff;">Get Started</button>
     </div>
-   </header><!-- VIEW: LANDING PAGE (Tax Pro Client View) -->
+   </header>
+   
+   <!-- VIEW: LANDING PAGE (Tax Pro Client View) -->
    <section id="viewLandingPage" class="view-hidden w-full h-full" style="background:#0f1117;">
-    <div id="app-wrapper" class="w-full h-full overflow-auto">
-     <!-- Hero -->
+    <div id="app-wrapper" class="w-full h-full overflow-auto"><!-- Hero -->
      <header class="w-full relative overflow-hidden">
       <div style="position:absolute;inset:0;background:linear-gradient(135deg,#0f1117 0%,#1a1d2e 40%,#1e1f2e 100%);"></div>
       <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 70% 20%, rgba(220,38,38,0.1) 0%, transparent 60%);"></div>
       <div class="relative z-10 max-w-4xl mx-auto px-6 pt-12 pb-10 text-center">
-       <div id="lp-deadline-badge" class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold mb-6" style="background:rgba(220,38,38,0.15);color:#fca5a5;border:1px solid rgba(220,38,38,0.3);animation:pulse-glow 2s infinite;">
-        <i data-lucide="alert-triangle" style="width:16px;height:16px;"></i> <span id="lp-deadline-text">Submit before July 10, 2026</span>
+       <div id="lp-deadline-badge" class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold mb-6" style="background:rgba(220,38,38,0.15);color:#fca5a5;border:1px solid rgba(220,38,38,0.3);animation:pulse-glow 2s infinite;"><i data-lucide="alert-triangle" style="width:16px;height:16px;"></i> <span id="lp-deadline-text">Submit before July 10, 2026</span>
        </div>
        <h1 id="lp-headline" style="font-family:'Raleway',serif;color:#f1f1f4;font-size:2.75rem;line-height:1.15;font-weight:800;margin-bottom:1rem;">How Your Clients Claim Their Refund</h1>
        <p id="lp-subheadline" style="color:#9ca3af;font-size:1.15rem;max-width:600px;margin:0 auto 2rem;">Follow these steps to generate, print, and mail your IRS Form 843 safely and correctly.</p>
        <div class="flex flex-wrap justify-center gap-3">
-        <button onclick="showView('payment')" class="flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-white transition-all hover:scale-105" style="background:#dc2626;"> <i data-lucide="file-text" style="width:18px;height:18px;"></i> <span id="lp-cta-primary">Generate Form 843</span> </button> <button class="flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all hover:scale-105" style="background:rgba(255,255,255,.06);color:#f1f1f4;border:1px solid #2a2d3e;"> <i data-lucide="phone" style="width:18px;height:18px;"></i> <span id="lp-cta-secondary">Contact Tax Pro</span> </button>
+        <button onclick="showView('pricingSection')" class="flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-white transition-all hover:scale-105" style="background:#dc2626;"> <i data-lucide="file-text" style="width:18px;height:18px;"></i> <span id="lp-cta-primary">Generate Form 843</span> </button> 
+        <button class="flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all hover:scale-105" style="background:rgba(255,255,255,.06);color:#f1f1f4;border:1px solid #2a2d3e;"> 
+          <i data-lucide="phone" style="width:18px;height:18px;"></i> <span id="lp-cta-secondary">Contact Tax Pro</span> </button>
        </div>
       </div>
      </header><!-- Steps -->
      <main class="max-w-3xl mx-auto px-6 py-12">
-      <div class="space-y-6" id="steps-container">
-       <!-- Step 1 -->
+      <div class="space-y-6" id="steps-container"><!-- Step 1 -->
        <div class="anim-step relative pl-16">
         <div class="step-connector" style="background:linear-gradient(to bottom,#dc2626,#1e2130);"></div>
         <div class="absolute left-0 top-0 w-14 h-14 rounded-full flex items-center justify-center font-bold text-lg" style="background:#dc2626;color:#fff;box-shadow:0 0 20px rgba(220,38,38,0.3);">
          1
         </div>
         <div class="rounded-xl p-6" style="background:#161824;border:1px solid #2a2d3e;">
-         <div class="flex items-center gap-3 mb-3">
-          <i data-lucide="search" style="width:22px;height:22px;color:#60a5fa;"></i>
+         <div class="flex items-center gap-3 mb-3"><i data-lucide="search" style="width:22px;height:22px;color:#60a5fa;"></i>
           <h2 style="font-family:'Raleway',serif;font-size:1.35rem;font-weight:700;color:#f1f1f4;">Check Your Penalties</h2>
          </div>
          <ul class="space-y-2" style="color:#9ca3af;font-size:0.95rem;line-height:1.6;">
@@ -118,16 +143,14 @@ tailwind.config = {
          2
         </div>
         <div class="rounded-xl p-6" style="background:#161824;border:1px solid #2a2d3e;">
-         <div class="flex items-center gap-3 mb-3">
-          <i data-lucide="shield-check" style="width:22px;height:22px;color:#60a5fa;"></i>
+         <div class="flex items-center gap-3 mb-3"><i data-lucide="shield-check" style="width:22px;height:22px;color:#60a5fa;"></i>
           <h2 style="font-family:'Raleway',serif;font-size:1.35rem;font-weight:700;color:#f1f1f4;">Confirm Eligibility &amp; Payment</h2>
          </div>
          <ul class="space-y-2" style="color:#9ca3af;font-size:0.95rem;line-height:1.6;">
           <li class="flex gap-2"><i data-lucide="check-circle" style="width:18px;height:18px;color:#22c55e;flex-shrink:0;margin-top:3px;"></i>If penalties or interest exist, click the payment link to access the Form 843 generator</li>
           <li class="flex gap-2"><i data-lucide="check-circle" style="width:18px;height:18px;color:#22c55e;flex-shrink:0;margin-top:3px;"></i>Payment ensures you can complete your refund claim independently</li>
          </ul>
-         <div class="mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium" style="background:rgba(34,197,94,0.1);color:#86efac;border:1px solid rgba(34,197,94,0.2);">
-          <i data-lucide="lock" style="width:14px;height:14px;"></i> Secure Checkout
+         <div class="mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium" style="background:rgba(34,197,94,0.1);color:#86efac;border:1px solid rgba(34,197,94,0.2);"><i data-lucide="lock" style="width:14px;height:14px;"></i> Secure Checkout
          </div>
         </div>
        </div><!-- Step 3 -->
@@ -137,8 +160,7 @@ tailwind.config = {
          3
         </div>
         <div class="rounded-xl p-6" style="background:#161824;border:1px solid #2a2d3e;">
-         <div class="flex items-center gap-3 mb-3">
-          <i data-lucide="file-text" style="width:22px;height:22px;color:#60a5fa;"></i>
+         <div class="flex items-center gap-3 mb-3"><i data-lucide="file-text" style="width:22px;height:22px;color:#60a5fa;"></i>
           <h2 style="font-family:'Raleway',serif;font-size:1.35rem;font-weight:700;color:#f1f1f4;">Generate Form 843</h2>
          </div>
          <ul class="space-y-2" style="color:#9ca3af;font-size:0.95rem;line-height:1.6;">
@@ -154,8 +176,7 @@ tailwind.config = {
          4
         </div>
         <div class="rounded-xl p-6" style="background:#161824;border:1px solid #2a2d3e;">
-         <div class="flex items-center gap-3 mb-3">
-          <i data-lucide="mail" style="width:22px;height:22px;color:#60a5fa;"></i>
+         <div class="flex items-center gap-3 mb-3"><i data-lucide="mail" style="width:22px;height:22px;color:#60a5fa;"></i>
           <h2 style="font-family:'Raleway',serif;font-size:1.35rem;font-weight:700;color:#f1f1f4;">Print &amp; Mail</h2>
          </div>
          <ul class="space-y-2" style="color:#9ca3af;font-size:0.95rem;line-height:1.6;">
@@ -170,16 +191,14 @@ tailwind.config = {
          5
         </div>
         <div class="rounded-xl p-6" style="background:#161824;border:1px solid #2a2d3e;">
-         <div class="flex items-center gap-3 mb-3">
-          <i data-lucide="user" style="width:22px;height:22px;color:#60a5fa;"></i>
+         <div class="flex items-center gap-3 mb-3"><i data-lucide="user" style="width:22px;height:22px;color:#60a5fa;"></i>
           <h2 style="font-family:'Raleway',serif;font-size:1.35rem;font-weight:700;color:#f1f1f4;">Optional Professional Assistance</h2>
          </div>
          <ul class="space-y-2" style="color:#9ca3af;font-size:0.95rem;line-height:1.6;">
           <li class="flex gap-2"><i data-lucide="check-circle" style="width:18px;height:18px;color:#22c55e;flex-shrink:0;margin-top:3px;"></i>Want extra help? Contact your tax professional using the optional link</li>
           <li class="flex gap-2"><i data-lucide="check-circle" style="width:18px;height:18px;color:#22c55e;flex-shrink:0;margin-top:3px;"></i>Payment link included for pro-assisted filing</li>
          </ul>
-         <div class="mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium" style="background:rgba(96,165,250,0.1);color:#93c5fd;border:1px solid rgba(96,165,250,0.2);">
-          <i data-lucide="sparkles" style="width:14px;height:14px;"></i> Optional Add-On
+         <div class="mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium" style="background:rgba(96,165,250,0.1);color:#93c5fd;border:1px solid rgba(96,165,250,0.2);"><i data-lucide="sparkles" style="width:14px;height:14px;"></i> Optional Add-On
          </div>
         </div>
        </div>
@@ -187,215 +206,247 @@ tailwind.config = {
      </main><!-- Footer -->
      <footer class="w-full px-6 py-8 text-center" style="border-top:1px solid rgba(148,163,184,0.1);">
       <div class="max-w-3xl mx-auto">
-       <div class="flex flex-wrap justify-center gap-3 mb-6">
-        <button onclick="showView('payment')" class="flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-white transition-all hover:scale-105" style="background:#dc2626;"> <i data-lucide="file-text" style="width:18px;height:18px;"></i> <span id="lp-footer-cta-primary">Generate Form 843</span> </button> <button class="flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all hover:scale-105" style="background:rgba(255,255,255,.06);color:#f1f1f4;border:1px solid #2a2d3e;"> <i data-lucide="phone" style="width:18px;height:18px;"></i> <span id="lp-footer-cta-secondary">Contact Tax Pro</span> </button>
+       <div class="flex flex-wrap justify-center gap-3 mb-6"><button onclick="showView('payment')" class="flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-white transition-all hover:scale-105" style="background:#dc2626;"> <i data-lucide="file-text" style="width:18px;height:18px;"></i> <span id="lp-footer-cta-primary">Generate Form 843</span> </button> <button class="flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all hover:scale-105" style="background:rgba(255,255,255,.06);color:#f1f1f4;border:1px solid #2a2d3e;"> <i data-lucide="phone" style="width:18px;height:18px;"></i> <span id="lp-footer-cta-secondary">Contact Tax Pro</span> </button>
        </div>
        <p id="lp-footer-text" style="color:#6b7280;font-size:0.8rem;line-height:1.5;">No guarantees. Limited-time opportunity. Deadline: July 10, 2026.</p>
       </div>
      </footer>
     </div>
-   </section><!-- VIEW: HERO --> <!-- VIEW: SUPPORT PAGE -->
-   <section id="viewSupport" class="view-hidden w-full h-full" style="background:#0f1117;">
-    <div id="support-wrapper" class="w-full h-full overflow-auto">
-     <!-- Hero Section -->
-     <section class="w-full py-16 sm:py-24 relative overflow-hidden" style="background:linear-gradient(135deg,#0f1117 0%,#1a1d2e 50%,#0f1117 100%);">
-      <div class="absolute inset-0 opacity-10" style="background:radial-gradient(circle at 70% 30%,#dc2626 0%,transparent 60%);"></div>
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 py-12 relative z-10 text-center">
-       <div class="w-20 h-20 rounded-full mx-auto mb-6 flex items-center justify-center" style="background:rgba(220,38,38,.12);border:1px solid rgba(220,38,38,.25);">
-        <i data-lucide="headset" style="width:40px;height:40px;color:#f87171;"></i>
-       </div>
-       <h1 id="support-hero-headline" class="font-display text-4xl sm:text-5xl font-bold mb-4 leading-tight" style="color:#f1f1f4;">We're Here to Help</h1>
-       <p id="support-hero-subtitle" class="text-lg max-w-2xl mx-auto" style="color:#9ca3af;">Check your ticket status or get in touch with our team. We typically respond within 24 hours.</p>
-      </div>
-     </section><!-- Ticket Status Card -->
-     <section class="w-full py-12 px-4 sm:px-6" style="background:#0f1117;">
-      <div class="max-w-2xl mx-auto">
-       <div class="rounded-2xl p-8" style="background:#161824;border:1px solid #2a2d3e;">
-        <h2 id="support-status-title" class="font-display text-2xl font-bold mb-4" style="color:#f1f1f4;">Check Your Ticket Status</h2>
-        <p class="mb-6" style="color:#9ca3af;">Enter your client reference number to view your profile status and what we're working on for you.</p>
-        <form id="supportStatusForm" onsubmit="handleSupportStatusCheck(event);" class="space-y-4">
-         <div>
-          <label for="supportRefNumber" class="block text-sm font-medium mb-2" style="color:#d1d5db;">Client Reference Number</label> <input id="supportRefNumber" type="text" placeholder="VLP-xxxxxxxxxxxx" required class="w-full px-4 py-3 rounded-lg text-sm" style="background:#0f1117;border:1px solid #2a2d3e;color:#f1f1f4;">
-         </div><button type="submit" class="w-full py-3 rounded-lg font-semibold transition hover:scale-[1.02]" style="background:#dc2626;color:#fff;">Check Status</button>
-        </form>
-        <div id="supportStatusResults" class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6 opacity-0 pointer-events-none transition-all">
-         <div class="rounded-lg p-3 text-center" style="background:#1e2130;">
-          <div class="text-xs mb-1" style="color:#6b7280;">
-           Profile Status
-          </div>
-          <div class="font-semibold" style="color:#fca5a5;">
-           Active
-          </div>
-         </div>
-         <div class="rounded-lg p-3 text-center" style="background:#1e2130;">
-          <div class="text-xs mb-1" style="color:#6b7280;">
-           Matches
-          </div>
-          <div class="font-semibold" style="color:#fca5a5;">
-           3 Pending
-          </div>
-         </div>
-         <div class="rounded-lg p-3 text-center" style="background:#1e2130;">
-          <div class="text-xs mb-1" style="color:#6b7280;">
-           Last Updated
-          </div>
-          <div class="font-semibold" style="color:#fca5a5;">
-           2 hours ago
-          </div>
-         </div>
-         <div class="rounded-lg p-3 text-center" style="background:#1e2130;">
-          <div class="text-xs mb-1" style="color:#6b7280;">
-           Member Tier
-          </div>
-          <div class="font-semibold" style="color:#fca5a5;">
-           Premium
-          </div>
-         </div>
-        </div>
-        <div id="supportErrorMessage" class="mt-6 p-4 rounded-lg opacity-0 pointer-events-none transition-all" style="background:rgba(220,38,38,.1);border:1px solid rgba(220,38,38,.3);">
-         <h4 class="font-semibold mb-1" style="color:#fca5a5;">Reference Not Found</h4>
-         <p class="text-sm" style="color:#9ca3af;">Please double-check your reference number. If you need help, reach out to our team using the contact options below.</p>
-        </div>
-       </div>
-      </div>
-     </section><!-- Contact Paths -->
-     <section class="w-full py-16 sm:py-24 px-4 sm:px-6" style="background:#161824;">
-      <div class="max-w-4xl mx-auto">
-       <div class="text-center mb-12">
-        <h2 class="font-display text-3xl sm:text-4xl font-bold mb-4" style="color:#f1f1f4;">Start with the path that fits</h2>
-        <p class="text-lg" style="color:#6b7280;">Some people want a demo. Others need support, membership help, or guidance. Start where it makes the most sense.</p>
-       </div>
-       <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div class="rounded-xl p-6" style="background:#0f1117;border:1px solid #2a2d3e;">
-         <h3 class="font-semibold text-lg mb-3" style="color:#f1f1f4;">Info &amp; Demos</h3>
-         <p class="mb-4" style="color:#9ca3af;">Book a call to learn more and see if this service is the right fit for your needs.</p><button class="w-full py-2 px-4 rounded-lg font-semibold transition hover:scale-[1.02]" style="background:#dc2626;color:#fff;">Book a Demo</button>
-        </div>
-        <div class="rounded-xl p-6" style="background:#0f1117;border:1px solid #2a2d3e;">
-         <h3 class="font-semibold text-lg mb-3" style="color:#f1f1f4;">Account Support</h3>
-         <p class="mb-4" style="color:#9ca3af;">Use this path for membership questions, account changes, or support tied to your profile.</p><button class="w-full py-2 px-4 rounded-lg font-semibold transition hover:scale-[1.02]" style="background:#dc2626;color:#fff;">Contact Support</button>
-        </div>
-       </div>
-      </div>
-     </section><!-- Contact Methods -->
-     <section class="w-full py-16 sm:py-24 px-4 sm:px-6" style="background:#0f1117;">
-      <div class="max-w-4xl mx-auto">
-       <div class="text-center mb-12">
-        <h2 class="font-display text-3xl sm:text-4xl font-bold mb-2" style="color:#f1f1f4;">Get in Touch</h2>
-       </div>
-       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div class="rounded-xl p-6" style="background:#161824;border:1px solid #2a2d3e;">
-         <div class="flex items-center gap-2 mb-3">
-          <i data-lucide="send" style="width:18px;height:18px;color:#fca5a5;"></i>
-          <h4 class="font-semibold" style="color:#f1f1f4;">Telegram</h4>
-         </div>
-         <div class="text-xs mb-3 px-2 py-1 rounded-md inline-block" style="background:rgba(220,38,38,.1);color:#fca5a5;">
-          Fastest response
-         </div>
-         <p class="text-sm mb-4" style="color:#9ca3af;">Chat with us directly on Telegram for quick answers.</p><button class="w-full py-2 px-3 rounded-lg font-semibold text-sm transition hover:scale-[1.02]" style="background:transparent;border:1px solid rgba(220,38,38,.3);color:#fca5a5;">@taxclaimpro</button>
-        </div>
-        <div class="rounded-xl p-6" style="background:#161824;border:1px solid #2a2d3e;">
-         <div class="flex items-center gap-2 mb-3">
-          <i data-lucide="phone" style="width:18px;height:18px;color:#fca5a5;"></i>
-          <h4 class="font-semibold" style="color:#f1f1f4;">Phone</h4>
-         </div>
-         <div class="text-xs mb-3 px-2 py-1 rounded-md inline-block" style="background:rgba(220,38,38,.1);color:#fca5a5;">
-          Call or text
-         </div>
-         <p class="text-sm mb-4" style="color:#9ca3af;">Reach us by phone or text during business hours.</p><button class="w-full py-2 px-3 rounded-lg font-semibold text-sm transition hover:scale-[1.02]" style="background:transparent;border:1px solid rgba(220,38,38,.3);color:#fca5a5;">+1 (800) 909-9946</button>
-        </div>
-        <div class="rounded-xl p-6" style="background:#161824;border:1px solid #2a2d3e;">
-         <div class="flex items-center gap-2 mb-3">
-          <i data-lucide="mail" style="width:18px;height:18px;color:#fca5a5;"></i>
-          <h4 class="font-semibold" style="color:#f1f1f4;">Email</h4>
-         </div>
-         <div class="text-xs mb-3 px-2 py-1 rounded-md inline-block" style="background:rgba(220,38,38,.1);color:#fca5a5;">
-          24-48 hour response
-         </div>
-         <p class="text-sm mb-4" style="color:#9ca3af;">Send us an email with your inquiry.</p><button class="w-full py-2 px-3 rounded-lg font-semibold text-sm transition hover:scale-[1.02]" style="background:transparent;border:1px solid rgba(220,38,38,.3);color:#fca5a5;">support@taxclaim.pro</button>
-        </div>
-        <div class="rounded-xl p-6" style="background:#161824;border:1px solid #2a2d3e;">
-         <div class="flex items-center gap-2 mb-3">
-          <i data-lucide="link" style="width:18px;height:18px;color:#fca5a5;"></i>
-          <h4 class="font-semibold" style="color:#f1f1f4;">Social</h4>
-         </div>
-         <div class="text-xs mb-3 px-2 py-1 rounded-md inline-block" style="background:rgba(220,38,38,.1);color:#fca5a5;">
-          Follow updates
-         </div>
-         <p class="text-sm mb-4" style="color:#9ca3af;">Connect with us on social media.</p><button class="w-full py-2 px-3 rounded-lg font-semibold text-sm transition hover:scale-[1.02]" style="background:transparent;border:1px solid rgba(220,38,38,.3);color:#fca5a5;">TaxClaimPro</button>
-        </div>
-       </div>
-      </div>
-     </section><!-- FAQ -->
-     <section class="w-full py-16 sm:py-24 px-4 sm:px-6" style="background:#161824;">
-      <div class="max-w-3xl mx-auto">
-       <div class="text-center mb-12">
-        <h2 id="support-faq-title" class="font-display text-3xl sm:text-4xl font-bold mb-2" style="color:#f1f1f4;">Common Questions</h2>
-       </div>
-       <div class="space-y-3">
-        <div class="rounded-lg overflow-hidden" style="border:1px solid #2a2d3e;">
-         <button class="support-accordion-header w-full px-6 py-4 flex items-center justify-between hover:bg-opacity-60 transition" style="background:#0f1117;"> <h4 class="font-semibold text-left" style="color:#f1f1f4;">How long does it take to hear back?</h4><i data-lucide="chevron-down" style="width:20px;height:20px;color:#6b7280;flex-shrink:0;"></i> </button>
-         <div class="support-accordion-content hidden px-6 py-4" style="background:#0f1117;border-top:1px solid #2a2d3e;">
-          <p style="color:#9ca3af;">We typically review support requests and reach out within 24–48 hours. Priority members get faster support.</p>
-         </div>
-        </div>
-        <div class="rounded-lg overflow-hidden" style="border:1px solid #2a2d3e;">
-         <button class="support-accordion-header w-full px-6 py-4 flex items-center justify-between hover:bg-opacity-60 transition" style="background:#0f1117;"> <h4 class="font-semibold text-left" style="color:#f1f1f4;">Where do I find my reference number?</h4><i data-lucide="chevron-down" style="width:20px;height:20px;color:#6b7280;flex-shrink:0;"></i> </button>
-         <div class="support-accordion-content hidden px-6 py-4" style="background:#0f1117;border-top:1px solid #2a2d3e;">
-          <p style="color:#9ca3af;">Your reference number was sent to your email after registration. Check your inbox and spam folder. It starts with "VLP-".</p>
-         </div>
-        </div>
-        <div class="rounded-lg overflow-hidden" style="border:1px solid #2a2d3e;">
-         <button class="support-accordion-header w-full px-6 py-4 flex items-center justify-between hover:bg-opacity-60 transition" style="background:#0f1117;"> <h4 class="font-semibold text-left" style="color:#f1f1f4;">Can I update my information after submitting?</h4><i data-lucide="chevron-down" style="width:20px;height:20px;color:#6b7280;flex-shrink:0;"></i> </button>
-         <div class="support-accordion-content hidden px-6 py-4" style="background:#0f1117;border-top:1px solid #2a2d3e;">
-          <p style="color:#9ca3af;">Yes. Reach out via Telegram or email and we'll update your information promptly.</p>
-         </div>
-        </div>
-        <div class="rounded-lg overflow-hidden" style="border:1px solid #2a2d3e;">
-         <button class="support-accordion-header w-full px-6 py-4 flex items-center justify-between hover:bg-opacity-60 transition" style="background:#0f1117;"> <h4 class="font-semibold text-left" style="color:#f1f1f4;">What's the best way to reach you?</h4><i data-lucide="chevron-down" style="width:20px;height:20px;color:#6b7280;flex-shrink:0;"></i> </button>
-         <div class="support-accordion-content hidden px-6 py-4" style="background:#0f1117;border-top:1px solid #2a2d3e;">
-          <p style="color:#9ca3af;">Telegram is fastest for quick answers. Email and phone work well for detailed questions. Choose what works best for you.</p>
-         </div>
-        </div>
-       </div>
-      </div>
-     </section><!-- Final CTA -->
-     <section class="w-full py-16 sm:py-24 px-4 sm:px-6" style="background:#0f1117;">
-      <div class="max-w-3xl mx-auto text-center">
-       <h2 id="support-cta-title" class="font-display text-3xl sm:text-4xl font-bold mb-4" style="color:#f1f1f4;">Ready to get started?</h2>
-       <p id="support-cta-subtitle" class="text-lg mb-8" style="color:#9ca3af;">Join tax professionals who are helping their clients claim refunds. Set up your landing page and start serving clients today.</p>
-       <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <button onclick="showView('payment')" class="px-8 py-4 rounded-xl font-semibold transition hover:scale-105" style="background:#dc2626;color:#fff;">Get Started Today</button> <button onclick="showView('hero')" class="px-8 py-4 rounded-xl font-semibold transition hover:scale-105" style="background:rgba(255,255,255,.06);color:#f1f1f4;border:1px solid #2a2d3e;">Back to Home</button>
-       </div>
-      </div>
-     </section><!-- Footer -->
-     <footer class="w-full px-6 py-8" style="border-top:1px solid #2a2d3e;">
-      <div class="max-w-6xl mx-auto text-center">
-       <p id="support-footer-copy" style="color:#6b7280;font-size:0.8rem;">© 2024 TaxClaim Pro. All rights reserved. | <a href="#" class="hover:text-white transition">Privacy Policy</a></p>
-      </div>
-     </footer>
-    </div>
-   </section>
-   <section id="viewHero" class="w-full">
+   </section><!-- VIEW: HERO --> 
+   
+  <section id="viewSupport" class="view-hidden w-full h-full" style="background:#0f1117;">
+  <div id="support-wrapper" class="w-full h-full overflow-auto">
     <!-- Hero Section -->
+    <section class="w-full py-8 sm:py-12 relative overflow-hidden" style="background:linear-gradient(135deg,#0f1117 0%,#1a1d2e 50%,#0f1117 100%);">
+      <div class="absolute inset-0 opacity-10" style="background:radial-gradient(circle at 70% 30%,#dc2626 0%,transparent 60%);"></div>
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 py-8 relative z-10 text-center">
+        <div class="w-20 h-20 rounded-full mx-auto mb-6 flex items-center justify-center" style="background:rgba(220,38,38,.12);border:1px solid rgba(220,38,38,.25);">
+          <!-- Headset SVG -->
+          <svg width="40" height="40" fill="none" stroke="#f87171" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+            <path d="M3 13v-2a9 9 0 0 1 18 0v2"/>
+            <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-4"/>
+            <path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-4"/>
+          </svg>
+        </div>
+        <h1 id="support-hero-headline" class="font-display text-4xl sm:text-5xl font-bold mb-4 leading-tight" style="color:#f1f1f4;">We're Here to Help</h1>
+        <p id="support-hero-subtitle" class="text-lg max-w-2xl mx-auto" style="color:#9ca3af;">Check your ticket status or get in touch with our team. We typically respond within 24 hours.</p>
+      </div>
+    </section>
+    <!-- Ticket Status Card -->
+    <section class="w-full py-12 px-4 sm:px-6" style="background:#0f1117;">
+      <div class="max-w-2xl mx-auto">
+        <div class="rounded-2xl p-8" style="background:#161824;border:1px solid #2a2d3e;">
+          <h2 id="support-status-title" class="font-display text-2xl font-bold mb-4" style="color:#f1f1f4;">Check Your Ticket Status</h2>
+          <p class="mb-6" style="color:#9ca3af;">Enter your client reference number to view your profile status and what we're working on for you.</p>
+          <form id="supportStatusForm" onsubmit="handleSupportStatusCheck(event);" class="space-y-4">
+            <div>
+              <label for="supportRefNumber" class="block text-sm font-medium mb-2" style="color:#d1d5db;">Client Reference Number</label>
+              <input id="supportRefNumber" type="text" placeholder="VLP-xxxxxxxxxxxx" required class="w-full px-4 py-3 rounded-lg text-sm" style="background:#0f1117;border:1px solid #2a2d3e;color:#f1f1f4;">
+            </div>
+            <button type="submit" class="w-full py-3 rounded-lg font-semibold transition hover:scale-[1.02]" style="background:#dc2626;color:#fff;">Check Status</button>
+          </form>
+          <div id="supportStatusResults" class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-3 opacity-0 pointer-events-none transition-all">
+            <div class="rounded-lg p-3 text-center" style="background:#1e2130;">
+              <div class="text-xs mb-1" style="color:#6b7280;">Profile Status</div>
+              <div class="font-semibold" style="color:#fca5a5;">Active</div>
+            </div>
+            <div class="rounded-lg p-3 text-center" style="background:#1e2130;">
+              <div class="text-xs mb-1" style="color:#6b7280;">Matches</div>
+              <div class="font-semibold" style="color:#fca5a5;">3 Pending</div>
+            </div>
+            <div class="rounded-lg p-3 text-center" style="background:#1e2130;">
+              <div class="text-xs mb-1" style="color:#6b7280;">Last Updated</div>
+              <div class="font-semibold" style="color:#fca5a5;">2 hours ago</div>
+            </div>
+            <div class="rounded-lg p-3 text-center" style="background:#1e2130;">
+              <div class="text-xs mb-1" style="color:#6b7280;">Member Tier</div>
+              <div class="font-semibold" style="color:#fca5a5;">Premium</div>
+            </div>
+          </div>
+          <div id="supportErrorMessage" class="mt-6 p-4 rounded-lg opacity-0 pointer-events-none transition-all" style="background:rgba(220,38,38,.1);border:1px solid rgba(220,38,38,.3);">
+            <h4 class="font-semibold mb-1" style="color:#fca5a5;">Reference Not Found</h4>
+            <p class="text-sm" style="color:#9ca3af;">Please double-check your reference number. If you need help, reach out to our team using the contact options below.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Contact Paths -->
+    <section class="w-full py-16 sm:py-24 px-4 sm:px-6" style="background:#161824;">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-12">
+          <h2 class="font-display text-3xl sm:text-4xl font-bold mb-4" style="color:#f1f1f4;">Start with the path that fits</h2>
+          <p class="text-lg" style="color:#6b7280;">Some people want a demo. Others need support, membership help, or guidance. Start where it makes the most sense.</p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div class="rounded-xl p-6" style="background:#0f1117;border:1px solid #2a2d3e;">
+            <h3 class="font-semibold text-lg mb-3" style="color:#f1f1f4;">Info & Demos</h3>
+            <p class="mb-4" style="color:#9ca3af;">Book a call to learn more and see if this service is the right fit for your needs.</p>
+            <button class="w-full py-2 px-4 rounded-lg font-semibold transition hover:scale-[1.02]" style="background:#dc2626;color:#fff;">Book a Demo</button>
+          </div>
+          <div class="rounded-xl p-6" style="background:#0f1117;border:1px solid #2a2d3e;">
+            <h3 class="font-semibold text-lg mb-3" style="color:#f1f1f4;">Account Support</h3>
+            <p class="mb-4" style="color:#9ca3af;">Use this path for membership questions, account changes, or support tied to your profile.</p>
+            <button class="w-full py-2 px-4 rounded-lg font-semibold transition hover:scale-[1.02]" style="background:#dc2626;color:#fff;">Contact Support</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Contact Methods -->
+    <section class="w-full py-16 sm:py-24 px-4 sm:px-6" style="background:#0f1117;">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-12">
+          <h2 class="font-display text-3xl sm:text-4xl font-bold mb-2" style="color:#f1f1f4;">Get in Touch</h2>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="rounded-xl p-6" style="background:#161824;border:1px solid #2a2d3e;">
+            <div class="flex items-center gap-2 mb-3">
+              <!-- Send SVG -->
+              <svg width="18" height="18" fill="none" stroke="#fca5a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                <line x1="22" y1="2" x2="11" y2="13"/>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+              </svg>
+              <h4 class="font-semibold" style="color:#f1f1f4;">Telegram</h4>
+            </div>
+            <div class="text-xs mb-3 px-2 py-1 rounded-md inline-block" style="background:rgba(220,38,38,.1);color:#fca5a5;">Fastest response</div>
+            <p class="text-sm mb-4" style="color:#9ca3af;">Chat with us directly on Telegram for quick answers.</p>
+            <button class="w-full py-2 px-3 rounded-lg font-semibold text-sm transition hover:scale-[1.02]" style="background:transparent;border:1px solid rgba(220,38,38,.3);color:#fca5a5;">@taxclaimpro</button>
+          </div>
+          <div class="rounded-xl p-6" style="background:#161824;border:1px solid #2a2d3e;">
+            <div class="flex items-center gap-2 mb-3">
+              <!-- Phone SVG -->
+              <svg width="18" height="18" fill="none" stroke="#fca5a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                <path d="M22 16.92V21a2 2 0 0 1-2.18 2A19.72 19.72 0 0 1 3 5.18 2 2 0 0 1 5 3h4.09a2 2 0 0 1 2 1.72c.13 1.13.37 2.23.72 3.28a2 2 0 0 1-.45 2.11l-1.27 1.27a16 16 0 0 0 6.29 6.29l1.27-1.27a2 2 0 0 1 2.11-.45c1.05.35 2.15.59 3.28.72A2 2 0 0 1 22 16.92z"/>
+              </svg>
+              <h4 class="font-semibold" style="color:#f1f1f4;">Phone</h4>
+            </div>
+            <div class="text-xs mb-3 px-2 py-1 rounded-md inline-block" style="background:rgba(220,38,38,.1);color:#fca5a5;">Call or text</div>
+            <p class="text-sm mb-4" style="color:#9ca3af;">Reach us by phone or text during business hours.</p>
+            <button class="w-full py-2 px-3 rounded-lg font-semibold text-sm transition hover:scale-[1.02]" style="background:transparent;border:1px solid rgba(220,38,38,.3);color:#fca5a5;">+1 (800) 909-9946</button>
+          </div>
+          <div class="rounded-xl p-6" style="background:#161824;border:1px solid #2a2d3e;">
+            <div class="flex items-center gap-2 mb-3">
+              <!-- Mail SVG -->
+              <svg width="18" height="18" fill="none" stroke="#fca5a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                <rect x="3" y="5" width="18" height="14" rx="2"/>
+                <polyline points="3 7 12 13 21 7"/>
+              </svg>
+              <h4 class="font-semibold" style="color:#f1f1f4;">Email</h4>
+            </div>
+            <div class="text-xs mb-3 px-2 py-1 rounded-md inline-block" style="background:rgba(220,38,38,.1);color:#fca5a5;">24-48 hour response</div>
+            <p class="text-sm mb-4" style="color:#9ca3af;">Send us an email with your inquiry.</p>
+            <button class="w-full py-2 px-3 rounded-lg font-semibold text-sm transition hover:scale-[1.02]" style="background:transparent;border:1px solid rgba(220,38,38,.3);color:#fca5a5;">support@taxclaim.pro</button>
+          </div>
+          <div class="rounded-xl p-6" style="background:#161824;border:1px solid #2a2d3e;">
+            <div class="flex items-center gap-2 mb-3">
+              <!-- Link SVG -->
+              <svg width="18" height="18" fill="none" stroke="#fca5a5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                <path d="M10 13a5 5 0 0 1 7 7l-1.5 1.5a5 5 0 0 1-7-7"/>
+                <path d="M14 11a5 5 0 0 0-7-7L5.5 5.5a5 5 0 0 0 7 7"/>
+              </svg>
+              <h4 class="font-semibold" style="color:#f1f1f4;">Social</h4>
+            </div>
+            <div class="text-xs mb-3 px-2 py-1 rounded-md inline-block" style="background:rgba(220,38,38,.1);color:#fca5a5;">Follow updates</div>
+            <p class="text-sm mb-4" style="color:#9ca3af;">Connect with us on social media.</p>
+            <button class="w-full py-2 px-3 rounded-lg font-semibold text-sm transition hover:scale-[1.02]" style="background:transparent;border:1px solid rgba(220,38,38,.3);color:#fca5a5;">TaxClaimPro</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- FAQ -->
+    <section class="w-full py-16 sm:py-24 px-4 sm:px-6" style="background:#161824;">
+      <div class="max-w-3xl mx-auto">
+        <div class="text-center mb-12">
+          <h2 id="support-faq-title" class="font-display text-3xl sm:text-4xl font-bold mb-2" style="color:#f1f1f4;">Common Questions</h2>
+        </div>
+        <div class="space-y-3">
+          <div class="rounded-lg overflow-hidden" style="border:1px solid #2a2d3e;">
+            <button class="support-accordion-header w-full px-6 py-4 flex items-center justify-between hover:bg-opacity-60 transition" style="background:#0f1117;">
+              <h4 class="font-semibold text-left" style="color:#f1f1f4;">How long does it take to hear back?</h4>
+              <!-- Chevron-down SVG -->
+              <svg width="20" height="20" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" style="flex-shrink:0;">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+            <div class="support-accordion-content hidden px-6 py-4" style="background:#0f1117;border-top:1px solid #2a2d3e;">
+              <p style="color:#9ca3af;">We typically review support requests and reach out within 24–48 hours. Priority members get faster support.</p>
+            </div>
+          </div>
+          <div class="rounded-lg overflow-hidden" style="border:1px solid #2a2d3e;">
+            <button class="support-accordion-header w-full px-6 py-4 flex items-center justify-between hover:bg-opacity-60 transition" style="background:#0f1117;">
+              <h4 class="font-semibold text-left" style="color:#f1f1f4;">Where do I find my reference number?</h4>
+              <svg width="20" height="20" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" style="flex-shrink:0;">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+            <div class="support-accordion-content hidden px-6 py-4" style="background:#0f1117;border-top:1px solid #2a2d3e;">
+              <p style="color:#9ca3af;">Your reference number was sent to your email after registration. Check your inbox and spam folder. It starts with "VLP-".</p>
+            </div>
+          </div>
+          <div class="rounded-lg overflow-hidden" style="border:1px solid #2a2d3e;">
+            <button class="support-accordion-header w-full px-6 py-4 flex items-center justify-between hover:bg-opacity-60 transition" style="background:#0f1117;">
+              <h4 class="font-semibold text-left" style="color:#f1f1f4;">Can I update my information after submitting?</h4>
+              <svg width="20" height="20" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" style="flex-shrink:0;">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+            <div class="support-accordion-content hidden px-6 py-4" style="background:#0f1117;border-top:1px solid #2a2d3e;">
+              <p style="color:#9ca3af;">Yes. Reach out via Telegram or email and we'll update your information promptly.</p>
+            </div>
+          </div>
+          <div class="rounded-lg overflow-hidden" style="border:1px solid #2a2d3e;">
+            <button class="support-accordion-header w-full px-6 py-4 flex items-center justify-between hover:bg-opacity-60 transition" style="background:#0f1117;">
+              <h4 class="font-semibold text-left" style="color:#f1f1f4;">What's the best way to reach you?</h4>
+              <svg width="20" height="20" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" style="flex-shrink:0;">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+            <div class="support-accordion-content hidden px-6 py-4" style="background:#0f1117;border-top:1px solid #2a2d3e;">
+              <p style="color:#9ca3af;">Telegram is fastest for quick answers. Email and phone work well for detailed questions. Choose what works best for you.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Final CTA -->
+    <section class="w-full py-16 sm:py-24 px-4 sm:px-6" style="background:#0f1117;">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 id="support-cta-title" class="font-display text-3xl sm:text-4xl font-bold mb-4" style="color:#f1f1f4;">Ready to get started?</h2>
+        <p id="support-cta-subtitle" class="text-lg mb-8" style="color:#9ca3af;">Join tax professionals who are helping their clients claim refunds. Set up your landing page and start serving clients today.</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <button onclick="showView('pricingSection')" class="px-8 py-4 rounded-xl font-semibold transition hover:scale-105" style="background:#dc2626;color:#fff;">Get Started Today</button>
+          <button onclick="showView('hero')" class="px-8 py-4 rounded-xl font-semibold transition hover:scale-105" style="background:rgba(255,255,255,.06);color:#f1f1f4;border:1px solid #2a2d3e;">Back to Home</button>
+        </div>
+      </div>
+    </section>
+  </div>
+</section>
+
+   <section id="viewHero" class="w-full"><!-- Hero Section -->
     <section class="relative overflow-hidden" style="background:linear-gradient(135deg,#0f1117 0%,#1a1d2e 50%,#0f1117 100%);">
      <div class="absolute inset-0 opacity-10" style="background:radial-gradient(circle at 70% 30%,#dc2626 0%,transparent 60%);"></div>
      <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24 relative z-10">
       <div class="flex flex-col lg:flex-row items-center gap-12">
        <div class="flex-1 text-center lg:text-left">
         <div class="anim-up inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold mb-6" style="background:rgba(220,38,38,.15);color:#f87171;border:1px solid rgba(220,38,38,.25);">
-         <svg width="14" height="14" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle> <polyline points="12 6 12 12 16 14"></polyline>
+         <svg width="14" height="14" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle> <polyline points="12 6 12 12 16 14"></polyline>
          </svg><span>Deadline: <span id="heroBadgeDeadline">July 10, 2026</span></span>
         </div>
         <h1 id="heroHeadline" class="anim-up-d1 font-display text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6" style="color:#f1f1f4;">Start Your Form 843 Landing Page Today</h1>
         <p id="heroSub" class="anim-up-d2 text-lg sm:text-xl mb-8 max-w-xl mx-auto lg:mx-0" style="color:#9ca3af;">Help your clients claim money the IRS owes them. Quick setup, fully branded, only $10/month.</p>
-        <div class="anim-up-d3 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"><button onclick="showView('payment')" class="pulse-btn px-8 py-4 rounded-xl text-lg font-bold transition hover:scale-105" style="background:#dc2626;color:#fff;"> Get Started <span class="ml-1">→</span> </button> <button onclick="showView('landingPage')" class="px-8 py-4 rounded-xl text-lg font-semibold transition hover:scale-105" style="background:rgba(255,255,255,.06);color:#f1f1f4;border:2px solid #dc2626;"> Demo </button>
+        <div class="anim-up-d3 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+         <button onclick="showView('payment')" class="pulse-btn px-8 py-4 rounded-xl text-lg font-bold transition hover:scale-105" style="background:#dc2626;color:#fff;"> Get Started <span class="ml-1">→</span> </button> <button onclick="showView('landingPage')" class="px-8 py-4 rounded-xl text-lg font-semibold transition hover:scale-105" style="background:rgba(255,255,255,.06);color:#f1f1f4;border:2px solid #dc2626;"> Demo </button>
         </div>
-        <div class="anim-up-d4 flex items-center gap-6 mt-8 justify-center lg:justify-start text-sm" style="color:#6b7280;"><span class="flex items-center gap-1.5">
-          <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"></path> <polyline points="16 12 12 9 8 12"></polyline> <line x1="12" y1="9" x2="12" y2="15"></line>
+        <div class="anim-up-d4 flex items-center gap-6 mt-8 justify-center lg:justify-start text-sm" style="color:#6b7280;">
+         <span class="flex items-center gap-1.5">
+          <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+           <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"></path> <polyline points="16 12 12 9 8 12"></polyline> <line x1="12" y1="9" x2="12" y2="15"></line>
           </svg> Court-Backed </span> <span class="flex items-center gap-1.5">
-          <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path> <circle cx="9" cy="7" r="4"></circle> <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path> <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+           <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path> <circle cx="9" cy="7" r="4"></circle> <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path> <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
           </svg> Unlimited Clients </span> <span class="flex items-center gap-1.5">
-          <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+           <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
           </svg> 5-Min Setup </span>
         </div>
        </div>
@@ -417,7 +468,8 @@ tailwind.config = {
          </div>
          <div class="flex items-center gap-3 mb-4">
           <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background:#1e2130;">
-           <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path> <path d="M21 3v5h-5"></path> <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path> <path d="M3 21v-5h5"></path>
+           <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path> <path d="M21 3v5h-5"></path> <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path> <path d="M3 21v-5h5"></path>
            </svg>
           </div>
           <div>
@@ -438,8 +490,10 @@ tailwind.config = {
           <div class="flex-1 h-10 rounded-lg skeleton"></div>
           <div class="w-24 h-10 rounded-lg skeleton"></div>
          </div>
-         <div class="mt-4 pt-4 flex items-center justify-between text-xs" style="border-top:1px solid #1e2130;color:#6b7280;"><span>Auto-populated fields</span> <span class="flex items-center gap-1">
-           <svg width="12" height="12" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline> <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path> <rect x="6" y="14" width="12" height="8"></rect>
+         <div class="mt-4 pt-4 flex items-center justify-between text-xs" style="border-top:1px solid #1e2130;color:#6b7280;">
+          <span>Auto-populated fields</span> <span class="flex items-center gap-1">
+           <svg width="12" height="12" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 6 2 18 2 18 9"></polyline> <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path> <rect x="6" y="14" width="12" height="8"></rect>
            </svg> Print Ready </span>
          </div>
         </div>
@@ -448,11 +502,11 @@ tailwind.config = {
      </div>
     </section><!-- COMPLIANCE WORKFLOW SECTION -->
     <section class="w-full py-16 sm:py-24" style="background:#161824;border-top:1px solid #2a2d3e;border-bottom:1px solid #2a2d3e;">
-     <div class="max-w-6xl mx-auto px-4 sm:px-6">
-      <!-- Header -->
+     <div class="max-w-6xl mx-auto px-4 sm:px-6"><!-- Header -->
       <div class="text-center mb-14">
        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold mb-4" style="background:rgba(34,197,94,.15);color:#4ade80;border:1px solid rgba(34,197,94,.25);">
-        <svg width="14" height="14" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.85 8.62a4 4 0 0 0 4.78 4.78A4 4 0 0 0 3.85 8.62"></path> <path d="M9 9L9 9"></path> <circle cx="12" cy="12" r="10"></circle>
+        <svg width="14" height="14" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+         <path d="M3.85 8.62a4 4 0 0 0 4.78 4.78A4 4 0 0 0 3.85 8.62"></path> <path d="M9 9L9 9"></path> <circle cx="12" cy="12" r="10"></circle>
         </svg><span>Court-Backed Legal Strategy</span>
        </div>
        <h2 id="complianceTitle" class="font-display text-3xl sm:text-4xl font-bold mb-4" style="color:#f1f1f4;">IRS Form 843: The 5-Step Compliance Process</h2>
@@ -461,7 +515,8 @@ tailwind.config = {
       <div onclick="openRulingOverlay()" class="rounded-2xl p-6 mb-12 border-l-4 cursor-pointer transition hover:border-l-8 hover:shadow-lg" style="background:#0f1117;border-color:#22c55e;border:1px solid #2a2d3e;border-left:4px solid #22c55e;">
        <div class="flex items-start gap-4">
         <div class="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0" style="background:rgba(34,197,94,.12);">
-         <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 18 0A9 9 0 0 0 3 12z"></path> <path d="M12 7v5l4 2"></path>
+         <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 12a9 9 0 1 0 18 0A9 9 0 0 0 3 12z"></path> <path d="M12 7v5l4 2"></path>
          </svg>
         </div>
         <div>
@@ -471,11 +526,11 @@ tailwind.config = {
         </div>
        </div>
       </div><!-- 5-Step Process -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
-       <!-- Step 1 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-8"><!-- Step 1 -->
        <div class="rounded-xl p-5 flex flex-col h-full" style="background:#0f1117;border:1px solid #2a2d3e;">
         <div class="w-12 h-12 rounded-lg mb-4 flex items-center justify-center flex-shrink-0" style="background:rgba(59,130,246,.12);">
-         <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path> <polyline points="7 10 12 15 17 10"></polyline> <line x1="12" y1="15" x2="12" y2="3"></line>
+         <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path> <polyline points="7 10 12 15 17 10"></polyline> <line x1="12" y1="15" x2="12" y2="3"></line>
          </svg>
         </div>
         <div class="text-xs font-bold mb-2 uppercase tracking-wider" style="color:#3b82f6;">
@@ -483,13 +538,13 @@ tailwind.config = {
         </div>
         <h4 class="font-semibold text-sm mb-2" style="color:#f1f1f4;">Pull Transcript</h4>
         <p class="text-xs flex-grow" style="color:#6b7280;">Client retrieves their IRS transcript via IRS.gov or by calling 800-908-9946. This shows all penalties and interest assessed.</p>
-        <div class="mt-3 pt-3 border-t" style="border-color:#1e2130;">
-         <span class="text-xs" style="color:#4b5563;">Typical time: 5 min</span>
+        <div class="mt-3 pt-3 border-t" style="border-color:#1e2130;"><span class="text-xs" style="color:#4b5563;">Typical time: 5 min</span>
         </div>
        </div><!-- Step 2 -->
        <div class="rounded-xl p-5 flex flex-col h-full" style="background:#0f1117;border:1px solid #2a2d3e;">
         <div class="w-12 h-12 rounded-lg mb-4 flex items-center justify-center flex-shrink-0" style="background:rgba(220,38,38,.12);">
-         <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle> <path d="m21 21-4.35-4.35"></path>
+         <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle> <path d="m21 21-4.35-4.35"></path>
          </svg>
         </div>
         <div class="text-xs font-bold mb-2 uppercase tracking-wider" style="color:#dc2626;">
@@ -497,13 +552,13 @@ tailwind.config = {
         </div>
         <h4 class="font-semibold text-sm mb-2" style="color:#f1f1f4;">Check Penalties</h4>
         <p class="text-xs flex-grow" style="color:#6b7280;">Verify penalties fall within the Kwong window (Jan 20, 2020 – Jul 10, 2023). Only qualifying penalties are eligible.</p>
-        <div class="mt-3 pt-3 border-t" style="border-color:#1e2130;">
-         <span class="text-xs" style="color:#4b5563;">Eligibility window</span>
+        <div class="mt-3 pt-3 border-t" style="border-color:#1e2130;"><span class="text-xs" style="color:#4b5563;">Eligibility window</span>
         </div>
        </div><!-- Step 3 -->
        <div class="rounded-xl p-5 flex flex-col h-full" style="background:#0f1117;border:1px solid #2a2d3e;">
         <div class="w-12 h-12 rounded-lg mb-4 flex items-center justify-center flex-shrink-0" style="background:rgba(34,197,94,.12);">
-         <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path> <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+         <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path> <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
          </svg>
         </div>
         <div class="text-xs font-bold mb-2 uppercase tracking-wider" style="color:#22c55e;">
@@ -511,13 +566,13 @@ tailwind.config = {
         </div>
         <h4 class="font-semibold text-sm mb-2" style="color:#f1f1f4;">Generate Form 843</h4>
         <p class="text-xs flex-grow" style="color:#6b7280;">Your landing page auto-generates the official IRS Form 843 with pre-filled Kwong reasoning and client data.</p>
-        <div class="mt-3 pt-3 border-t" style="border-color:#1e2130;">
-         <span class="text-xs" style="color:#4b5563;">IRS-compliant PDF</span>
+        <div class="mt-3 pt-3 border-t" style="border-color:#1e2130;"><span class="text-xs" style="color:#4b5563;">IRS-compliant PDF</span>
         </div>
        </div><!-- Step 4 -->
        <div class="rounded-xl p-5 flex flex-col h-full" style="background:#0f1117;border:1px solid #2a2d3e;">
         <div class="w-12 h-12 rounded-lg mb-4 flex items-center justify-center flex-shrink-0" style="background:rgba(234,179,8,.12);">
-         <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#facc15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect> <path d="M16 2v4"></path> <path d="M8 2v4"></path> <line x1="3" y1="10" x2="21" y2="10"></line>
+         <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#facc15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect> <path d="M16 2v4"></path> <path d="M8 2v4"></path> <line x1="3" y1="10" x2="21" y2="10"></line>
          </svg>
         </div>
         <div class="text-xs font-bold mb-2 uppercase tracking-wider" style="color:#eab308;">
@@ -525,13 +580,13 @@ tailwind.config = {
         </div>
         <h4 class="font-semibold text-sm mb-2" style="color:#f1f1f4;">Print &amp; Mail</h4>
         <p class="text-xs flex-grow" style="color:#6b7280;">Client prints the PDF and mails it to the IRS address auto-calculated for their state. Tracking included.</p>
-        <div class="mt-3 pt-3 border-t" style="border-color:#1e2130;">
-         <span class="text-xs" style="color:#4b5563;">Before Jul 10, 2026</span>
+        <div class="mt-3 pt-3 border-t" style="border-color:#1e2130;"><span class="text-xs" style="color:#4b5563;">Before Jul 10, 2026</span>
         </div>
        </div><!-- Step 5 -->
        <div class="rounded-xl p-5 flex flex-col h-full" style="background:#0f1117;border:1px solid #2a2d3e;">
         <div class="w-12 h-12 rounded-lg mb-4 flex items-center justify-center flex-shrink-0" style="background:rgba(168,85,247,.12);">
-         <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+         <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
          </svg>
         </div>
         <div class="text-xs font-bold mb-2 uppercase tracking-wider" style="color:#a855f7;">
@@ -539,13 +594,14 @@ tailwind.config = {
         </div>
         <h4 class="font-semibold text-sm mb-2" style="color:#f1f1f4;">Optional Pro Help</h4>
         <p class="text-xs flex-grow" style="color:#6b7280;">Clients can contact you for guidance on their specific case. Your branding is prominently featured.</p>
-        <div class="mt-3 pt-3 border-t" style="border-color:#1e2130;">
-         <span class="text-xs" style="color:#4b5563;">Direct support link</span>
+        <div class="mt-3 pt-3 border-t" style="border-color:#1e2130;"><span class="text-xs" style="color:#4b5563;">Direct support link</span>
         </div>
        </div>
       </div><!-- CTA -->
-      <div class="text-center"><button onclick="showView('payment')" class="px-8 py-4 rounded-xl text-base font-bold transition hover:scale-105" style="background:#22c55e;color:#fff;"> <span class="flex items-center justify-center gap-2">
-         <svg width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+      <div class="text-center">
+       <button onclick="showView('pricingSection')" class="px-8 py-4 rounded-xl text-base font-bold transition hover:scale-105" style="background:#22c55e;color:#fff;"> <span class="flex items-center justify-center gap-2">
+         <svg width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
          </svg> Start Serving Your Clients Now </span> </button>
        <p class="text-xs mt-3" style="color:#6b7280;">Limited-time opportunity. Deadline expires July 10, 2026.</p>
       </div>
@@ -560,7 +616,8 @@ tailwind.config = {
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
        <div class="step-card rounded-xl p-5 text-center" style="background:#161824;border:1px solid #1e2130;">
         <div class="w-12 h-12 rounded-xl mx-auto mb-4 flex items-center justify-center" style="background:rgba(59,130,246,.12);">
-         <svg width="22" height="22" viewbox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path> <polyline points="7 10 12 15 17 10"></polyline> <line x1="12" y1="15" x2="12" y2="3"></line>
+         <svg width="22" height="22" viewbox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path> <polyline points="7 10 12 15 17 10"></polyline> <line x1="12" y1="15" x2="12" y2="3"></line>
          </svg>
         </div>
         <div class="text-xs font-bold mb-2 uppercase tracking-wider" style="color:#3b82f6;">
@@ -571,7 +628,8 @@ tailwind.config = {
        </div>
        <div class="step-card rounded-xl p-5 text-center" style="background:#161824;border:1px solid #1e2130;">
         <div class="w-12 h-12 rounded-xl mx-auto mb-4 flex items-center justify-center" style="background:rgba(220,38,38,.12);">
-         <svg width="22" height="22" viewbox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle> <path d="m21 21-4.35-4.35"></path>
+         <svg width="22" height="22" viewbox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle> <path d="m21 21-4.35-4.35"></path>
          </svg>
         </div>
         <div class="text-xs font-bold mb-2 uppercase tracking-wider" style="color:#dc2626;">
@@ -582,7 +640,8 @@ tailwind.config = {
        </div>
        <div class="step-card rounded-xl p-5 text-center" style="background:#161824;border:1px solid #1e2130;">
         <div class="w-12 h-12 rounded-xl mx-auto mb-4 flex items-center justify-center" style="background:rgba(34,197,94,.12);">
-         <svg width="22" height="22" viewbox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path> <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+         <svg width="22" height="22" viewbox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path> <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
          </svg>
         </div>
         <div class="text-xs font-bold mb-2 uppercase tracking-wider" style="color:#22c55e;">
@@ -593,7 +652,8 @@ tailwind.config = {
        </div>
        <div class="step-card rounded-xl p-5 text-center" style="background:#161824;border:1px solid #1e2130;">
         <div class="w-12 h-12 rounded-xl mx-auto mb-4 flex items-center justify-center" style="background:rgba(234,179,8,.12);">
-         <svg width="22" height="22" viewbox="0 0 24 24" fill="none" stroke="#facc15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect> <path d="M16 2v4"></path> <path d="M8 2v4"></path> <line x1="3" y1="10" x2="21" y2="10"></line>
+         <svg width="22" height="22" viewbox="0 0 24 24" fill="none" stroke="#facc15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect> <path d="M16 2v4"></path> <path d="M8 2v4"></path> <line x1="3" y1="10" x2="21" y2="10"></line>
          </svg>
         </div>
         <div class="text-xs font-bold mb-2 uppercase tracking-wider" style="color:#eab308;">
@@ -604,7 +664,8 @@ tailwind.config = {
        </div>
        <div class="step-card rounded-xl p-5 text-center" style="background:#161824;border:1px solid #1e2130;">
         <div class="w-12 h-12 rounded-xl mx-auto mb-4 flex items-center justify-center" style="background:rgba(168,85,247,.12);">
-         <svg width="22" height="22" viewbox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+         <svg width="22" height="22" viewbox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
          </svg>
         </div>
         <div class="text-xs font-bold mb-2 uppercase tracking-wider" style="color:#a855f7;">
@@ -620,7 +681,8 @@ tailwind.config = {
      <div class="max-w-4xl mx-auto px-4 sm:px-6">
       <div class="text-center mb-14">
        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold mb-4" style="background:rgba(220,38,38,.15);color:#f87171;border:1px solid rgba(220,38,38,.25);">
-        <svg width="14" height="14" viewbox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 10.26 24 10.35 17.77 16.01 19.85 24.07 12 18.42 4.15 24.07 6.23 16.01 0 10.35 8.91 10.26 12 2"></polygon>
+        <svg width="14" height="14" viewbox="0 0 24 24" fill="currentColor">
+         <polygon points="12 2 15.09 10.26 24 10.35 17.77 16.01 19.85 24.07 12 18.42 4.15 24.07 6.23 16.01 0 10.35 8.91 10.26 12 2"></polygon>
         </svg><span>⭐ Social Proof</span>
        </div>
        <h2 id="reviews-heading" class="font-display text-3xl sm:text-4xl font-bold mb-2" style="color:#f1f1f4;">Trusted by Tax Professionals</h2>
@@ -629,12 +691,14 @@ tailwind.config = {
       <div class="grid gap-6" id="reviews-container">
        <div class="rounded-2xl p-8 flex flex-col items-center justify-center text-center max-w-sm mx-auto" style="background:#161824;border:1px solid #2a2d3e;">
         <div class="w-14 h-14 rounded-full flex items-center justify-center mb-4" style="background:rgba(220,38,38,.12);border:2px dashed rgba(220,38,38,.25);">
-         <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 10.26 24 10.35 17.77 16.01 19.85 24.07 12 18.42 4.15 24.07 6.23 16.01 0 10.35 8.91 10.26 12 2"></polygon>
+         <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="12 2 15.09 10.26 24 10.35 17.77 16.01 19.85 24.07 12 18.42 4.15 24.07 6.23 16.01 0 10.35 8.91 10.26 12 2"></polygon>
          </svg>
         </div>
         <h3 class="text-lg font-bold mb-2" style="color:#f1f1f4;">Be the First to Review</h3>
         <p class="text-sm mb-6" style="color:#9ca3af;">Share your experience and help others discover how this platform can help their tax clients claim refunds.</p><button id="review-toggle-btn" class="font-semibold text-sm transition flex items-center gap-2" style="color:#f87171;hover:color:#fca5a5;">
-         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line> <line x1="5" y1="12" x2="19" y2="12"></line>
+         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+          <line x1="12" y1="5" x2="12" y2="19"></line> <line x1="5" y1="12" x2="19" y2="12"></line>
          </svg> Add Your Review </button>
        </div>
       </div><!-- Review Form Modal -->
@@ -642,21 +706,28 @@ tailwind.config = {
        <div class="rounded-2xl p-8 max-w-md w-full" style="background:#161824;border:1px solid #2a2d3e;">
         <div class="flex items-center justify-between mb-6">
          <h3 class="text-2xl font-bold" style="color:#f1f1f4;">Share Your Review</h3><button id="review-close-btn" class="transition" style="color:#6b7280;">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line> <line x1="6" y1="6" x2="18" y2="18"></line>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+           <line x1="18" y1="6" x2="6" y2="18"></line> <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg></button>
         </div>
         <form id="review-form" class="space-y-4" onsubmit="submitReview(event);">
-         <div><label for="review-name" class="block text-sm font-semibold mb-2" style="color:#f1f1f4;">Name</label> <input type="text" id="review-name" placeholder="Your name" required class="w-full px-4 py-3 rounded-lg text-sm" style="background:#0f1117;border:1px solid #2a2d3e;color:#f1f1f4;">
+         <div>
+          <label for="review-name" class="block text-sm font-semibold mb-2" style="color:#f1f1f4;">Name</label> <input type="text" id="review-name" placeholder="Your name" required class="w-full px-4 py-3 rounded-lg text-sm" style="background:#0f1117;border:1px solid #2a2d3e;color:#f1f1f4;">
          </div>
-         <div><label for="review-title" class="block text-sm font-semibold mb-2" style="color:#f1f1f4;">Title/Firm</label> <input type="text" id="review-title" placeholder="e.g., CPA at Smith &amp; Co." required class="w-full px-4 py-3 rounded-lg text-sm" style="background:#0f1117;border:1px solid #2a2d3e;color:#f1f1f4;">
+         <div>
+          <label for="review-title" class="block text-sm font-semibold mb-2" style="color:#f1f1f4;">Title/Firm</label> <input type="text" id="review-title" placeholder="e.g., CPA at Smith &amp; Co." required class="w-full px-4 py-3 rounded-lg text-sm" style="background:#0f1117;border:1px solid #2a2d3e;color:#f1f1f4;">
          </div>
-         <div><label class="block text-sm font-semibold mb-2" style="color:#f1f1f4;">Rating</label>
-          <div class="flex gap-2"><button type="button" class="star-btn w-10 h-10 rounded-lg flex items-center justify-center text-lg transition" style="background:#0f1117;border:1px solid #2a2d3e;color:#6b7280;" data-rating="1">★</button> <button type="button" class="star-btn w-10 h-10 rounded-lg flex items-center justify-center text-lg transition" style="background:#0f1117;border:1px solid #2a2d3e;color:#6b7280;" data-rating="2">★</button> <button type="button" class="star-btn w-10 h-10 rounded-lg flex items-center justify-center text-lg transition" style="background:#0f1117;border:1px solid #2a2d3e;color:#6b7280;" data-rating="3">★</button> <button type="button" class="star-btn w-10 h-10 rounded-lg flex items-center justify-center text-lg transition" style="background:#0f1117;border:1px solid #2a2d3e;color:#6b7280;" data-rating="4">★</button> <button type="button" class="star-btn w-10 h-10 rounded-lg flex items-center justify-center text-lg transition selected" style="background:#0f1117;border:1px solid #dc2626;color:#f87171;" data-rating="5">★</button>
+         <div>
+          <label class="block text-sm font-semibold mb-2" style="color:#f1f1f4;">Rating</label>
+          <div class="flex gap-2">
+           <button type="button" class="star-btn w-10 h-10 rounded-lg flex items-center justify-center text-lg transition" style="background:#0f1117;border:1px solid #2a2d3e;color:#6b7280;" data-rating="1">★</button> <button type="button" class="star-btn w-10 h-10 rounded-lg flex items-center justify-center text-lg transition" style="background:#0f1117;border:1px solid #2a2d3e;color:#6b7280;" data-rating="2">★</button> <button type="button" class="star-btn w-10 h-10 rounded-lg flex items-center justify-center text-lg transition" style="background:#0f1117;border:1px solid #2a2d3e;color:#6b7280;" data-rating="3">★</button> <button type="button" class="star-btn w-10 h-10 rounded-lg flex items-center justify-center text-lg transition" style="background:#0f1117;border:1px solid #2a2d3e;color:#6b7280;" data-rating="4">★</button> <button type="button" class="star-btn w-10 h-10 rounded-lg flex items-center justify-center text-lg transition selected" style="background:#0f1117;border:1px solid #dc2626;color:#f87171;" data-rating="5">★</button>
           </div><input type="hidden" id="review-rating-value" value="5">
          </div>
-         <div><label for="review-text" class="block text-sm font-semibold mb-2" style="color:#f1f1f4;">Your Review</label> <textarea id="review-text" placeholder="Share your experience..." rows="4" required class="w-full px-4 py-3 rounded-lg text-sm resize-none" style="background:#0f1117;border:1px solid #2a2d3e;color:#f1f1f4;"></textarea>
+         <div>
+          <label for="review-text" class="block text-sm font-semibold mb-2" style="color:#f1f1f4;">Your Review</label> <textarea id="review-text" placeholder="Share your experience..." rows="4" required class="w-full px-4 py-3 rounded-lg text-sm resize-none" style="background:#0f1117;border:1px solid #2a2d3e;color:#f1f1f4;"></textarea>
          </div>
-         <div class="flex gap-3 pt-4"><button type="button" id="review-cancel-btn" class="flex-1 px-4 py-2 rounded-lg font-semibold transition" style="background:transparent;border:1px solid #2a2d3e;color:#f1f1f4;"> Cancel </button> <button type="submit" class="flex-1 px-4 py-2 rounded-lg font-semibold transition" style="background:#dc2626;color:#fff;"> <span id="submit-text">Submit Review</span> </button>
+         <div class="flex gap-3 pt-4">
+          <button type="button" id="review-cancel-btn" class="flex-1 px-4 py-2 rounded-lg font-semibold transition" style="background:transparent;border:1px solid #2a2d3e;color:#f1f1f4;"> Cancel </button> <button type="submit" class="flex-1 px-4 py-2 rounded-lg font-semibold transition" style="background:#dc2626;color:#fff;"> <span id="submit-text">Submit Review</span> </button>
          </div>
         </form>
        </div>
@@ -669,52 +740,62 @@ tailwind.config = {
        <h2 class="font-display text-3xl sm:text-4xl font-bold mb-4" style="color:#f1f1f4;">Simple, Transparent Pricing</h2>
        <p class="text-lg" style="color:#6b7280;">Everything you need to serve unlimited clients</p>
       </div>
-      <h2 class="font-display text-3xl sm:text-4xl font-bold mb-4" style="color:#f1f1f4;">Simple, Transparent Pricing</h2>
-      <p class="text-lg" style="color:#6b7280;">Everything you need to serve unlimited clients</p>
-     </div>
-     <div class="rounded-2xl p-8 sm:p-10 relative overflow-hidden" style="background:#0f1117;border:1px solid #2a2d3e;">
-      <div class="absolute top-0 right-0 w-64 h-64 opacity-20" style="background:radial-gradient(circle,#dc2626,transparent 70%);"></div>
-      <div class="relative z-10 flex flex-col lg:flex-row items-center gap-8">
-       <div class="flex-1">
-        <div class="flex items-baseline gap-1 mb-4">
-         <span id="priceDisplay" class="font-display text-5xl font-black" style="color:#f1f1f4;">$10</span> <span class="text-lg" style="color:#6b7280;">/month</span>
+      <div class="rounded-2xl p-8 sm:p-10 relative overflow-hidden" style="background:#0f1117;border:1px solid #2a2d3e;">
+       <div class="absolute top-0 right-0 w-64 h-64 opacity-20" style="background:radial-gradient(circle,#dc2626,transparent 70%);"></div>
+       <div class="relative z-10 flex flex-col lg:flex-row items-center gap-8">
+        <div class="flex-1">
+         <div class="flex items-baseline gap-1 mb-4"><span id="priceDisplay" class="font-display text-5xl font-black" style="color:#f1f1f4;">$10</span> <span class="text-lg" style="color:#6b7280;">/month</span>
+         </div>
+         <ul class="space-y-3 mb-6">
+          <li class="flex items-center gap-3 text-sm" style="color:#d1d5db;">
+           <svg width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+           </svg> Unlimited client access</li>
+          <li class="flex items-center gap-3 text-sm" style="color:#d1d5db;">
+           <svg width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+           </svg> Fully branded page (logo + colors)</li>
+          <li class="flex items-center gap-3 text-sm" style="color:#d1d5db;">
+           <svg width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+           </svg> Auto Form 843 generator</li>
+          <li class="flex items-center gap-3 text-sm" style="color:#d1d5db;">
+           <svg width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+           </svg> IRS mailing instructions per state</li>
+          <li class="flex items-center gap-3 text-sm" style="color:#d1d5db;">
+           <svg width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+           </svg> Mobile responsive &amp; print-ready</li>
+         </ul>
         </div>
-        <ul class="space-y-3 mb-6">
-         <li class="flex items-center gap-3 text-sm" style="color:#d1d5db;">
-          <svg width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline>
-          </svg> Unlimited client access</li>
-         <li class="flex items-center gap-3 text-sm" style="color:#d1d5db;">
-          <svg width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline>
-          </svg> Fully branded page (logo + colors)</li>
-         <li class="flex items-center gap-3 text-sm" style="color:#d1d5db;">
-          <svg width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline>
-          </svg> Auto Form 843 generator</li>
-         <li class="flex items-center gap-3 text-sm" style="color:#d1d5db;">
-          <svg width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline>
-          </svg> IRS mailing instructions per state</li>
-         <li class="flex items-center gap-3 text-sm" style="color:#d1d5db;">
-          <svg width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline>
-          </svg> Mobile responsive &amp; print-ready</li>
-        </ul>
-       </div>
-       <div class="flex-shrink-0">
-        <button onclick="showView('payment')" class="pulse-btn px-10 py-4 rounded-xl text-lg font-bold transition hover:scale-105" style="background:#dc2626;color:#fff;"> Subscribe &amp; Host Now </button>
-        <p class="text-center text-xs mt-3" style="color:#6b7280;">Cancel anytime. No long-term contract.</p>
+        <div class="flex-shrink-0">
+<a href="https://buy.stripe.com/cNieV7enX9wQedJaO673G06" class="pulse-btn px-10 py-4 rounded-xl text-lg font-bold transition hover:scale-105" style="background:#dc2626;color:#fff;">
+  Subscribe &amp; Host Now
+</a>
+<p class="text-center text-xs mt-5" style="color:#6b7280;">
+  Cancel anytime. No long-term contract.
+</p>
+        </div>
        </div>
       </div>
      </div>
     </section>
    </section>
-  </div><!-- Footer --> <!-- FOOTER -->
+  </div>
+  
+  <!-- FOOTER -->
   <footer id="footer" class="w-full py-12" style="background:#0d0508;border-top:1px solid rgba(255,255,255,0.05);">
    <div class="max-w-6xl mx-auto px-6">
     <div class="grid md:grid-cols-4 gap-8 mb-12">
-     <div><a href="#" class="flex items-center gap-3 hover:opacity-90 transition mb-4">
-       <div class="w-10 h-10 rounded-lg flex items-center justify-center shimmer-btn">
-        <span class="text-white font-bold text-sm">TC</span>
+     <div>
+      <a href="#" class="flex items-center gap-3 hover:opacity-90 transition mb-4">
+       <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background:#dc2626;">
+        <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path> <polyline points="14 2 14 8 20 8"></polyline>
+        </svg>
        </div>
-       <div class="flex flex-col leading-tight">
-        <span id="footer-brand" class="font-semibold tracking-tight text-white text-sm">TaxClaim Pro</span> <span class="text-xs text-gray-500">Tax Claims Platform</span>
+       <div class="flex flex-col leading-tight"><span id="footer-brand" class="font-semibold tracking-tight text-white text-sm">TaxClaim Pro</span> <span class="text-xs text-gray-500">Powered by Virtual Launch Pro</span>
        </div></a>
       <p class="text-xs text-gray-500">Help your clients claim refunds they're legally entitled to with automated Form 843 filing.</p>
      </div>
@@ -747,154 +828,19 @@ tailwind.config = {
      <p class="text-xs text-gray-600 mt-4 md:mt-0">Helping tax professionals build passive income with gamified client engagement.</p>
     </div>
    </div>
-  </footer><!-- VIEW: PAYMENT -->
-  <section id="viewPayment" class="view-hidden w-full min-h-full flex items-center justify-center py-12 px-4" style="background:linear-gradient(135deg,#0f1117,#1a1d2e);">
-   <div class="w-full max-w-md"><button onclick="showView('hero')" class="flex items-center gap-2 mb-8 text-sm transition hover:opacity-80" style="color:#6b7280;">
-     <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line> <polyline points="12 19 5 12 12 5"></polyline>
-     </svg> Back </button>
-    <div class="rounded-2xl p-8" style="background:#161824;border:1px solid #2a2d3e;">
-     <div class="flex items-center gap-3 mb-6">
-      <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background:rgba(220,38,38,.12);">
-       <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect> <path d="M7 11V7a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v4"></path>
-       </svg>
-      </div>
-      <div>
-       <h2 class="font-display text-xl font-bold" style="color:#f1f1f4;">Secure Your Landing Page</h2>
-       <p class="text-xs" style="color:#6b7280;">One-time setup, <span id="paymentPrice">$10/month</span> hosting</p>
-      </div>
-     </div>
-     <div class="rounded-xl p-4 mb-6 flex items-center justify-between" style="background:#0f1117;border:1px solid #1e2130;">
-      <div>
-       <div class="text-sm font-semibold" style="color:#f1f1f4;">
-        Pro Landing Page
-       </div>
-       <div class="text-xs" style="color:#6b7280;">
-        Unlimited clients · Branded · Form 843
-       </div>
-      </div>
-      <div class="font-display text-2xl font-bold" style="color:#f1f1f4;" id="paymentCardPrice">
-       $10<span class="text-sm font-normal" style="color:#6b7280;">/mo</span>
-      </div>
-     </div><button onclick="showView('onboarding')" class="w-full py-4 rounded-xl text-base font-bold transition hover:scale-[1.02]" style="background:#dc2626;color:#fff;"> <span class="flex items-center justify-center gap-2">
-       <svg width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="5" width="4" height="6"></rect> <rect x="1" y="13" width="4" height="6"></rect> <rect x="9" y="5" width="4" height="6"></rect> <rect x="9" y="13" width="4" height="6"></rect> <rect x="17" y="5" width="4" height="6"></rect> <rect x="17" y="13" width="4" height="6"></rect>
-       </svg> Pay with Stripe </span> </button>
-     <p class="text-center text-xs mt-4" style="color:#4b5563;">(Demo — redirects to setup)</p>
-     <div class="flex items-center justify-center gap-4 mt-6 text-xs" style="color:#6b7280;"><span class="flex items-center gap-1">
-       <svg width="14" height="14" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-       </svg> SSL Secured </span> <span class="flex items-center gap-1">
-       <svg width="14" height="14" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect> <path d="M7 11V7a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v4"></path>
-       </svg> Stripe Encrypted </span>
-     </div>
-    </div>
-   </div>
-  </section><!-- VIEW: ONBOARDING -->
-  <section id="viewOnboarding" class="view-hidden w-full min-h-full flex items-center justify-center py-12 px-4" style="background:linear-gradient(135deg,#0f1117,#1a1d2e);">
-   <div class="w-full max-w-lg"><button onclick="showView('payment')" class="flex items-center gap-2 mb-8 text-sm transition hover:opacity-80" style="color:#6b7280;">
-     <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line> <polyline points="12 19 5 12 12 5"></polyline>
-     </svg> Back </button> <!-- Progress -->
-    <div class="flex items-center justify-center gap-0 mb-10">
-     <div class="progress-step active flex items-center" id="progStep1">
-      <div class="step-dot w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold">
-       1
-      </div>
-      <div class="step-line h-1 w-12 mx-1 rounded-full"></div>
-     </div>
-     <div class="progress-step flex items-center" id="progStep2">
-      <div class="step-dot w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold">
-       2
-      </div>
-      <div class="step-line h-1 w-12 mx-1 rounded-full"></div>
-     </div>
-     <div class="progress-step flex items-center" id="progStep3">
-      <div class="step-dot w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold">
-       3
-      </div>
-     </div>
-    </div>
-    <div class="rounded-2xl p-8" style="background:#161824;border:1px solid #2a2d3e;">
-     <!-- Step 1 -->
-     <div id="obStep1">
-      <h2 class="font-display text-2xl font-bold mb-6" style="color:#f1f1f4;">Configure Your Page</h2>
-      <form onsubmit="event.preventDefault();goOnboardStep(2);" class="space-y-4">
-       <div>
-        <label for="proName" class="block text-sm font-medium mb-1.5" style="color:#d1d5db;">Your Name</label> <input id="proName" type="text" placeholder="Jane Smith, CPA" required class="w-full px-4 py-3 rounded-lg text-sm" style="background:#0f1117;border:1px solid #2a2d3e;color:#f1f1f4;">
-       </div>
-       <div>
-        <label for="proEmail" class="block text-sm font-medium mb-1.5" style="color:#d1d5db;">Email</label> <input id="proEmail" type="email" placeholder="jane@example.com" required class="w-full px-4 py-3 rounded-lg text-sm" style="background:#0f1117;border:1px solid #2a2d3e;color:#f1f1f4;">
-       </div><button type="submit" class="w-full py-3 rounded-xl font-semibold transition hover:scale-[1.02]" style="background:#dc2626;color:#fff;">Next →</button>
-      </form>
-     </div><!-- Step 2 -->
-     <div id="obStep2" class="view-hidden">
-      <h2 class="font-display text-2xl font-bold mb-6" style="color:#f1f1f4;">Branding &amp; Domain</h2>
-      <form onsubmit="event.preventDefault();goOnboardStep(3);" class="space-y-4">
-       <div>
-        <label for="proSlug" class="block text-sm font-medium mb-1.5" style="color:#d1d5db;">Page Slug</label>
-        <div class="flex items-center rounded-lg overflow-hidden" style="border:1px solid #2a2d3e;">
-         <span class="px-3 py-3 text-xs flex-shrink-0" style="background:#1e2130;color:#6b7280;">taxclaimpro.com/</span> <input id="proSlug" type="text" placeholder="yourfirm" required class="flex-1 px-3 py-3 text-sm" style="background:#0f1117;color:#f1f1f4;border:none;">
-        </div>
-       </div>
-       <div>
-        <label for="proBrandColor" class="block text-sm font-medium mb-1.5" style="color:#d1d5db;">Brand Color</label>
-        <div class="flex gap-3">
-         <input id="proBrandColor" type="color" value="#dc2626" class="w-12 h-12 rounded-lg cursor-pointer" style="background:#0f1117;border:1px solid #2a2d3e;padding:2px;">
-         <div class="flex-1 flex items-center px-4 rounded-lg text-sm" style="background:#0f1117;border:1px solid #2a2d3e;color:#6b7280;" id="colorPreviewText">
-          #dc2626
-         </div>
-        </div>
-       </div>
-       <div>
-        <label for="proMessage" class="block text-sm font-medium mb-1.5" style="color:#d1d5db;">Client Welcome Message (optional)</label> <textarea id="proMessage" rows="3" placeholder="Welcome! Let's get your IRS refund…" class="w-full px-4 py-3 rounded-lg text-sm" style="background:#0f1117;border:1px solid #2a2d3e;color:#f1f1f4;resize:none;"></textarea>
-       </div><button type="submit" class="w-full py-3 rounded-xl font-semibold transition hover:scale-[1.02]" style="background:#dc2626;color:#fff;">Next →</button>
-      </form>
-     </div><!-- Step 3 -->
-     <div id="obStep3" class="view-hidden">
-      <h2 class="font-display text-2xl font-bold mb-4" style="color:#f1f1f4;">Review &amp; Generate</h2>
-      <div class="rounded-xl p-4 mb-6 space-y-2" style="background:#0f1117;border:1px solid #1e2130;">
-       <div class="flex justify-between text-sm"><span style="color:#6b7280;">Name</span><span id="reviewName" style="color:#f1f1f4;">—</span>
-       </div>
-       <div class="flex justify-between text-sm"><span style="color:#6b7280;">Email</span><span id="reviewEmail" style="color:#f1f1f4;">—</span>
-       </div>
-       <div class="flex justify-between text-sm"><span style="color:#6b7280;">Page URL</span><span id="reviewSlug" style="color:#f87171;">—</span>
-       </div>
-      </div><button onclick="generatePage()" class="w-full py-3 rounded-xl font-semibold transition hover:scale-[1.02]" style="background:#dc2626;color:#fff;"> <span class="flex items-center justify-center gap-2"><i data-lucide="rocket" style="width:18px;height:18px;"></i> Generate My Landing Page</span> </button>
-     </div>
-    </div>
-   </div>
-  </section><!-- VIEW: CONFIRMATION -->
-  <section id="viewConfirmation" class="view-hidden w-full min-h-full flex items-center justify-center py-12 px-4" style="background:linear-gradient(135deg,#0f1117,#1a1d2e);">
-   <div class="w-full max-w-md text-center">
-    <div class="w-20 h-20 rounded-full mx-auto mb-6 flex items-center justify-center" style="background:rgba(34,197,94,.12);border:2px solid rgba(34,197,94,.3);">
-     <i data-lucide="check" style="width:36px;height:36px;color:#4ade80;"></i>
-    </div>
-    <h2 class="font-display text-3xl font-bold mb-3" style="color:#f1f1f4;">Your Landing Page is Ready!</h2>
-    <p class="text-sm mb-8" style="color:#6b7280;">Share this URL with your clients to start collecting Form 843 claims.</p>
-    <div class="rounded-xl p-4 mb-6 flex items-center gap-3" style="background:#161824;border:1px solid #2a2d3e;">
-     <div class="flex-1 text-left text-sm font-mono truncate" style="color:#f87171;" id="confirmUrl">
-      https://taxclaimpro.com/yourfirm
-     </div><button onclick="copyUrl()" class="flex-shrink-0 px-3 py-2 rounded-lg text-xs font-semibold transition hover:scale-105" style="background:rgba(220,38,38,.15);color:#f87171;" id="copyBtn"> <i data-lucide="copy" style="width:14px;height:14px;"></i> </button>
-    </div>
-    <div id="toastCopy" class="toast-msg opacity-0 translate-y-2 text-xs font-semibold mb-6" style="color:#4ade80;">
-     ✓ Copied to clipboard!
-    </div>
-    <div class="rounded-xl p-5 mb-6" style="background:#161824;border:1px solid #2a2d3e;">
-     <p class="text-xs mb-3" style="color:#6b7280;">Page Preview</p>
-     <div class="rounded-lg p-4 space-y-2" style="background:#0f1117;">
-      <div class="h-3 rounded-full" style="width:60%;background:#2a2d3e;"></div>
-      <div class="h-2 rounded-full" style="width:80%;background:#1e2130;"></div>
-      <div class="h-2 rounded-full" style="width:40%;background:#1e2130;"></div>
-      <div class="h-8 w-24 rounded-lg mt-3" id="previewAccent" style="background:rgba(220,38,38,.3);"></div>
-     </div>
-    </div><button onclick="showView('hero')" class="px-8 py-3 rounded-xl font-semibold transition hover:scale-[1.02]" style="background:rgba(255,255,255,.06);color:#f1f1f4;border:1px solid #2a2d3e;"> Back to Home </button>
-   </div>
-  </section><!-- RULING OVERLAY -->
+  </footer>
+
+  <!-- RULING OVERLAY -->
   <div id="rulingOverlay" class="view-hidden fixed inset-0 z-50 flex items-center justify-center p-4" style="background:rgba(0,0,0,.7);backdrop-filter:blur(4px);">
-   <div class="w-full max-w-2xl rounded-2xl" style="background:#161824;border:1px solid #2a2d3e;max-height:85vh;overflow-y-auto;">
-    <!-- Header -->
+   <div class="w-full max-w-2xl rounded-2xl" style="background:#161824;border:1px solid #2a2d3e;max-height:85vh;overflow-y-auto;"><!-- Header -->
     <div class="sticky top-0 flex items-center justify-between p-6 border-b" style="background:#0f1117;border-color:#2a2d3e;">
      <h2 class="font-display text-2xl font-bold" style="color:#f1f1f4;">Kwong v. United States</h2><button onclick="closeRulingOverlay()" class="p-1 rounded-lg transition hover:bg-opacity-20" style="background:rgba(255,255,255,.06);color:#9ca3af;">
-      <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line> <line x1="6" y1="6" x2="18" y2="18"></line>
+      <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+       <line x1="18" y1="6" x2="6" y2="18"></line> <line x1="6" y1="6" x2="18" y2="18"></line>
       </svg></button>
-    </div><!-- Content -->
+    </div>
+    
+    <!-- Content -->
     <div class="p-6 space-y-6">
      <div class="rounded-lg p-4 border-l-4" style="background:rgba(34,197,94,.08);border-color:#22c55e;border:1px solid rgba(34,197,94,.2);border-left:4px solid #22c55e;">
       <p class="text-sm font-semibold mb-2" style="color:#4ade80;">U.S. Court of Federal Claims Ruling (2023)</p>
@@ -917,10 +863,11 @@ tailwind.config = {
       <p class="text-xs mb-3 font-semibold uppercase tracking-wider" style="color:#6b7280;">⏰ Time-Sensitive Window</p>
       <p class="text-sm" style="color:#f87171;"><strong>Deadline: July 10, 2026</strong> — After this date, claims cannot be reopened. Act now to help your clients recover money they're legally entitled to.</p>
      </div>
-    </div><!-- Footer -->
-    <div class="flex gap-3 p-6 border-t" style="border-color:#2a2d3e;">
-     <button onclick="closeRulingOverlay()" class="flex-1 px-4 py-3 rounded-lg text-sm font-semibold transition hover:scale-[1.02]" style="background:rgba(255,255,255,.06);color:#f1f1f4;border:1px solid #2a2d3e;">Close</button> <a href="https://www.uscfc.uscourts.gov/" target="_blank" rel="noopener noreferrer" class="flex-1 px-4 py-3 rounded-lg text-sm font-semibold transition hover:scale-[1.02] flex items-center justify-center gap-2" style="background:#22c55e;color:#fff;text-decoration:none;"> View Official Ruling 
-      <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path> <polyline points="15 3 21 3 21 9"></polyline> <line x1="10" y1="14" x2="21" y2="3"></line>
+    </div>
+    <!-- Footer -->
+    <div class="flex gap-3 p-6 border-t" style="border-color:#2a2d3e;"><button onclick="closeRulingOverlay()" class="flex-1 px-4 py-3 rounded-lg text-sm font-semibold transition hover:scale-[1.02]" style="background:rgba(255,255,255,.06);color:#f1f1f4;border:1px solid #2a2d3e;">Close</button> <a href="https://www.uscfc.uscourts.gov/" target="_blank" rel="noopener noreferrer" class="flex-1 px-4 py-3 rounded-lg text-sm font-semibold transition hover:scale-[1.02] flex items-center justify-center gap-2" style="background:#22c55e;color:#fff;text-decoration:none;"> View Official Ruling 
+      <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+       <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path> <polyline points="15 3 21 3 21 9"></polyline> <line x1="10" y1="14" x2="21" y2="3"></line>
       </svg></a>
     </div>
    </div>
@@ -943,6 +890,34 @@ tailwind.config = {
     font_family: 'DM Sans',
     font_size: 16
   };
+
+  // --- Navigation Handler ---
+  function navigateTo(target, event) {
+    if (event) {
+      event.preventDefault();
+    }
+
+    const navMap = {
+      'how': () => { showView('hero'); scrollToElement('howSection'); },
+      'reviews': () => { showView('hero'); scrollToElement('reviewsSection'); },
+      'pricing': () => { showView('hero'); scrollToElement('pricingSection'); },
+      'support': () => { showView('support'); },
+      'payment': () => { showView('payment'); }
+    };
+
+    if (navMap[target]) {
+      navMap[target]();
+    }
+  }
+
+  function scrollToElement(id) {
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
+  }
 
   function applyConfig(c) {
     const el = (id) => document.getElementById(id);
@@ -1305,5 +1280,5 @@ tailwind.config = {
 
   initReviews();
 </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e0867c1d7b727c9',t:'MTc3NDIxNjE1Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e08ad2d24b627c9',t:'MTc3NDIxOTAwMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>

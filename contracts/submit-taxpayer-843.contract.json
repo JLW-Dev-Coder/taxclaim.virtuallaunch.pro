@@ -1,0 +1,9 @@
+﻿{
+  "auth":{"required":true,"trustClientIdentityFields":false,"type":"session"},
+  "contract":{"authority":["R2_VIRTUAL_LAUNCH"],"governs":"Submit taxpayer data for 843 form","path":"contracts/submit-taxpayer-843.contract.json","source":"TaxClaim Pro","title":"Submit Taxpayer 843","usedOnPages":["/index.html"],"validation":{"enumStrict":true,"normalizeCheckboxToBoolean":true,"rejectUnknownValues":true,"requireJsonContentType":true},"version":1},
+  "delivery":{"endpoint":"/forms/843/submit","method":"POST","receiptKeyPattern":"receipts/{source}/{eventId}.json","receiptSource":"form","signature":{"header":null,"required":false,"secretEnvVar":null}},
+  "effects":{"dedupeKey":"payload.eventId","eventIdFrom":"payload.eventId","receiptAppend":{"to":"receipts/{source}/{eventId}.json"},"canonicalPatch":{"createdAt":"{system.nowIso}","eventId":"{payload.eventId}","recordId":"{payload.eventId}","status":"submitted","updatedAt":"{system.nowIso}"},"canonicalUpsert":{"patchFrom":"effects.canonicalPatch","target":"taxpayer843/{recordId}.json"},"writeOrder":["receiptAppend","canonicalUpsert"],"writes":["taxpayer843"]},
+  "payload":{"additionalProperties":false,"properties":{"eventId":{"type":"string","minLength":1},"taxpayerId":{"type":"string","minLength":1},"penalties":{"type":"array"},"interest":{"type":"array"},"filingData":{"type":"object"}},"required":["eventId","taxpayerId","penalties","interest","filingData"],"type":"object"},
+  "response":{"deduped":{"deduped":true,"eventId":"{effects.eventIdFrom}","ok":true},"error":{"error":"validation_failed","ok":false},"success":{"eventId":"{effects.eventIdFrom}","ok":true,"status":"submitted"}},
+  "schema":{"name":"vlp_submit_taxpayer_843","version":1}
+}

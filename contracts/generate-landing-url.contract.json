@@ -1,0 +1,9 @@
+﻿{
+  "auth":{"required":true,"trustClientIdentityFields":false,"type":"session"},
+  "contract":{"authority":["R2_VIRTUAL_LAUNCH"],"governs":"Generate landing page URL for tax pro","path":"contracts/generate-landing-url.contract.json","source":"TaxClaim Pro","title":"Generate Landing Page URL","usedOnPages":["/index.html"],"validation":{"enumStrict":true,"normalizeCheckboxToBoolean":true,"rejectUnknownValues":true,"requireJsonContentType":true},"version":1},
+  "delivery":{"endpoint":"/landing-page/create","method":"POST","receiptKeyPattern":"receipts/{source}/{eventId}.json","receiptSource":"form","signature":{"header":null,"required":false,"secretEnvVar":null}},
+  "effects":{"dedupeKey":"payload.eventId","eventIdFrom":"payload.eventId","receiptAppend":{"to":"receipts/{source}/{eventId}.json"},"canonicalPatch":{"createdAt":"{system.nowIso}","eventId":"{payload.eventId}","recordId":"{payload.eventId}","status":"url_generated","updatedAt":"{system.nowIso}"},"canonicalUpsert":{"patchFrom":"effects.canonicalPatch","target":"landingPages/{recordId}.json"},"writeOrder":["receiptAppend","canonicalUpsert"],"writes":["landingPages"]},
+  "payload":{"additionalProperties":false,"properties":{"eventId":{"type":"string","minLength":1},"proId":{"type":"string","minLength":1},"branding":{"type":"string"},"welcomeMessage":{"type":"string"}},"required":["eventId","proId","branding","welcomeMessage"],"type":"object"},
+  "response":{"deduped":{"deduped":true,"eventId":"{effects.eventIdFrom}","ok":true},"error":{"error":"validation_failed","ok":false},"success":{"eventId":"{effects.eventIdFrom}","ok":true,"status":"url_generated"}},
+  "schema":{"name":"vlp_generate_landing_url","version":1}
+}

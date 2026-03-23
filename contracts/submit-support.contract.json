@@ -1,0 +1,9 @@
+﻿{
+  "auth":{"required":true,"trustClientIdentityFields":false,"type":"session"},
+  "contract":{"authority":["R2_VIRTUAL_LAUNCH"],"governs":"Submit a support ticket","path":"contracts/submit-support.contract.json","source":"TaxClaim Pro","title":"Submit Support Ticket","usedOnPages":["/index.html"],"validation":{"enumStrict":true,"normalizeCheckboxToBoolean":true,"rejectUnknownValues":true,"requireJsonContentType":true},"version":1},
+  "delivery":{"endpoint":"/support/ticket","method":"POST","receiptKeyPattern":"receipts/{source}/{eventId}.json","receiptSource":"support","signature":{"header":null,"required":false,"secretEnvVar":null}},
+  "effects":{"dedupeKey":"payload.eventId","eventIdFrom":"payload.eventId","receiptAppend":{"to":"receipts/{source}/{eventId}.json"},"canonicalPatch":{"createdAt":"{system.nowIso}","eventId":"{payload.eventId}","recordId":"{payload.eventId}","status":"submitted","updatedAt":"{system.nowIso}"},"canonicalUpsert":{"patchFrom":"effects.canonicalPatch","target":"supportTickets/{recordId}.json"},"writeOrder":["receiptAppend","canonicalUpsert"],"writes":["supportTickets"]},
+  "payload":{"additionalProperties":false,"properties":{"eventId":{"type":"string","minLength":1},"clientId":{"type":"string","minLength":1},"issueDescription":{"type":"string"},"attachments":{"type":"array"}},"required":["eventId","clientId","issueDescription"],"type":"object"},
+  "response":{"deduped":{"deduped":true,"eventId":"{effects.eventIdFrom}","ok":true},"error":{"error":"validation_failed","ok":false},"success":{"eventId":"{effects.eventIdFrom}","ok":true,"status":"submitted"}},
+  "schema":{"name":"vlp_submit_support","version":1}
+}

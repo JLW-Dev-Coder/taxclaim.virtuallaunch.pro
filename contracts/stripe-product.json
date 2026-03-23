@@ -1,0 +1,40 @@
+{
+  "id": "prod_UCK4SzsEnjp19U",
+  "object": "product",
+  "active": true,
+  "attributes": [],
+  "created": 1774222148,
+  "default_price": "price_1TDvQe9ROeyeXOqek1fpOWWH",
+  "description": "Monthly subscription for tax professionals to host a Form 843 refund claim landing page for their taxpayers. Includes automated penalty tracking, IRS transcript access, and downloadable Form 843 PDFs.",
+  "images": [
+    "https://files.stripe.com/links/MDB8YWNjdF8xVDk5cGw5Uk9leWVYT3FlfGZsX2xpdmVfb0ZmUWFtTWR2TnFnRjE1cGxvb3haU2xl00ol0QsrS6"
+  ],
+  "livemode": true,
+  "marketing_features": [
+    {
+      "name": "Hosted 843 refund landing page"
+    },
+    {
+      "name": "Monthly Form 843 PDF generation"
+    },
+    {
+      "name": "Automated penalty & interest calculations"
+    },
+    {
+      "name": "Taxpayer dashboard access"
+    },
+    {
+      "name": "Fill-in revenue gaps year-round"
+    }
+  ],
+  "metadata": {},
+  "name": "Virtual Launch Pro — Tax Claim Pro",
+  "package_dimensions": null,
+  "shippable": null,
+  "statement_descriptor": null,
+  "tax_code": "txcd_10000000",
+  "type": "service",
+  "unit_label": "subscription",
+  "updated": 1774222149,
+  "url": null
+}
