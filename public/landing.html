@@ -1,229 +1,229 @@
 <!doctype html>
 <html lang="en" class="h-full">
- <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kwong Form 843 — 5-Step Wizard</title>
-  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            display: ['Raleway', 'Arial', 'sans-serif'],
-            body: ['DM Sans', 'sans-serif']
-          }
-        }
-      }
-    }
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
-  <script src="/_sdk/element_sdk.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Raleway:wght@700;800;900&amp;display=swap" rel="stylesheet">
-  <style>
-    html, body { height: 100%; margin: 0; }
-    * { box-sizing: border-box; }
-    .view-hidden { display: none !important; }
-    .step-connector { position: absolute; left: 27px; top: 56px; bottom: -24px; width: 2px; }
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
-    .anim-step { animation: fadeUp 0.5s ease-out both; }
-    .anim-step:nth-child(1) { animation-delay: 0.1s; }
-    .anim-step:nth-child(2) { animation-delay: 0.25s; }
-    .anim-step:nth-child(3) { animation-delay: 0.4s; }
-    .anim-step:nth-child(4) { animation-delay: 0.55s; }
-    .anim-step:nth-child(5) { animation-delay: 0.7s; }
-    @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.3); } 50% { box-shadow: 0 0 0 10px rgba(220, 38, 38, 0); } }
-    .deadline-pulse { animation: pulse-glow 2s infinite; }
-    .btn-primary { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 8px; font-weight: 600; border: none; cursor: pointer; transition: all 0.2s; }
-    .btn-primary:hover { transform: scale(1.05); }
-    .btn-secondary { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 8px; font-weight: 600; border: 1px solid #2a2d3e; background: rgba(255,255,255,.06); color: #f1f1f4; cursor: pointer; transition: all 0.2s; }
-    .btn-secondary:hover { background: rgba(255,255,255,.12); }
-    @keyframes pulse-glow { 0%,100% { box-shadow: 0 0 0 0 rgba(220,38,38,0.3); } 50% { box-shadow: 0 0 0 10px rgba(220,38,38,0.15); } }
-    .pulse-btn { animation: pulse-glow 2.5s ease infinite; }
-    input:focus, select:focus, textarea:focus { outline: none; box-shadow: 0 0 0 3px rgba(220,38,38,0.2); border-color: #dc2626; }
-    .toast-msg { transition: opacity .4s ease, transform .4s ease; }
-    .progress-step.active .step-dot { background: #dc2626; color: #fff; }
-    .progress-step.active .step-line { background: #dc2626; }
-    .progress-step .step-dot { background: #e5e7eb; color: #9ca3af; transition: all .3s ease; }
-    .progress-step .step-line { background: #e5e7eb; transition: all .3s ease; }
-    /* New Step Wizard Styles */
-    .step-card { border: 1px solid #2a2d3e; background: #161824; border-radius: 14px; transition: border-color 0.3s ease; }
-    .step-card:hover { border-color: #3a3d4e; }
-    .step-header { background: linear-gradient(135deg, #1a1d2a 0%, #161824 100%); border-bottom: 1px solid #2a2d3e; padding: 24px; }
-    .step-body { padding: 28px; }
-    .progress-bar { height: 3px; background: #2a2d3e; border-radius: 2px; }
-    .progress-fill { height: 100%; background: #dc2626; transition: width 0.3s ease; box-shadow: 0 0 12px rgba(220, 38, 38, 0.6); }
-    .step-badge { display: inline-block; background: #dc2626; color: #fff; padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px; }
-    .eligibility-item { display: flex; gap: 12px; padding: 14px; background: #1a1d2a; border-left: 3px solid #22c55e; border-radius: 8px; margin-bottom: 12px; }
-    .eligibility-check { color: #22c55e; font-weight: 700; font-size: 1.1rem; }
-    .info-box { border-radius: 10px; padding: 16px; border-left: 3px solid; }
-    .info-box-blue { background: rgba(59, 130, 246, 0.1); border-left-color: #3b82f6; }
-    .info-box-yellow { background: rgba(245, 158, 11, 0.1); border-left-color: #f59e0b; }
-    .info-box-green { background: rgba(34, 197, 94, 0.1); border-left-color: #22c55e; }
-    .info-box-red { background: rgba(220, 38, 38, 0.1); border-left-color: #dc2626; }
-    .contact-box { background: #1a1d2a; border: 1px solid #22c55e; border-left: 3px solid #22c55e; border-radius: 10px; padding: 20px; }
-    .mono { font-family: 'IBM Plex Mono', monospace; }
-    @keyframes glow-pulse { 0%, 100% { box-shadow: 0 0 8px rgba(220, 38, 38, 0.4); } 50% { box-shadow: 0 0 16px rgba(220, 38, 38, 0.7); } }
-    .glow-pulse { animation: glow-pulse 3s ease-in-out infinite; }
-    .step-view { display: block; }
-    .step-view.hidden { display: none; }
-  </style>
-  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <style>body { box-sizing: border-box; }</style>
- </head>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TaxClaim.Virtual Launch Pro - Landing Page Template</title>
+  <link rel="icon" href="https://virtuallaunch.pro/favicon.ico" sizes="any">
+  <link rel="icon" href="https://virtuallaunch.pro/assets/favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="https://virtuallaunch.pro/assets/favicon.svg">
+  <link rel="apple-touch-icon" href="https://virtuallaunch.pro/assets/favicon.ico" sizes="any">
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+<script src="/_sdk/element_sdk.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Raleway:wght@700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+html, body { height: 100%; margin: 0; }
+body { box-sizing: border-box; }
+* { box-sizing: border-box; }
+#app-wrapper { min-height: 100vh; height: auto; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+.anim-step { animation: fadeUp 0.5s ease-out both; }
+.anim-step:nth-child(1) { animation-delay: 0.1s; }
+.anim-step:nth-child(2) { animation-delay: 0.25s; }
+.anim-step:nth-child(3) { animation-delay: 0.4s; }
+.anim-step:nth-child(4) { animation-delay: 0.55s; }
+.anim-step:nth-child(5) { animation-delay: 0.7s; }
+@keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.3); } 50% { box-shadow: 0 0 0 10px rgba(220, 38, 38, 0); } }
+.deadline-pulse { animation: pulse-glow 2s infinite; }
+.step-connector { position: absolute; left: 27px; top: 56px; bottom: -24px; width: 2px; background: linear-gradient(to bottom, #dc2626, #1e2130); }
+.progress-bar { height: 3px; background: #2a2d3e; border-radius: 2px; }
+.progress-fill { height: 100%; background: #dc2626; transition: width 0.3s ease; box-shadow: 0 0 12px rgba(220, 38, 38, 0.6); }
+</style>
+<style>
+tailwind.config = {
+theme: {
+extend: {
+fontFamily: {
+display: ['Raleway', 'Arial', 'sans-serif'],
+body: ['DM Sans', 'sans-serif']
+}
+}
+}
+}
+</style>
+<script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+</head>
  <body class="h-full overflow-auto" style="background: #0f1117; font-family: 'DM Sans', sans-serif;">
-  <div id="app-wrapper" class="w-full h-full" style="background: #0f1117;">
-   <!-- WIZARD VIEW -->
-   <div id="view-wizard" class="w-full h-full">
-    <!-- Logo -->
+  <div id="app-wrapper" class="w-full h-full" style="background: #0f1117;"><!-- LANDING PAGE VIEW -->
+   <div id="view-wizard" class="w-full h-full overflow-auto"><!-- Logo -->
     <div class="w-full px-6 pt-8 pb-4 text-center">
-     <div id="logo-placeholder" class="inline-flex items-center justify-center px-6 py-3 rounded-lg" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);min-width:180px;">
-      <span id="company-logo-text" style="font-family:'Raleway',sans-serif;font-size:1.1rem;font-weight:700;color:#f1f1f4;">Your Company Logo</span>
+     <div class="inline-flex items-center justify-center px-6 py-3 rounded-lg" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);"><span id="company-logo-text" style="font-family: 'Raleway', sans-serif; font-size: 1.1rem; font-weight: 700; color: #f1f1f4;">Your Company</span>
      </div>
-    </div><!-- Hero -->
+    </div><!-- Hero Section -->
     <header class="w-full relative overflow-hidden">
-     <div style="position:absolute;inset:0;background:linear-gradient(135deg,#0f1117 0%,#1a1d2e 40%,#1e1f2e 100%);"></div>
-     <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 70% 20%, rgba(220,38,38,0.1) 0%, transparent 60%);"></div>
+     <div style="position: absolute; inset: 0; background: linear-gradient(135deg, #0f1117 0%, #1a1d2e 40%, #1e1f2e 100%);"></div>
+     <div style="position: absolute; inset: 0; background: radial-gradient(ellipse at 70% 20%, rgba(220,38,38,0.1) 0%, transparent 60%);"></div>
      <div class="relative z-10 max-w-4xl mx-auto px-6 pt-12 pb-10 text-center">
-      <div id="deadline-badge" class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold mb-6 deadline-pulse" style="background:rgba(220,38,38,0.15);color:#fca5a5;border:1px solid rgba(220,38,38,0.3);">
-       <i data-lucide="alert-triangle" style="width:16px;height:16px;"></i> <span id="deadline-text">Submit before July 10, 2026</span>
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold mb-6 deadline-pulse" style="background: rgba(220,38,38,0.15); color: #fca5a5; border: 1px solid rgba(220,38,38,0.3);">
+       <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3.05h16.94a2 2 0 0 0 1.71-3.05L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line>
+       </svg><span id="deadline-text">Submit before July 10, 2026</span>
       </div>
-      <h1 id="headline" style="font-family:'Raleway',sans-serif;color:#f1f1f4;font-size:2.75rem;line-height:1.15;font-weight:800;margin-bottom:1rem;">How to Claim Your Kwong Relief</h1>
-      <p id="subheadline" style="color:#9ca3af;font-size:1.15rem;max-width:600px;margin:0 auto 2rem;">Complete Form 843 in 5 steps. Get your IRS transcripts, verify eligibility, and mail your claim before the deadline.</p>
-      <div class="flex flex-wrap justify-center gap-3">
-       <button id="cta-primary" class="btn-primary text-white" style="background:#dc2626;" onclick="goToSetupFlow()"> <i data-lucide="file-text" style="width:18px;height:18px;"></i> <span>Start Now</span> </button> <button id="cta-secondary" class="btn-secondary" onclick="contactPro()"> <i data-lucide="phone" style="width:18px;height:18px;"></i> <span>Contact Tax Pro</span> </button>
+      <h1 id="headline" style="font-family: 'Raleway', sans-serif; color: #f1f1f4; font-size: 2.75rem; line-height: 1.15; font-weight: 800; margin-bottom: 1rem;">How to Claim Your Kwong Relief</h1>
+      <p id="subheadline" style="color: #9ca3af; font-size: 1.15rem; max-width: 600px; margin: 0 auto 2rem;">Complete Form 843 in 5 steps. Get your IRS transcripts, verify eligibility, and mail your claim before the deadline.</p>
+      <div class="flex flex-wrap justify-center gap-3"><button onclick="goToSetupFlow()" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-white transition hover:scale-105" style="background: #dc2626;">
+        <svg width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="11" x2="12" y2="17"></line><line x1="9" y1="14" x2="15" y2="14"></line>
+        </svg><span>Start Now</span> </button> <button onclick="contactPro()" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition" style="background: rgba(255,255,255,0.06); color: #f1f1f4; border: 1px solid #2a2d3e; hover: rgba(255,255,255,0.12);">
+        <svg width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+         <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+        </svg><span>Contact Tax Pro</span> </button>
       </div>
      </div>
-    </header><!-- Steps -->
-    <main class="max-w-3xl mx-auto px-6 py-12" id="wizard-content" style="display:block;">
-     <div class="space-y-6" id="steps-container">
-      <!-- Step 1: Pull Transcript -->
+    </header><!-- Steps Section -->
+    <main class="max-w-3xl mx-auto px-6 py-12">
+     <div class="space-y-6" id="steps-container"><!-- Step 1 -->
       <div class="anim-step relative pl-16">
-       <div class="step-connector" style="background:linear-gradient(to bottom,#dc2626,#1e2130);"></div>
-       <div class="absolute left-0 top-0 w-14 h-14 rounded-full flex items-center justify-center font-bold text-lg" style="background:#dc2626;color:#fff;box-shadow:0 0 20px rgba(220,38,38,0.3);">
+       <div class="step-connector"></div>
+       <div class="absolute left-0 top-0 w-14 h-14 rounded-full flex items-center justify-center font-bold text-lg text-white" style="background: #dc2626; box-shadow: 0 0 20px rgba(220,38,38,0.3);">
         1
        </div>
-       <div class="rounded-xl p-6" style="background:#161824;border:1px solid #2a2d3e;">
+       <div class="rounded-xl p-6" style="background: #161824; border: 1px solid #2a2d3e;">
         <div class="flex items-center gap-3 mb-4">
-         <i data-lucide="file-text" style="width:22px;height:22px;color:#60a5fa;"></i>
-         <h2 style="font-family:'Raleway',sans-serif;font-size:1.35rem;font-weight:700;color:#f1f1f4;margin:0;">Pull Your IRS Transcript</h2>
+         <svg width="22" height="22" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #60a5fa;">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline>
+         </svg>
+         <h2 style="font-family: 'Raleway', sans-serif; font-size: 1.35rem; font-weight: 700; color: #f1f1f4; margin: 0;">Pull Your IRS Transcript</h2>
         </div>
-        <p style="color:#9ca3af;margin-bottom:1rem;">You need your official IRS transcript to verify penalties and interest assessed during the Kwong window.</p>
-        <ul class="space-y-2 mb-6" style="color:#9ca3af;font-size:0.95rem;line-height:1.6;">
-         <li class="flex gap-2"><i data-lucide="check-circle" style="width:18px;height:18px;color:#22c55e;flex-shrink:0;margin-top:3px;"></i>Visit <a href="https://www.irs.gov/transcripts" target="_blank" rel="noopener noreferrer" style="color:#60a5fa;text-decoration:underline;">irs.gov/transcripts</a> (fastest option)</li>
-         <li class="flex gap-2"><i data-lucide="check-circle" style="width:18px;height:18px;color:#22c55e;flex-shrink:0;margin-top:3px;"></i>Or call <span id="irs-phone-1" style="color:#f1f1f4;font-weight:600;">1-800-908-9946</span> (5-10 business days)</li>
-         <li class="flex gap-2"><i data-lucide="check-circle" style="width:18px;height:18px;color:#22c55e;flex-shrink:0;margin-top:3px;"></i>Request your Account Transcript for tax years <strong style="color:#f1f1f4;">2020-2023</strong></li>
+        <p style="color: #9ca3af; margin-bottom: 1rem;">You need your official IRS transcript to verify penalties and interest assessed during the Kwong window.</p>
+        <ul class="space-y-2 mb-6" style="color: #9ca3af; font-size: 0.95rem; line-height: 1.6; list-style: none; padding: 0;">
+         <li class="flex gap-2">
+          <svg width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #22c55e; flex-shrink: 0; margin-top: 3px;">
+           <polyline points="20 6 9 17 4 12"></polyline>
+          </svg> Visit <a href="https://www.irs.gov/transcripts" target="_blank" rel="noopener noreferrer" style="color: #60a5fa; text-decoration: underline;">irs.gov/transcripts</a> (fastest option)</li>
+         <li class="flex gap-2">
+          <svg width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #22c55e; flex-shrink: 0; margin-top: 3px;">
+           <polyline points="20 6 9 17 4 12"></polyline>
+          </svg> Or call <span style="color: #f1f1f4; font-weight: 600;">1-800-908-9946</span> (5-10 business days)</li>
+         <li class="flex gap-2">
+          <svg width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #22c55e; flex-shrink: 0; margin-top: 3px;">
+           <polyline points="20 6 9 17 4 12"></polyline>
+          </svg> Request your Account Transcript for tax years <strong style="color: #f1f1f4;">2020-2023</strong></li>
         </ul>
-        <div class="flex gap-3">
-         <a href="https://www.irs.gov/transcripts" target="_blank" rel="noopener noreferrer" class="btn-primary text-white" style="background:#dc2626;"><i data-lucide="external-link" style="width:16px;height:16px;"></i> Get Transcript </a> <button class="btn-primary text-white" style="background:#dc2626;" onclick="goToSetupFlow()"> Start Now <i data-lucide="arrow-right" style="width:16px;height:16px;"></i> </button>
+        <div class="flex gap-3"><a href="https://www.irs.gov/transcripts" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-white transition hover:scale-105" style="background: #dc2626;">
+          <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+           <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line>
+          </svg> Get Transcript </a> <button onclick="goToSetupFlow()" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-white transition hover:scale-105" style="background: #dc2626;"> Start Now 
+          <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+           <line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline>
+          </svg></button>
         </div>
        </div>
-      </div><!-- Step 2: Check Penalties -->
+      </div><!-- Step 2 -->
       <div class="anim-step relative pl-16">
-       <div class="step-connector" style="background:linear-gradient(to bottom,#dc2626,#1e2130);"></div>
-       <div class="absolute left-0 top-0 w-14 h-14 rounded-full flex items-center justify-center font-bold text-lg" style="background:#dc2626;color:#fff;box-shadow:0 0 20px rgba(220,38,38,0.3);">
+       <div class="step-connector"></div>
+       <div class="absolute left-0 top-0 w-14 h-14 rounded-full flex items-center justify-center font-bold text-lg text-white" style="background: #dc2626; box-shadow: 0 0 20px rgba(220,38,38,0.3);">
         2
        </div>
-       <div class="rounded-xl p-6" style="background:#161824;border:1px solid #2a2d3e;">
+       <div class="rounded-xl p-6" style="background: #161824; border: 1px solid #2a2d3e;">
         <div class="flex items-center gap-3 mb-4">
-         <i data-lucide="shield-check" style="width:22px;height:22px;color:#60a5fa;"></i>
-         <h2 style="font-family:'Raleway',sans-serif;font-size:1.35rem;font-weight:700;color:#f1f1f4;margin:0;">Verify Your Eligibility</h2>
+         <svg width="22" height="22" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #60a5fa;">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 12 15 15 9"></polyline>
+         </svg>
+         <h2 style="font-family: 'Raleway', sans-serif; font-size: 1.35rem; font-weight: 700; color: #f1f1f4; margin: 0;">Verify Your Eligibility</h2>
         </div>
-        <p style="color:#9ca3af;margin-bottom:1.5rem;">Check if your penalties fall within the Kwong eligibility window.</p>
-        <div class="rounded-lg p-4 mb-6" style="background:rgba(220,38,38,0.1);border:1px solid rgba(220,38,38,0.3);">
-         <p style="font-size:0.85rem;color:#fca5a5;font-weight:600;margin-bottom:0.5rem;">📅 Kwong Eligibility Window</p>
-         <p style="font-size:1rem;color:#f1f1f4;font-weight:700;">January 20, 2020 — <span id="kwong-end-date">July 10, 2023</span></p>
+        <p style="color: #9ca3af; margin-bottom: 1.5rem;">Check if your penalties fall within the Kwong eligibility window.</p>
+        <div class="rounded-lg p-4 mb-6" style="background: rgba(220,38,38,0.1); border: 1px solid rgba(220,38,38,0.3);">
+         <p style="font-size: 0.85rem; color: #fca5a5; font-weight: 600; margin-bottom: 0.5rem;">📅 Kwong Eligibility Window</p>
+         <p style="font-size: 1rem; color: #f1f1f4; font-weight: 700;">January 20, 2020 — July 10, 2023</p>
         </div>
-        <ul class="space-y-2 mb-6" style="color:#9ca3af;font-size:0.95rem;">
-         <li class="flex gap-2"><i data-lucide="check-circle" style="width:18px;height:18px;color:#22c55e;flex-shrink:0;margin-top:3px;"></i><strong style="color:#f1f1f4;">Failure to File Penalty</strong> — <span style="color:#9ca3af;">Assessed within window?</span> ✓ <span style="color:#22c55e;font-weight:600;">ELIGIBLE</span></li>
-         <li class="flex gap-2"><i data-lucide="check-circle" style="width:18px;height:18px;color:#22c55e;flex-shrink:0;margin-top:3px;"></i><strong style="color:#f1f1f4;">Failure to Pay Penalty</strong> — <span style="color:#9ca3af;">Assessed within window?</span> ✓ <span style="color:#22c55e;font-weight:600;">ELIGIBLE</span></li>
-         <li class="flex gap-2"><i data-lucide="check-circle" style="width:18px;height:18px;color:#22c55e;flex-shrink:0;margin-top:3px;"></i><strong style="color:#f1f1f4;">Interest on Penalties</strong> — <span style="color:#9ca3af;">Accrued on eligible penalties?</span> ✓ <span style="color:#22c55e;font-weight:600;">ELIGIBLE</span></li>
+        <ul class="space-y-2 mb-6" style="color: #9ca3af; font-size: 0.95rem; list-style: none; padding: 0;">
+         <li class="flex gap-2">
+          <svg width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #22c55e; flex-shrink: 0; margin-top: 3px;">
+           <polyline points="20 6 9 17 4 12"></polyline>
+          </svg><span><strong style="color: #f1f1f4;">Failure to File Penalty</strong> — Assessed within window? ✓ <span style="color: #22c55e; font-weight: 600;">ELIGIBLE</span></span></li>
+         <li class="flex gap-2">
+          <svg width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #22c55e; flex-shrink: 0; margin-top: 3px;">
+           <polyline points="20 6 9 17 4 12"></polyline>
+          </svg><span><strong style="color: #f1f1f4;">Failure to Pay Penalty</strong> — Assessed within window? ✓ <span style="color: #22c55e; font-weight: 600;">ELIGIBLE</span></span></li>
+         <li class="flex gap-2">
+          <svg width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #22c55e; flex-shrink: 0; margin-top: 3px;">
+           <polyline points="20 6 9 17 4 12"></polyline>
+          </svg><span><strong style="color: #f1f1f4;">Interest on Penalties</strong> — Accrued on eligible penalties? ✓ <span style="color: #22c55e; font-weight: 600;">ELIGIBLE</span></span></li>
         </ul>
-        <div class="rounded-lg p-4 mb-6" style="background:rgba(220,38,38,0.1);border-left:4px solid #dc2626;">
-         <p style="font-size:0.9rem;color:#fca5a5;"><strong>❌ Not eligible:</strong> Penalties assessed before Jan 20, 2020 or after <span id="kwong-end-date2">July 10, 2023</span></p>
-        </div>
-        <div class="flex gap-3">
-         <button class="btn-primary text-white" style="background:#dc2626;" onclick="goToSetupFlow()"> Start Now <i data-lucide="arrow-right" style="width:16px;height:16px;"></i> </button>
-        </div>
+        <div class="rounded-lg p-4 mb-6" style="background: rgba(220,38,38,0.1); border-left: 4px solid #dc2626;">
+         <p style="font-size: 0.9rem; color: #fca5a5;"><strong>❌ Not eligible:</strong> Penalties assessed before Jan 20, 2020 or after July 10, 2023</p>
+        </div><button onclick="goToSetupFlow()" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-white transition hover:scale-105" style="background: #dc2626;"> Start Now 
+         <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline>
+         </svg></button>
        </div>
-      </div><!-- Step 3: Generate Form 843 -->
+      </div><!-- Step 3 -->
       <div class="anim-step relative pl-16">
-       <div class="step-connector" style="background:linear-gradient(to bottom,#dc2626,#1e2130);"></div>
-       <div class="absolute left-0 top-0 w-14 h-14 rounded-full flex items-center justify-center font-bold text-lg" style="background:#dc2626;color:#fff;box-shadow:0 0 20px rgba(220,38,38,0.3);">
+       <div class="step-connector"></div>
+       <div class="absolute left-0 top-0 w-14 h-14 rounded-full flex items-center justify-center font-bold text-lg text-white" style="background: #dc2626; box-shadow: 0 0 20px rgba(220,38,38,0.3);">
         3
        </div>
-       <div class="rounded-xl p-6" style="background:#161824;border:1px solid #2a2d3e;">
+       <div class="rounded-xl p-6" style="background: #161824; border: 1px solid #2a2d3e;">
         <div class="flex items-center gap-3 mb-4">
-         <i data-lucide="file-check" style="width:22px;height:22px;color:#60a5fa;"></i>
-         <h2 style="font-family:'Raleway',sans-serif;font-size:1.35rem;font-weight:700;color:#f1f1f4;margin:0;">Generate Form 843</h2>
+         <svg width="22" height="22" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #60a5fa;">
+          <polyline points="21 8 21 21 3 21 3 8"></polyline><line x1="1" y1="3" x2="23" y2="3"></line><path d="M10 12v4"></path><path d="M14 12v4"></path>
+         </svg>
+         <h2 style="font-family: 'Raleway', sans-serif; font-size: 1.35rem; font-weight: 700; color: #f1f1f4; margin: 0;">Generate Form 843</h2>
         </div>
-        <p style="color:#9ca3af;margin-bottom:1.5rem;">Enter your details below. Your form will auto-generate with pre-filled Kwong reasoning.</p>
+        <p style="color: #9ca3af; margin-bottom: 1.5rem;">Enter your details below. Your form will auto-generate with pre-filled Kwong reasoning.</p>
         <div class="space-y-4 mb-6">
-         <div>
-          <label style="display:block;font-size:0.9rem;font-weight:600;color:#f1f1f4;margin-bottom:0.5rem;">Taxpayer Name</label> <input type="text" id="input-name" placeholder="John A. Smith" style="width:100%;padding:10px;background:#1e2130;border:1px solid #2a2d3e;border-radius:6px;color:#f1f1f4;font-size:0.9rem;">
+         <div><label style="display: block; font-size: 0.9rem; font-weight: 600; color: #f1f1f4; margin-bottom: 0.5rem;">Taxpayer Name</label> <input type="text" id="form-name" placeholder="John A. Smith" style="width: 100%; padding: 10px; background: #1e2130; border: 1px solid #2a2d3e; border-radius: 6px; color: #f1f1f4; font-size: 0.9rem;">
          </div>
-         <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
-          <div>
-           <label style="display:block;font-size:0.9rem;font-weight:600;color:#f1f1f4;margin-bottom:0.5rem;">Tax Period</label> <input type="text" id="input-period" placeholder="2020" style="width:100%;padding:10px;background:#1e2130;border:1px solid #2a2d3e;border-radius:6px;color:#f1f1f4;font-size:0.9rem;">
+         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div><label style="display: block; font-size: 0.9rem; font-weight: 600; color: #f1f1f4; margin-bottom: 0.5rem;">Tax Period</label> <input type="text" id="form-period" placeholder="2020" style="width: 100%; padding: 10px; background: #1e2130; border: 1px solid #2a2d3e; border-radius: 6px; color: #f1f1f4; font-size: 0.9rem;">
           </div>
-          <div>
-           <label style="display:block;font-size:0.9rem;font-weight:600;color:#f1f1f4;margin-bottom:0.5rem;">State</label> <input type="text" id="input-state" placeholder="CA" style="width:100%;padding:10px;background:#1e2130;border:1px solid #2a2d3e;border-radius:6px;color:#f1f1f4;font-size:0.9rem;">
+          <div><label style="display: block; font-size: 0.9rem; font-weight: 600; color: #f1f1f4; margin-bottom: 0.5rem;">State</label> <input type="text" id="form-state" placeholder="CA" style="width: 100%; padding: 10px; background: #1e2130; border: 1px solid #2a2d3e; border-radius: 6px; color: #f1f1f4; font-size: 0.9rem;">
           </div>
          </div>
-         <div>
-          <label style="display:block;font-size:0.9rem;font-weight:600;color:#f1f1f4;margin-bottom:0.5rem;">Penalty Type</label>
-          <div class="relative" style="position:relative;">
-           <div id="penalty-type-container-main" class="w-full" style="width:100%;padding:10px;background:#1e2130;border:1px solid #2a2d3e;border-radius:6px;color:#f1f1f4;font-size:0.9rem;display:flex;flex-wrap:wrap;gap:8px;align-items:center;cursor:pointer;min-height:40px;">
-            <input type="text" id="penalty-type-input-main" placeholder="Select penalty types..." style="background:transparent;border:none;outline:none;flex:1;color:#f1f1f4;font-size:0.9rem;min-width:120px;cursor:pointer;" readonly>
+         <div><label style="display: block; font-size: 0.9rem; font-weight: 600; color: #f1f1f4; margin-bottom: 0.5rem;">Penalty Type</label>
+          <div id="form-penalty-container" style="position: relative;">
+           <div id="form-penalty-input" style="width: 100%; min-height: 40px; padding: 8px; background: #1e2130; border: 1px solid #2a2d3e; border-radius: 6px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; cursor: text;">
+            <input type="text" id="form-penalty-search" placeholder="Select penalty type..." style="flex: 1; min-width: 150px; background: transparent; border: none; color: #f1f1f4; font-size: 0.9rem; outline: none;">
            </div>
-           <div id="penalty-type-dropdown-main" class="hidden" style="position:absolute;top:100%;left:0;right:0;margin-top:4px;background:#1e2130;border:1px solid #2a2d3e;border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,0.3);z-index:10;">
-            <div style="padding:8px;">
-             <div class="penalty-option-main" data-value="Failure to File Penalty" style="padding:8px;cursor:pointer;border-radius:4px;color:#f1f1f4;font-size:0.9rem;">
-              Failure to File Penalty
-             </div>
-             <div class="penalty-option-main" data-value="Failure to Pay Penalty" style="padding:8px;cursor:pointer;border-radius:4px;color:#f1f1f4;font-size:0.9rem;">
-              Failure to Pay Penalty
-             </div>
-             <div class="penalty-option-main" data-value="Interest on Penalties" style="padding:8px;cursor:pointer;border-radius:4px;color:#f1f1f4;font-size:0.9rem;">
-              Interest on Penalties
-             </div>
+           <div id="form-penalty-tags" style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 0;"></div>
+           <div id="form-penalty-dropdown" style="position: absolute; top: 100%; left: 0; right: 0; margin-top: 4px; background: #1e2130; border: 1px solid #2a2d3e; border-radius: 6px; display: none; z-index: 10; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
+            <div class="penalty-option" data-value="Failure to File Penalty" style="padding: 10px; cursor: pointer; color: #9ca3af; border-bottom: 1px solid #2a2d3e; font-size: 0.9rem;">
+             Failure to File Penalty
+            </div>
+            <div class="penalty-option" data-value="Failure to Pay Penalty" style="padding: 10px; cursor: pointer; color: #9ca3af; border-bottom: 1px solid #2a2d3e; font-size: 0.9rem;">
+             Failure to Pay Penalty
+            </div>
+            <div class="penalty-option" data-value="Interest on Penalties" style="padding: 10px; cursor: pointer; color: #9ca3af; font-size: 0.9rem;">
+             Interest on Penalties
             </div>
            </div>
-          </div><input type="hidden" id="input-penalty-type-main">
+          </div><input type="hidden" id="form-penalty" value="">
          </div>
-         <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
-          <div>
-           <label style="display:block;font-size:0.9rem;font-weight:600;color:#f1f1f4;margin-bottom:0.5rem;">Penalty Amount ($)</label> <input type="text" id="input-penalty-amt" placeholder="3,200.00" style="width:100%;padding:10px;background:#1e2130;border:1px solid #2a2d3e;border-radius:6px;color:#f1f1f4;font-size:0.9rem;">
+         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div><label style="display: block; font-size: 0.9rem; font-weight: 600; color: #f1f1f4; margin-bottom: 0.5rem;">Penalty Amount ($)</label> <input type="text" id="form-penalty-amt" placeholder="3,200.00" style="width: 100%; padding: 10px; background: #1e2130; border: 1px solid #2a2d3e; border-radius: 6px; color: #f1f1f4; font-size: 0.9rem;">
           </div>
-          <div>
-           <label style="display:block;font-size:0.9rem;font-weight:600;color:#f1f1f4;margin-bottom:0.5rem;">Interest Amount ($)</label> <input type="text" id="input-interest-amt" placeholder="487.50" style="width:100%;padding:10px;background:#1e2130;border:1px solid #2a2d3e;border-radius:6px;color:#f1f1f4;font-size:0.9rem;">
+          <div><label style="display: block; font-size: 0.9rem; font-weight: 600; color: #f1f1f4; margin-bottom: 0.5rem;">Interest Amount ($)</label> <input type="text" id="form-interest-amt" placeholder="487.50" style="width: 100%; padding: 10px; background: #1e2130; border: 1px solid #2a2d3e; border-radius: 6px; color: #f1f1f4; font-size: 0.9rem;">
           </div>
          </div>
-        </div>
-        <div class="flex gap-3">
-         <button class="btn-primary text-white" style="background:#dc2626;" onclick="goToSetupFlow()"> Start Now <i data-lucide="arrow-right" style="width:16px;height:16px;"></i> </button>
-        </div>
+        </div><button onclick="goToSetupFlow()" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-white transition hover:scale-105" style="background: #dc2626;"> Start Now 
+         <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline>
+         </svg></button>
        </div>
-      </div><!-- Step 4: Print & Mail -->
+      </div><!-- Step 4 -->
       <div class="anim-step relative pl-16">
-       <div class="step-connector" style="background:linear-gradient(to bottom,#dc2626,#1e2130);"></div>
-       <div class="absolute left-0 top-0 w-14 h-14 rounded-full flex items-center justify-center font-bold text-lg" style="background:#dc2626;color:#fff;box-shadow:0 0 20px rgba(220,38,38,0.3);">
+       <div class="step-connector"></div>
+       <div class="absolute left-0 top-0 w-14 h-14 rounded-full flex items-center justify-center font-bold text-lg text-white" style="background: #dc2626; box-shadow: 0 0 20px rgba(220,38,38,0.3);">
         4
        </div>
-       <div class="rounded-xl p-6" style="background:#161824;border:1px solid #2a2d3e;">
+       <div class="rounded-xl p-6" style="background: #161824; border: 1px solid #2a2d3e;">
         <div class="flex items-center gap-3 mb-4">
-         <i data-lucide="mail" style="width:22px;height:22px;color:#60a5fa;"></i>
-         <h2 style="font-family:'Raleway',sans-serif;font-size:1.35rem;font-weight:700;color:#f1f1f4;margin:0;">Print &amp; Mail to IRS</h2>
+         <svg width="22" height="22" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #60a5fa;">
+          <rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M6 8h12"></path><path d="M6 14h12"></path>
+         </svg>
+         <h2 style="font-family: 'Raleway', sans-serif; font-size: 1.35rem; font-weight: 700; color: #f1f1f4; margin: 0;">Print &amp; Mail to IRS</h2>
         </div>
-        <p style="color:#9ca3af;margin-bottom:1.5rem;">Print your completed Form 843 and mail it to the appropriate IRS address before the deadline.</p>
-        <div class="rounded-lg p-4 mb-6" style="background:rgba(220,38,38,0.1);border-left:4px solid #dc2626;">
-         <p style="font-size:0.85rem;color:#fca5a5;font-weight:600;margin-bottom:0.5rem;">⏰ DEADLINE</p>
-         <p style="font-size:1.15rem;color:#f1f1f4;font-weight:700;">Mail by <span id="deadline-date">July 10, 2026</span></p>
+        <p style="color: #9ca3af; margin-bottom: 1.5rem;">Print your completed Form 843 and mail it to the appropriate IRS address before the deadline.</p>
+        <div class="rounded-lg p-4 mb-6" style="background: rgba(220,38,38,0.1); border-left: 4px solid #dc2626;">
+         <p style="font-size: 0.85rem; color: #fca5a5; font-weight: 600; margin-bottom: 0.5rem;">⏰ DEADLINE</p>
+         <p style="font-size: 1.15rem; color: #f1f1f4; font-weight: 700;">Mail by July 10, 2026</p>
         </div>
-        <div class="rounded-lg p-4 mb-6" style="background:#1e2130;border:1px solid #2a2d3e;">
-         <p style="font-size:0.85rem;color:#9ca3af;font-weight:600;margin-bottom:0.75rem;">📮 Mailing Address (varies by state)</p>
-         <div style="background:#0f1117;padding:12px;border-radius:4px;font-family:monospace;font-size:0.85rem;color:#f1f1f4;margin-bottom:0.75rem;line-height:1.6;">
+        <div class="rounded-lg p-4 mb-6" style="background: #1e2130; border: 1px solid #2a2d3e;">
+         <p style="font-size: 0.85rem; color: #9ca3af; font-weight: 600; margin-bottom: 0.75rem;">📮 Mailing Address</p>
+         <div style="background: #0f1117; padding: 12px; border-radius: 4px; font-family: monospace; font-size: 0.85rem; color: #f1f1f4; margin-bottom: 0.75rem; line-height: 1.6;">
           <div>
            IRS Ogden Service Center
           </div>
@@ -234,315 +234,416 @@
            Ogden, UT 84404
           </div>
          </div>
-         <p style="font-size:0.75rem;color:#6b7280;">Address varies by state—auto-calculated in your generated form.</p>
+         <p style="font-size: 0.75rem; color: #6b7280;">Address varies by state—auto-calculated in your generated form.</p>
         </div>
-        <div class="rounded-lg p-4 mb-6" style="background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);">
-         <p style="font-weight:600;color:#86efac;margin-bottom:0.75rem;">✓ Mailing Tips</p>
-         <ul class="space-y-1" style="font-size:0.9rem;color:#9ca3af;list-style:none;padding:0;margin:0;">
-          <li class="flex gap-2"><i data-lucide="check" style="width:16px;height:16px;color:#22c55e;flex-shrink:0;"></i>Use <strong style="color:#f1f1f4;">certified mail</strong> with return receipt</li>
-          <li class="flex gap-2"><i data-lucide="check" style="width:16px;height:16px;color:#22c55e;flex-shrink:0;"></i>Include your <strong style="color:#f1f1f4;">name, SSN &amp; tax period</strong> on the form</li>
-          <li class="flex gap-2"><i data-lucide="check" style="width:16px;height:16px;color:#22c55e;flex-shrink:0;"></i><strong style="color:#f1f1f4;">Keep copies</strong> for your records</li>
-          <li class="flex gap-2"><i data-lucide="check" style="width:16px;height:16px;color:#22c55e;flex-shrink:0;"></i>Expect <strong style="color:#f1f1f4;">3–6 months</strong> for IRS response</li>
+        <div class="rounded-lg p-4 mb-6" style="background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3);">
+         <p style="font-weight: 600; color: #86efac; margin-bottom: 0.75rem;">✓ Mailing Tips</p>
+         <ul class="space-y-1" style="font-size: 0.9rem; color: #9ca3af; list-style: none; padding: 0; margin: 0;">
+          <li class="flex gap-2">
+           <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #22c55e; flex-shrink: 0;">
+            <polyline points="20 6 9 17 4 12"></polyline>
+           </svg> Use <strong style="color: #f1f1f4;">certified mail</strong> with return receipt</li>
+          <li class="flex gap-2">
+           <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #22c55e; flex-shrink: 0;">
+            <polyline points="20 6 9 17 4 12"></polyline>
+           </svg> Include your <strong style="color: #f1f1f4;">name, SSN &amp; tax period</strong> on the form</li>
+          <li class="flex gap-2">
+           <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #22c55e; flex-shrink: 0;">
+            <polyline points="20 6 9 17 4 12"></polyline>
+           </svg><strong style="color: #f1f1f4;">Keep copies</strong> for your records</li>
+          <li class="flex gap-2">
+           <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #22c55e; flex-shrink: 0;">
+            <polyline points="20 6 9 17 4 12"></polyline>
+           </svg> Expect <strong style="color: #f1f1f4;">3–6 months</strong> for IRS response</li>
          </ul>
         </div>
-        <div class="flex gap-3">
-         <a href="https://www.irs.gov/pub/irs-pdf/f843.pdf" target="_blank" rel="noopener noreferrer" class="btn-primary text-white" style="background:#dc2626;"><i data-lucide="download" style="width:16px;height:16px;"></i> Download Official Form 843 </a> <button class="btn-primary text-white" style="background:#dc2626;" onclick="goToSetupFlow()"> Start Now <i data-lucide="arrow-right" style="width:16px;height:16px;"></i> </button>
+        <div class="flex gap-3"><a href="https://www.irs.gov/pub/irs-pdf/f843.pdf" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-white transition hover:scale-105" style="background: #dc2626;">
+          <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg> Download Form 843 </a> <button onclick="goToSetupFlow()" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-white transition hover:scale-105" style="background: #dc2626;"> Start Now 
+          <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+           <line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline>
+          </svg></button>
         </div>
        </div>
-      </div><!-- Step 5: Pro Help -->
+      </div><!-- Step 5 -->
       <div class="anim-step relative pl-16">
-       <div class="absolute left-0 top-0 w-14 h-14 rounded-full flex items-center justify-center font-bold text-lg" style="background:#dc2626;color:#fff;box-shadow:0 0 20px rgba(220,38,38,0.3);">
+       <div class="absolute left-0 top-0 w-14 h-14 rounded-full flex items-center justify-center font-bold text-lg text-white" style="background: #dc2626; box-shadow: 0 0 20px rgba(220,38,38,0.3);">
         5
        </div>
-       <div class="rounded-xl p-6" style="background:#161824;border:1px solid #2a2d3e;">
+       <div class="rounded-xl p-6" style="background: #161824; border: 1px solid #2a2d3e;">
         <div class="flex items-center gap-3 mb-4">
-         <i data-lucide="users" style="width:22px;height:22px;color:#60a5fa;"></i>
-         <h2 style="font-family:'Raleway',sans-serif;font-size:1.35rem;font-weight:700;color:#f1f1f4;margin:0;">Optional Professional Support</h2>
+         <svg width="22" height="22" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #60a5fa;">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+         </svg>
+         <h2 style="font-family: 'Raleway', sans-serif; font-size: 1.35rem; font-weight: 700; color: #f1f1f4; margin: 0;">Optional Professional Support</h2>
         </div>
-        <p style="color:#9ca3af;margin-bottom:1.5rem;">Need guidance or want us to handle your claim? Our tax professional is here to help.</p>
-        <div class="rounded-lg p-4 mb-6" style="background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);">
-         <p style="font-size:0.85rem;font-weight:600;color:#86efac;margin-bottom:0.75rem;">Direct Support</p>
-         <p id="pro-contact-name" style="font-size:1.1rem;font-weight:700;color:#f1f1f4;margin-bottom:0.25rem;">Jane Doe, EA</p>
-         <p id="pro-contact-info" style="font-family:monospace;font-size:0.95rem;font-weight:600;color:#f1f1f4;margin-bottom:0.75rem;">(555) 123-4567</p>
-         <p style="font-size:0.75rem;color:#9ca3af;">Available M–F, 9am–5pm ET</p>
+        <p style="color: #9ca3af; margin-bottom: 1.5rem;">Need guidance or want us to handle your claim? Our tax professional is here to help.</p>
+        <div class="rounded-lg p-4 mb-6" style="background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3);">
+         <p style="font-size: 0.85rem; font-weight: 600; color: #86efac; margin-bottom: 0.75rem;">Direct Support</p>
+         <p id="pro-name" style="font-size: 1.1rem; font-weight: 700; color: #f1f1f4; margin-bottom: 0.25rem;">Jane Doe, EA</p>
+         <p id="pro-contact" style="font-family: monospace; font-size: 0.95rem; font-weight: 600; color: #f1f1f4; margin-bottom: 0.75rem;">(555) 123-4567</p>
+         <p style="font-size: 0.75rem; color: #9ca3af;">Available M–F, 9am–5pm ET</p>
         </div>
-        <div class="rounded-lg p-4 mb-6" style="background:#1e2130;border:1px solid #2a2d3e;">
-         <p style="font-weight:600;color:#f1f1f4;margin-bottom:0.75rem;">When to reach out:</p>
-         <ul class="space-y-1" style="font-size:0.9rem;color:#9ca3af;list-style:none;padding:0;margin:0;">
-          <li class="flex gap-2"><i data-lucide="arrow-right" style="width:14px;height:14px;color:#60a5fa;flex-shrink:0;margin-top:3px;"></i>Questions about your specific case</li>
-          <li class="flex gap-2"><i data-lucide="arrow-right" style="width:14px;height:14px;color:#60a5fa;flex-shrink:0;margin-top:3px;"></i>Help completing or reviewing Form 843</li>
-          <li class="flex gap-2"><i data-lucide="arrow-right" style="width:14px;height:14px;color:#60a5fa;flex-shrink:0;margin-top:3px;"></i>IRS correspondence or follow-up</li>
-          <li class="flex gap-2"><i data-lucide="arrow-right" style="width:14px;height:14px;color:#60a5fa;flex-shrink:0;margin-top:3px;"></i>Want us to handle the entire claim</li>
+        <div class="rounded-lg p-4 mb-6" style="background: #1e2130; border: 1px solid #2a2d3e;">
+         <p style="font-weight: 600; color: #f1f1f4; margin-bottom: 0.75rem;">When to reach out:</p>
+         <ul class="space-y-1" style="font-size: 0.9rem; color: #9ca3af; list-style: none; padding: 0; margin: 0;">
+          <li class="flex gap-2">
+           <svg width="14" height="14" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #60a5fa; flex-shrink: 0; margin-top: 3px;">
+            <line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline>
+           </svg> Questions about your specific case</li>
+          <li class="flex gap-2">
+           <svg width="14" height="14" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #60a5fa; flex-shrink: 0; margin-top: 3px;">
+            <line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline>
+           </svg> Help completing or reviewing Form 843</li>
+          <li class="flex gap-2">
+           <svg width="14" height="14" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #60a5fa; flex-shrink: 0; margin-top: 3px;">
+            <line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline>
+           </svg> IRS correspondence or follow-up</li>
+          <li class="flex gap-2">
+           <svg width="14" height="14" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #60a5fa; flex-shrink: 0; margin-top: 3px;">
+            <line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline>
+           </svg> Want us to handle the entire claim</li>
          </ul>
-        </div><button class="btn-primary text-white" style="background:#dc2626;width:100%;justify-content:center;" onclick="contactPro()"> <i data-lucide="mail" style="width:18px;height:18px;"></i> Get in Touch </button>
+        </div><button onclick="contactPro()" class="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-semibold text-white transition hover:scale-105" style="background: #dc2626;">
+         <svg width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M6 8h12"></path><path d="M6 14h12"></path>
+         </svg> Get in Touch </button>
        </div>
       </div>
      </div>
     </main><!-- Footer -->
-    <footer class="w-full px-6 py-8 text-center" style="border-top:1px solid rgba(148,163,184,0.1);">
+    <footer class="w-full px-6 py-8 text-center" style="border-top: 1px solid rgba(148,163,184,0.1);">
      <div class="max-w-3xl mx-auto">
-      <div class="flex flex-wrap justify-center gap-3 mb-6">
-       <button id="footer-cta-primary" class="btn-primary text-white" style="background:#dc2626;" onclick="goToSetupFlow()"> <i data-lucide="file-text" style="width:18px;height:18px;"></i> <span>Generate Form 843</span> </button> <button id="footer-cta-secondary" class="btn-secondary" onclick="contactPro()"> <i data-lucide="phone" style="width:18px;height:18px;"></i> <span>Contact Tax Pro</span> </button>
+      <div class="flex flex-wrap justify-center gap-3 mb-6"><button onclick="goToSetupFlow()" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-white transition hover:scale-105" style="background: #dc2626;">
+        <svg width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="11" x2="12" y2="17"></line><line x1="9" y1="14" x2="15" y2="14"></line>
+        </svg><span>Generate Form 843</span> </button> <button onclick="contactPro()" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition" style="background: rgba(255,255,255,0.06); color: #f1f1f4; border: 1px solid #2a2d3e;">
+        <svg width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+         <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+        </svg><span>Contact Tax Pro</span> </button>
       </div>
-      <p id="footer-text" style="color:#6b7280;font-size:0.8rem;line-height:1.5;">No guarantees. Limited-time opportunity. Deadline: July 10, 2026.</p>
-      <p style="color:#4b5563;font-size:0.75rem;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid rgba(148,163,184,0.1);">© <span id="footer-company-name">Your Company</span>. All rights reserved.</p>
+      <p id="footer-text" style="color: #6b7280; font-size: 0.8rem; line-height: 1.5;">No guarantees. Limited-time opportunity. Deadline: July 10, 2026.</p>
+      <p style="color: #4b5563; font-size: 0.75rem; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(148,163,184,0.1);">© <span id="footer-company">Your Company</span>. All rights reserved.</p>
      </div>
     </footer>
-   </div><!-- START NOW FLOW VIEW -->
-   <div id="view-setup" class="view-hidden w-full h-full overflow-auto flex flex-col" style="background:linear-gradient(135deg,#0f1117,#161824);">
-    <!-- Top Banner with Logo -->
-    <header class="w-full px-6 pt-8 pb-6 text-center border-b" style="border-color:rgba(148,163,184,0.1);">
-     <div id="setup-logo-placeholder" class="inline-flex items-center justify-center px-6 py-3 rounded-lg mb-6" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);min-width:180px;">
-      <span id="setup-company-logo-text" style="font-family:'Raleway',sans-serif;font-size:1.1rem;font-weight:700;color:#f1f1f4;">Your Company Logo</span>
-     </div><button onclick="goToWizard()" class="flex items-center gap-2 text-sm transition hover:opacity-80 mb-6" style="color:#6b7280;margin-left:0;">
-      <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-       <line x1="19" y1="12" x2="5" y2="12"></line> <polyline points="12 19 5 12 12 5"></polyline>
+   </div><!-- SETUP FLOW VIEW -->
+   <div id="view-setup" class="view-hidden w-full h-full overflow-auto flex flex-col" style="background: linear-gradient(135deg, #0f1117, #161824);">
+    <header class="w-full px-6 pt-8 pb-6 text-center" style="border-bottom: 1px solid rgba(148,163,184,0.1);">
+     <div class="inline-flex items-center justify-center px-6 py-3 rounded-lg mb-6" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);"><span id="setup-company-logo" style="font-family: 'Raleway', sans-serif; font-size: 1.1rem; font-weight: 700; color: #f1f1f4;">Your Company</span>
+     </div><button onclick="goToWizard()" class="flex items-center gap-2 text-sm transition hover:opacity-80 mb-6" style="color: #6b7280; margin: 0 auto;">
+      <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+       <line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline>
       </svg> Back </button>
-     <div class="text-center">
-      <h1 class="text-3xl font-bold text-white" style="font-family:'Raleway',sans-serif;">How to Claim Your Kwong Relief</h1>
-      <p class="text-gray-400 text-sm mt-1">Complete Form 843 in 5 steps</p>
-     </div>
+     <h1 style="font-family: 'Raleway', sans-serif; font-size: 1.875rem; font-weight: 700; color: #f1f1f4;">How to Claim Your Kwong Relief</h1>
+     <p style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.25rem;">Complete Form 843 in 5 steps</p>
     </header>
-    <div id="wizard-container" class="flex-1 flex flex-col">
-     <!-- Centered Content Wrapper -->
-     <div class="w-full flex items-center justify-center py-12 px-6">
-      <div class="w-full max-w-2xl">
-       <!-- Progress Bar -->
-       <div class="mb-8">
-        <div class="progress-bar rounded-full overflow-hidden">
-         <div class="progress-fill glow-pulse" id="progress-fill" style="width:20%;"></div>
+    <div class="flex-1 flex flex-col w-full items-center justify-center py-12 px-6">
+     <div class="w-full max-w-2xl"><!-- Progress Bar -->
+      <div class="mb-8">
+       <div class="progress-bar rounded-full overflow-hidden">
+        <div class="progress-fill" id="progress-fill" style="width: 20%;"></div>
+       </div>
+       <p style="font-size: 0.75rem; color: #6b7280; margin-top: 0.75rem;">Step <span id="current-step">1</span> of 5</p>
+      </div><!-- Steps -->
+      <div id="steps-setup"><!-- STEP 1: Get Transcript -->
+       <div class="step-view" data-step="1">
+        <div style="border: 1px solid #2a2d3e; background: #161824; border-radius: 14px; overflow: hidden;">
+         <div style="background: linear-gradient(135deg, #1a1d2a 0%, #161824 100%); border-bottom: 1px solid #2a2d3e; padding: 24px; display: flex; align-items: flex-start; justify-content: space-between;">
+          <div><span style="display: inline-block; background: #dc2626; color: #fff; padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px;">Step 1 of 5</span>
+           <h2 style="font-family: 'Raleway', sans-serif; font-size: 1.5rem; font-weight: 700; color: #f1f1f4; margin-top: 1rem; margin-bottom: 0;">Pull Your IRS Transcript</h2>
+          </div>
+          <svg width="36" height="36" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #dc2626; flex-shrink: 0;">
+           <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline>
+          </svg>
+         </div>
+         <div style="padding: 28px;">
+          <p style="color: #9ca3af; margin-bottom: 1.5rem;">You need your official IRS transcript to verify penalties and interest. This shows all penalties assessed to you.</p>
+          <div class="rounded-lg p-4 mb-6" style="background: rgba(59, 130, 246, 0.1); border-left: 3px solid #3b82f6;">
+           <p style="font-weight: 600; color: #60a5fa; margin-bottom: 0.75rem;">Two ways to get your transcript:</p>
+           <ol style="font-size: 0.875rem; color: #60a5fa; margin: 0; padding-left: 1.25rem; line-height: 1.6;">
+            <li><strong>Online:</strong> Visit <a href="https://www.irs.gov/transcripts" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">irs.gov/transcripts</a> (fastest, instant access)</li>
+            <li><strong>By Phone:</strong> Call <span style="font-family: monospace; font-weight: 600;">1-800-908-9946</span> and request a transcript (5-10 business days)</li>
+           </ol>
+          </div>
+          <p style="font-size: 0.875rem; color: #9ca3af; margin-bottom: 1.5rem;"><strong>Expected time:</strong> 5 minutes online, or call during business hours (M-F, 7am-7pm ET)</p>
+          <div class="rounded-lg p-4 mb-6" style="background: rgba(34, 197, 94, 0.1); border-left: 3px solid #22c55e;">
+           <p style="font-size: 0.875rem; color: #86efac;"><strong>✓ What to look for:</strong> Account transcript showing tax periods and penalties assessed</p>
+          </div>
+          <div class="flex gap-3 flex-wrap"><a href="https://www.irs.gov/transcripts" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-white transition hover:scale-105" style="background: #dc2626;">
+            <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+             <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg> Get Transcript Online </a> <button onclick="goToStep(2)" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition" style="background: rgba(255,255,255,0.06); color: #f1f1f4; border: 1px solid #2a2d3e;"> Already have it 
+            <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+             <line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline>
+            </svg></button>
+          </div>
+         </div>
         </div>
-        <p class="text-xs text-gray-500 mt-3">Step <span id="current-step">1</span> of 5</p>
-       </div><!-- Steps Container -->
-       <div id="steps-container"><!-- STEP 1: Pull Transcript -->
-        <div class="step-view" data-step="1">
-         <div class="step-card">
-          <div class="step-header flex items-start justify-between">
-           <div><span class="step-badge">Step 1 of 5</span>
-            <h2 class="text-2xl font-bold text-white mt-4" style="font-family:'Raleway',sans-serif;">Pull Your IRS Transcript</h2>
-           </div><i data-lucide="file-text" style="width:36px;height:36px;color:#dc2626;flex-shrink:0;"></i>
+       </div><!-- STEP 2: Verify Eligibility -->
+       <div class="step-view hidden" data-step="2">
+        <div style="border: 1px solid #2a2d3e; background: #161824; border-radius: 14px; overflow: hidden;">
+         <div style="background: linear-gradient(135deg, #1a1d2a 0%, #161824 100%); border-bottom: 1px solid #2a2d3e; padding: 24px; display: flex; align-items: flex-start; justify-content: space-between;">
+          <div><span style="display: inline-block; background: #dc2626; color: #fff; padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px;">Step 2 of 5</span>
+           <h2 style="font-family: 'Raleway', sans-serif; font-size: 1.5rem; font-weight: 700; color: #f1f1f4; margin-top: 1rem; margin-bottom: 0;">Verify Your Penalties Are Eligible</h2>
           </div>
-          <div class="step-body">
-           <p class="text-gray-300 mb-6">You need your official IRS transcript to verify penalties and interest. This shows all penalties assessed to you.</p>
-           <div class="info-box info-box-blue mb-6">
-            <p class="font-semibold text-blue-300 mb-3">Two ways to get your transcript:</p>
-            <ol class="text-sm text-blue-200 space-y-2 list-decimal list-inside">
-             <li><strong>Online:</strong> Visit <a href="https://www.irs.gov/transcripts" target="_blank" rel="noopener noreferrer" class="underline hover:text-blue-100">irs.gov/transcripts</a> (fastest, instant access)</li>
-             <li><strong>By Phone:</strong> Call <span id="irs-phone" class="font-mono font-semibold">1-800-908-9946</span> and request a transcript (5-10 business days)</li>
-            </ol>
+          <svg width="36" height="36" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #22c55e; flex-shrink: 0;">
+           <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 12 15 15 9"></polyline>
+          </svg>
+         </div>
+         <div style="padding: 28px;">
+          <p style="color: #9ca3af; margin-bottom: 1.5rem;">The <em>Kwong</em> decision provides penalty relief for penalties assessed during a specific timeframe. Check if your penalties qualify.</p>
+          <div class="rounded-lg p-4 mb-6" style="background: rgba(245, 158, 11, 0.1); border-left: 3px solid #f59e0b;">
+           <p style="font-weight: 600; color: #fcd34d; margin-bottom: 0.5rem;">📅 Kwong Eligibility Window</p>
+           <p style="font-size: 0.875rem; color: #fef3c7;"><strong>January 20, 2020</strong> through <strong>July 10, 2023</strong></p>
+           <p style="font-size: 0.75rem; color: #fcd34d; margin-top: 0.5rem;">Penalties assessed <em>during</em> this window may qualify for relief.</p>
+          </div>
+          <p style="font-size: 0.875rem; font-weight: 600; color: #f1f1f4; margin-bottom: 1rem;">Check each penalty on your transcript:</p>
+          <div class="space-y-3 mb-6">
+           <div style="display: flex; gap: 12px; padding: 14px; background: #1a1d2a; border-left: 3px solid #22c55e; border-radius: 8px; margin-bottom: 12px;"><span style="color: #22c55e; font-weight: 700; font-size: 1.1rem;">✓</span>
+            <div>
+             <p style="font-weight: 600; color: #f1f1f4;">Failure to File Penalty</p>
+             <p style="font-size: 0.875rem; color: #9ca3af;">Assessed within the Kwong window? <span style="font-family: monospace; font-weight: 600; color: #22c55e;">ELIGIBLE</span></p>
+            </div>
            </div>
-           <p class="text-sm text-gray-400 mb-6"><strong>Expected time:</strong> 5 minutes online, or call during business hours (M-F, 7am-7pm ET)</p>
-           <div class="info-box info-box-green mb-6">
-            <p class="text-sm text-green-300"><strong>✓ What to look for:</strong> Account transcript showing tax periods and penalties assessed</p>
+           <div style="display: flex; gap: 12px; padding: 14px; background: #1a1d2a; border-left: 3px solid #22c55e; border-radius: 8px; margin-bottom: 12px;"><span style="color: #22c55e; font-weight: 700; font-size: 1.1rem;">✓</span>
+            <div>
+             <p style="font-weight: 600; color: #f1f1f4;">Failure to Pay Penalty</p>
+             <p style="font-size: 0.875rem; color: #9ca3af;">Assessed within the Kwong window? <span style="font-family: monospace; font-weight: 600; color: #22c55e;">ELIGIBLE</span></p>
+            </div>
            </div>
-           <div class="flex gap-3 flex-wrap"><a href="https://www.irs.gov/transcripts" target="_blank" rel="noopener noreferrer" class="btn-primary flex items-center gap-2" style="background:#dc2626;color:#fff;"><i data-lucide="external-link" style="width:16px;height:16px;"></i> Get Transcript Online</a> <button class="btn-secondary flex items-center gap-2" onclick="goToStep(2)">Already have it <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></button>
+           <div style="display: flex; gap: 12px; padding: 14px; background: #1a1d2a; border-left: 3px solid #22c55e; border-radius: 8px; margin-bottom: 12px;"><span style="color: #22c55e; font-weight: 700; font-size: 1.1rem;">✓</span>
+            <div>
+             <p style="font-weight: 600; color: #f1f1f4;">Interest on Penalties</p>
+             <p style="font-size: 0.875rem; color: #9ca3af;">Accrued on eligible penalties? <span style="font-family: monospace; font-weight: 600; color: #22c55e;">ELIGIBLE FOR REFUND</span></p>
+            </div>
            </div>
+          </div>
+          <div class="rounded-lg p-4 mb-6" style="background: rgba(220, 38, 38, 0.1); border-left: 3px solid #dc2626;">
+           <p style="font-size: 0.875rem; color: #fca5a5;"><strong>Not eligible:</strong> Penalties assessed <em>before</em> Jan 20, 2020 or <em>after</em> Jul 10, 2023</p>
+          </div>
+          <p style="font-size: 0.75rem; color: #6b7280; margin-bottom: 1.5rem;">If you have questions about which penalties qualify, contact your tax professional before proceeding.</p>
+          <div class="flex gap-3 flex-wrap"><button onclick="goToStep(3)" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-white transition hover:scale-105" style="background: #dc2626;"> My penalties are eligible 
+            <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+             <line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline>
+            </svg></button> <button onclick="goToStep(1)" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition" style="background: rgba(255,255,255,0.06); color: #f1f1f4; border: 1px solid #2a2d3e;">
+            <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+             <line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline>
+            </svg> Go Back </button>
           </div>
          </div>
-        </div><!-- STEP 2: Check Penalties -->
-        <div class="step-view hidden" data-step="2">
-         <div class="step-card">
-          <div class="step-header flex items-start justify-between">
-           <div><span class="step-badge">Step 2 of 5</span>
-            <h2 class="text-2xl font-bold text-white mt-4" style="font-family:'Raleway',sans-serif;">Verify Your Penalties Are Eligible</h2>
-           </div><i data-lucide="shield-check" style="width:36px;height:36px;color:#22c55e;flex-shrink:0;"></i>
+        </div>
+       </div><!-- STEP 3: Generate Form -->
+       <div class="step-view hidden" data-step="3">
+        <div style="border: 1px solid #2a2d3e; background: #161824; border-radius: 14px; overflow: hidden;">
+         <div style="background: linear-gradient(135deg, #1a1d2a 0%, #161824 100%); border-bottom: 1px solid #2a2d3e; padding: 24px; display: flex; align-items: flex-start; justify-content: space-between;">
+          <div><span style="display: inline-block; background: #dc2626; color: #fff; padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px;">Step 3 of 5</span>
+           <h2 style="font-family: 'Raleway', sans-serif; font-size: 1.5rem; font-weight: 700; color: #f1f1f4; margin-top: 1rem; margin-bottom: 0;">Generate Your Form 843</h2>
           </div>
-          <div class="step-body">
-           <p class="text-gray-300 mb-6">The <em>Kwong</em> decision provides penalty relief for penalties assessed during a specific timeframe. Check if your penalties qualify.</p>
-           <div class="info-box info-box-yellow mb-6">
-            <p class="font-semibold text-yellow-300 mb-2">📅 Kwong Eligibility Window</p>
-            <p class="text-sm text-yellow-200"><strong>January 20, 2020</strong> through <strong id="kwong-date">July 10, 2023</strong></p>
-            <p class="text-xs text-yellow-300 mt-2">Penalties assessed <em>during</em> this window may qualify for relief.</p>
-           </div>
-           <p class="text-sm font-semibold text-white mb-4">Check each penalty on your transcript:</p>
-           <div class="space-y-3 mb-6">
-            <div class="eligibility-item"><span class="eligibility-check">✓</span>
-             <div>
-              <p class="font-semibold text-white">Failure to File Penalty</p>
-              <p class="text-sm text-gray-400">Assessed within the Kwong window? <span class="font-mono font-semibold text-success">ELIGIBLE</span></p>
-             </div>
-            </div>
-            <div class="eligibility-item"><span class="eligibility-check">✓</span>
-             <div>
-              <p class="font-semibold text-white">Failure to Pay Penalty</p>
-              <p class="text-sm text-gray-400">Assessed within the Kwong window? <span class="font-mono font-semibold text-success">ELIGIBLE</span></p>
-             </div>
-            </div>
-            <div class="eligibility-item"><span class="eligibility-check">✓</span>
-             <div>
-              <p class="font-semibold text-white">Interest on Penalties</p>
-              <p class="text-sm text-gray-400">Accrued on eligible penalties? <span class="font-mono font-semibold text-success">ELIGIBLE FOR REFUND</span></p>
-             </div>
-            </div>
-           </div>
-           <div class="info-box info-box-red mb-6">
-            <p class="text-sm text-red-300"><strong>Not eligible:</strong> Penalties assessed <em>before</em> Jan 20, 2020 or <em>after</em> Jul 10, 2023</p>
-           </div>
-           <p class="text-xs text-gray-500 mb-6">If you have questions about which penalties qualify, contact your tax professional before proceeding.</p>
-           <div class="flex gap-3 flex-wrap"><button class="btn-primary flex items-center gap-2" style="background:#dc2626;color:#fff;" onclick="goToStep(3)">My penalties are eligible <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></button> <button class="btn-secondary flex items-center gap-2" onclick="goToStep(1)"><i data-lucide="arrow-left" style="width:16px;height:16px;"></i> Go Back</button>
-           </div>
-          </div>
+          <svg width="36" height="36" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #dc2626; flex-shrink: 0;">
+           <polyline points="21 8 21 21 3 21 3 8"></polyline><line x1="1" y1="3" x2="23" y2="3"></line><path d="M10 12v4"></path><path d="M14 12v4"></path>
+          </svg>
          </div>
-        </div><!-- STEP 3: Generate Form 843 -->
-        <div class="step-view hidden" data-step="3">
-         <div class="step-card">
-          <div class="step-header flex items-start justify-between">
-           <div><span class="step-badge">Step 3 of 5</span>
-            <h2 class="text-2xl font-bold text-white mt-4" style="font-family:'Raleway',sans-serif;">Generate Your Form 843</h2>
-           </div><i data-lucide="file-check" style="width:36px;height:36px;color:#dc2626;flex-shrink:0;"></i>
+         <div style="padding: 28px;">
+          <p style="color: #9ca3af; margin-bottom: 1.5rem;">Enter your details below to auto-generate your Form 843 with pre-filled Kwong reasoning.</p>
+          <div class="rounded-lg p-4 mb-6" style="background: rgba(34, 197, 94, 0.1); border-left: 3px solid #22c55e;">
+           <p style="font-size: 0.875rem; color: #86efac;"><strong>✓ Pre-filled:</strong> Your claim will include IRS-compliant language referencing penalty relief under the Kwong decision.</p>
           </div>
-          <div class="step-body">
-           <p class="text-gray-300 mb-6">Enter your details below to auto-generate your Form 843 with pre-filled Kwong reasoning.</p>
-           <div class="info-box info-box-green mb-6">
-            <p class="text-sm text-green-300"><strong>✓ Pre-filled:</strong> Your claim will include IRS-compliant language referencing penalty relief under the Kwong decision.</p>
+          <div class="space-y-4 mb-6">
+           <div><label style="display: block; font-size: 0.875rem; font-weight: 600; color: #f1f1f4; margin-bottom: 0.5rem;">Taxpayer Name</label> <input type="text" id="step-name" placeholder="John A. Smith" style="width: 100%; padding: 10px; background: #1e2130; border: 1px solid #2a2d3e; border-radius: 6px; color: #f1f1f4; font-size: 0.875rem;">
            </div>
-           <div class="space-y-4 mb-6">
-            <div><label class="block text-sm font-semibold text-white mb-2">Taxpayer Name</label> <input type="text" id="input-name" placeholder="John A. Smith" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500">
+           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div><label style="display: block; font-size: 0.875rem; font-weight: 600; color: #f1f1f4; margin-bottom: 0.5rem;">Tax Period</label> <input type="text" id="step-period" placeholder="2020" style="width: 100%; padding: 10px; background: #1e2130; border: 1px solid #2a2d3e; border-radius: 6px; color: #f1f1f4; font-size: 0.875rem;">
             </div>
-            <div class="grid grid-cols-2 gap-4">
-             <div><label class="block text-sm font-semibold text-white mb-2">Tax Period</label> <input type="text" id="input-period" placeholder="2020" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500">
-             </div>
-             <div><label class="block text-sm font-semibold text-white mb-2">State</label> <input type="text" id="input-state" placeholder="CA" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500">
-             </div>
+            <div><label style="display: block; font-size: 0.875rem; font-weight: 600; color: #f1f1f4; margin-bottom: 0.5rem;">State</label> <input type="text" id="step-state" placeholder="CA" style="width: 100%; padding: 10px; background: #1e2130; border: 1px solid #2a2d3e; border-radius: 6px; color: #f1f1f4; font-size: 0.875rem;">
             </div>
-            <div><label class="block text-sm font-semibold text-white mb-2">Penalty Type</label>
-             <div class="relative">
-              <div id="penalty-type-container" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus-within:outline-none focus-within:border-red-500 focus-within:ring-1 focus-within:ring-red-500 flex flex-wrap gap-2 items-center min-h-10">
-               <input type="text" id="penalty-type-input" placeholder="Select penalty types..." class="bg-transparent outline-none flex-1 text-sm text-white placeholder-gray-500 min-w-32" readonly style="cursor: pointer;">
+           </div>
+           <div><label style="display: block; font-size: 0.875rem; font-weight: 600; color: #f1f1f4; margin-bottom: 0.5rem;">Penalty Type</label>
+            <div id="step-penalty-container" style="position: relative;">
+             <div id="step-penalty-input" style="width: 100%; min-height: 40px; padding: 8px; background: #1e2130; border: 1px solid #2a2d3e; border-radius: 6px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; cursor: text;">
+              <input type="text" id="step-penalty-search" placeholder="Select penalty type..." style="flex: 1; min-width: 150px; background: transparent; border: none; color: #f1f1f4; font-size: 0.875rem; outline: none;">
+             </div>
+             <div id="step-penalty-tags" style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 0;"></div>
+             <div id="step-penalty-dropdown" style="position: absolute; top: 100%; left: 0; right: 0; margin-top: 4px; background: #1e2130; border: 1px solid #2a2d3e; border-radius: 6px; display: none; z-index: 10; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
+              <div class="step-penalty-option" data-value="Failure to File Penalty" style="padding: 10px; cursor: pointer; color: #9ca3af; border-bottom: 1px solid #2a2d3e; font-size: 0.875rem;">
+               Failure to File Penalty
               </div>
-              <div id="penalty-type-dropdown" class="hidden absolute top-full left-0 right-0 mt-1 bg-gray-900 border border-gray-700 rounded-lg shadow-lg z-10">
-               <div class="p-2">
-                <div class="penalty-option p-2 hover:bg-gray-800 rounded cursor-pointer text-sm text-white" data-value="Failure to File Penalty">
-                 Failure to File Penalty
-                </div>
-                <div class="penalty-option p-2 hover:bg-gray-800 rounded cursor-pointer text-sm text-white" data-value="Failure to Pay Penalty">
-                 Failure to Pay Penalty
-                </div>
-                <div class="penalty-option p-2 hover:bg-gray-800 rounded cursor-pointer text-sm text-white" data-value="Interest on Penalties">
-                 Interest on Penalties
-                </div>
-               </div>
+              <div class="step-penalty-option" data-value="Failure to Pay Penalty" style="padding: 10px; cursor: pointer; color: #9ca3af; border-bottom: 1px solid #2a2d3e; font-size: 0.875rem;">
+               Failure to Pay Penalty
               </div>
-             </div><input type="hidden" id="input-penalty-type">
+              <div class="step-penalty-option" data-value="Interest on Penalties" style="padding: 10px; cursor: pointer; color: #9ca3af; font-size: 0.875rem;">
+               Interest on Penalties
+              </div>
+             </div>
+            </div><input type="hidden" id="step-penalty" value="">
+           </div>
+           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div><label style="display: block; font-size: 0.875rem; font-weight: 600; color: #f1f1f4; margin-bottom: 0.5rem;">Penalty Amount</label> <input type="text" id="step-penalty-amt" placeholder="3,200.00" style="width: 100%; padding: 10px; background: #1e2130; border: 1px solid #2a2d3e; border-radius: 6px; color: #f1f1f4; font-size: 0.875rem;">
             </div>
-            <div class="grid grid-cols-2 gap-4">
-             <div><label class="block text-sm font-semibold text-white mb-2">Penalty Amount</label> <input type="text" id="input-penalty-amt" placeholder="3,200.00" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500">
-             </div>
-             <div><label class="block text-sm font-semibold text-white mb-2">Interest Amount</label> <input type="text" id="input-interest-amt" placeholder="487.50" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500">
-             </div>
+            <div><label style="display: block; font-size: 0.875rem; font-weight: 600; color: #f1f1f4; margin-bottom: 0.5rem;">Interest Amount</label> <input type="text" id="step-interest-amt" placeholder="487.50" style="width: 100%; padding: 10px; background: #1e2130; border: 1px solid #2a2d3e; border-radius: 6px; color: #f1f1f4; font-size: 0.875rem;">
             </div>
            </div>
-           <div class="flex gap-3 flex-wrap"><button class="btn-primary flex items-center gap-2" style="background:#dc2626;color:#fff;" onclick="generateForm843()">Generate Form <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></button> <button class="btn-secondary flex items-center gap-2" onclick="goToStep(2)"><i data-lucide="arrow-left" style="width:16px;height:16px;"></i> Go Back</button>
-           </div>
+          </div>
+          <div class="flex gap-3 flex-wrap"><button onclick="generateForm()" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-white transition hover:scale-105" style="background: #dc2626;"> Generate Form 
+            <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+             <line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline>
+            </svg></button> <button onclick="goToStep(2)" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition" style="background: rgba(255,255,255,0.06); color: #f1f1f4; border: 1px solid #2a2d3e;">
+            <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+             <line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline>
+            </svg> Go Back </button>
           </div>
          </div>
-        </div><!-- STEP 4: Print & Mail -->
-        <div class="step-view hidden" data-step="4">
-         <div class="step-card">
-          <div class="step-header flex items-start justify-between">
-           <div><span class="step-badge">Step 4 of 5</span>
-            <h2 class="text-2xl font-bold text-white mt-4" style="font-family:'Raleway',sans-serif;">Print &amp; Mail to the IRS</h2>
-           </div><i data-lucide="mail" style="width:36px;height:36px;color:#dc2626;flex-shrink:0;"></i>
+        </div>
+       </div><!-- STEP 4: Print & Mail -->
+       <div class="step-view hidden" data-step="4">
+        <div style="border: 1px solid #2a2d3e; background: #161824; border-radius: 14px; overflow: hidden;">
+         <div style="background: linear-gradient(135deg, #1a1d2a 0%, #161824 100%); border-bottom: 1px solid #2a2d3e; padding: 24px; display: flex; align-items: flex-start; justify-content: space-between;">
+          <div><span style="display: inline-block; background: #dc2626; color: #fff; padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px;">Step 4 of 5</span>
+           <h2 style="font-family: 'Raleway', sans-serif; font-size: 1.5rem; font-weight: 700; color: #f1f1f4; margin-top: 1rem; margin-bottom: 0;">Print &amp; Mail to the IRS</h2>
           </div>
-          <div class="step-body">
-           <p class="text-gray-300 mb-6">Print the official IRS Form 843 and mail it to your state's processing center before the deadline.</p>
-           <div class="info-box info-box-red mb-6">
-            <p class="font-semibold text-red-300 mb-2">⏰ Important Deadline</p>
-            <p class="text-sm text-red-200">Submit by <strong id="deadline-date">July 10, 2026</strong> to qualify for Kwong relief</p>
-           </div>
-           <div class="mb-6">
-            <p class="text-sm font-semibold text-white mb-4">Mailing address for your state:</p>
-            <div class="bg-gray-900 border border-gray-700 rounded-lg p-4 mono text-sm text-gray-300 mb-4">
-             <p id="mailing-addr">IRS Ogden Service Center<br>
-               1973 N. Utah Street<br>
-               Ogden, UT 84404</p>
-            </div>
-           </div>
-           <div class="info-box info-box-green mb-6">
-            <p class="font-semibold text-green-300 mb-2">✓ Mailing tips:</p>
-            <ul class="text-sm text-green-300 space-y-1 list-disc list-inside">
-             <li>Use certified mail with return receipt</li>
-             <li>Include your name, SSN, and tax period on the form</li>
-             <li>Keep copies for your records</li>
-             <li>Wait 3–6 months for IRS response</li>
-            </ul>
-           </div>
-           <div class="flex gap-3 flex-wrap mb-6"><a href="https://www.irs.gov/pub/irs-pdf/f843.pdf" target="_blank" rel="noopener noreferrer" class="btn-primary flex items-center gap-2" style="background:#dc2626;color:#fff;"><i data-lucide="download" style="width:16px;height:16px;"></i> Download Official Form 843</a> <button class="btn-secondary flex items-center gap-2" onclick="goToStep(5)">Form submitted <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></button>
-           </div><button class="btn-secondary flex items-center gap-2 w-full justify-center" onclick="goToStep(3)"><i data-lucide="arrow-left" style="width:16px;height:16px;"></i> Go Back</button>
-          </div>
+          <svg width="36" height="36" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #dc2626; flex-shrink: 0;">
+           <rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M6 8h12"></path><path d="M6 14h12"></path>
+          </svg>
          </div>
-        </div><!-- STEP 5: Pro Help (Optional) -->
-        <div class="step-view hidden" data-step="5">
-         <div class="step-card">
-          <div class="step-header flex items-start justify-between">
-           <div><span class="step-badge">Step 5 of 5</span>
-            <h2 class="text-2xl font-bold text-white mt-4" style="font-family:'Raleway',sans-serif;">Need Professional Help?</h2>
-           </div><i data-lucide="users" style="width:36px;height:36px;color:#22c55e;flex-shrink:0;"></i>
+         <div style="padding: 28px;">
+          <p style="color: #9ca3af; margin-bottom: 1.5rem;">Print the official IRS Form 843 and mail it to your state's processing center before the deadline.</p>
+          <div class="rounded-lg p-4 mb-6" style="background: rgba(220, 38, 38, 0.1); border-left: 3px solid #dc2626;">
+           <p style="font-weight: 600; color: #fca5a5; margin-bottom: 0.5rem;">⏰ Important Deadline</p>
+           <p style="font-size: 0.875rem; color: #fca5a5;">Submit by <strong>July 10, 2026</strong> to qualify for Kwong relief</p>
           </div>
-          <div class="step-body">
-           <p class="text-gray-300 mb-6">Our tax professional is here to guide you through the process or handle your claim.</p>
-           <div class="contact-box mb-6">
-            <p class="font-semibold text-green-400 mb-3">Direct Support</p>
-            <p id="pro-contact-name" class="text-lg font-bold text-white">Jane Doe, EA</p>
-            <p id="pro-contact-info" class="text-sm text-gray-300 mono font-semibold">(555) 123-4567</p>
-            <p class="text-xs text-green-400 mt-3">Available M–F, 9am–5pm ET</p>
+          <div class="mb-6">
+           <p style="font-size: 0.875rem; font-weight: 600; color: #f1f1f4; margin-bottom: 1rem;">Mailing address for your state:</p>
+           <div style="background: #0f1117; border: 1px solid #2a2d3e; border-radius: 6px; padding: 16px; font-family: monospace; font-size: 0.875rem; color: #9ca3af; margin-bottom: 1rem; line-height: 1.6;">
+            <p>IRS Ogden Service Center</p>
+            <p>1973 N. Utah Street</p>
+            <p>Ogden, UT 84404</p>
            </div>
-           <div class="space-y-4 mb-6">
-            <div class="bg-gray-900 border border-gray-700 p-4 rounded-lg">
-             <p class="font-semibold text-white mb-2">When to reach out:</p>
-             <ul class="text-sm text-gray-300 space-y-1 list-disc list-inside">
-              <li>Questions about your specific case</li>
-              <li>Help completing or reviewing Form 843</li>
-              <li>IRS correspondence or follow-up questions</li>
-              <li>Want us to handle the entire claim</li>
-             </ul>
-            </div>
-           </div>
-           <div class="info-box info-box-blue mb-6">
-            <p class="text-sm text-blue-300"><strong>Professional fee:</strong> Varies by service. Contact for quote.</p>
-           </div><button class="btn-primary w-full mb-3 flex items-center justify-center gap-2" style="background:#dc2626;color:#fff;" onclick="contactPro()"><i data-lucide="mail" style="width:16px;height:16px;"></i> Get in Touch</button>
-           <p class="text-xs text-gray-500 text-center">You can also reach out anytime with questions — no obligation.</p>
           </div>
+          <div class="rounded-lg p-4 mb-6" style="background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3);">
+           <p style="font-weight: 600; color: #86efac; margin-bottom: 0.75rem;">✓ Mailing tips:</p>
+           <ul style="font-size: 0.875rem; color: #86efac; margin: 0; padding-left: 1.25rem; line-height: 1.6;">
+            <li>Use certified mail with return receipt</li>
+            <li>Include your name, SSN, and tax period on the form</li>
+            <li>Keep copies for your records</li>
+            <li>Wait 3–6 months for IRS response</li>
+           </ul>
+          </div>
+          <div class="flex gap-3 flex-wrap mb-6"><a href="https://www.irs.gov/pub/irs-pdf/f843.pdf" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-white transition hover:scale-105" style="background: #dc2626;">
+            <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg> Download Official Form 843 </a> <button onclick="goToStep(5)" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition" style="background: rgba(255,255,255,0.06); color: #f1f1f4; border: 1px solid #2a2d3e;"> Form submitted 
+            <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+             <line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline>
+            </svg></button>
+          </div><button onclick="goToStep(3)" class="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-semibold transition" style="background: rgba(255,255,255,0.06); color: #f1f1f4; border: 1px solid #2a2d3e;">
+           <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline>
+           </svg> Go Back </button>
+         </div>
+        </div>
+       </div><!-- STEP 5: Pro Help -->
+       <div class="step-view hidden" data-step="5">
+        <div style="border: 1px solid #2a2d3e; background: #161824; border-radius: 14px; overflow: hidden;">
+         <div style="background: linear-gradient(135deg, #1a1d2a 0%, #161824 100%); border-bottom: 1px solid #2a2d3e; padding: 24px; display: flex; align-items: flex-start; justify-content: space-between;">
+          <div><span style="display: inline-block; background: #dc2626; color: #fff; padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px;">Step 5 of 5</span>
+           <h2 style="font-family: 'Raleway', sans-serif; font-size: 1.5rem; font-weight: 700; color: #f1f1f4; margin-top: 1rem; margin-bottom: 0;">Need Professional Help?</h2>
+          </div>
+          <svg width="36" height="36" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #22c55e; flex-shrink: 0;">
+           <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+         </div>
+         <div style="padding: 28px;">
+          <p style="color: #9ca3af; margin-bottom: 1.5rem;">Our tax professional is here to guide you through the process or handle your claim.</p>
+          <div style="background: #1a1d2a; border: 1px solid #22c55e; border-left: 3px solid #22c55e; border-radius: 10px; padding: 20px; margin-bottom: 1.5rem;">
+           <p style="font-weight: 600; color: #86efac; margin-bottom: 0.75rem;">Direct Support</p>
+           <p id="pro-name-display" style="font-size: 1.125rem; font-weight: 700; color: #f1f1f4;">Jane Doe, EA</p>
+           <p id="pro-contact-display" style="font-size: 0.875rem; color: #9ca3af; font-family: monospace; font-weight: 600;">(555) 123-4567</p>
+           <p style="font-size: 0.75rem; color: #86efac; margin-top: 0.75rem;">Available M–F, 9am–5pm ET</p>
+          </div>
+          <div class="rounded-lg p-4 mb-6" style="background: #1e2130; border: 1px solid #2a2d3e;">
+           <p style="font-weight: 600; color: #f1f1f4; margin-bottom: 0.75rem;">When to reach out:</p>
+           <ul style="font-size: 0.875rem; color: #9ca3af; margin: 0; padding-left: 1.25rem; line-height: 1.6;">
+            <li>Questions about your specific case</li>
+            <li>Help completing or reviewing Form 843</li>
+            <li>IRS correspondence or follow-up questions</li>
+            <li>Want us to handle the entire claim</li>
+           </ul>
+          </div>
+          <div class="rounded-lg p-4 mb-6" style="background: rgba(59, 130, 246, 0.1); border-left: 3px solid #3b82f6;">
+           <p style="font-size: 0.875rem; color: #60a5fa;"><strong>Professional fee:</strong> Varies by service. Contact for quote.</p>
+          </div><button onclick="contactPro()" class="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-semibold text-white transition hover:scale-105 mb-3" style="background: #dc2626;">
+           <svg width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M6 8h12"></path><path d="M6 14h12"></path>
+           </svg> Get in Touch </button>
+          <p style="font-size: 0.75rem; color: #6b7280; text-align: center;">You can also reach out anytime with questions — no obligation.</p>
          </div>
         </div>
        </div>
       </div>
      </div>
     </div>
-    <script>
+   </div>
+  </div>
+  <script>
+    // Element SDK Configuration
     const defaultConfig = {
-      company_logo_text: "Your Company Logo",
+      company_name: "Your Company",
       headline: "How to Claim Your Kwong Relief",
       subheadline: "Complete Form 843 in 5 steps. Get your IRS transcripts, verify eligibility, and mail your claim before the deadline.",
       deadline_text: "Submit before July 10, 2026",
-      cta_primary: "Start Now",
-      cta_secondary: "Contact Tax Pro",
-      footer_text: "No guarantees. Limited-time opportunity. Deadline: July 10, 2026.",
-      company_name: "Your Company",
       tax_pro_name: "Jane Doe, EA",
-      tax_pro_contact: "(555) 123-4567",
-      irs_contact_phone: "1-800-908-9946",
-      kwong_deadline: "07/10/2026",
-      background_color: "#0f1117",
-      card_color: "#161824",
-      text_color: "#9ca3af",
-      accent_color: "#dc2626",
-      highlight_color: "#22c55e",
-      font_family: "DM Sans",
-      font_size: 16
+      tax_pro_contact: "(555) 123-4567"
     };
 
     let currentConfig = { ...defaultConfig };
 
+    async function initializeElementSdk() {
+      if (!window.elementSdk) return;
+      
+      await window.elementSdk.init({
+        defaultConfig: defaultConfig,
+        onConfigChange: (config) => {
+          currentConfig = config;
+          document.getElementById('company-logo-text').textContent = config.company_name || defaultConfig.company_name;
+          document.getElementById('setup-company-logo').textContent = config.company_name || defaultConfig.company_name;
+          document.getElementById('footer-company').textContent = config.company_name || defaultConfig.company_name;
+          document.getElementById('headline').textContent = config.headline || defaultConfig.headline;
+          document.getElementById('subheadline').textContent = config.subheadline || defaultConfig.subheadline;
+          document.getElementById('deadline-text').textContent = config.deadline_text || defaultConfig.deadline_text;
+          document.getElementById('pro-name').textContent = config.tax_pro_name || defaultConfig.tax_pro_name;
+          document.getElementById('pro-contact').textContent = config.tax_pro_contact || defaultConfig.tax_pro_contact;
+          document.getElementById('pro-name-display').textContent = config.tax_pro_name || defaultConfig.tax_pro_name;
+          document.getElementById('pro-contact-display').textContent = config.tax_pro_contact || defaultConfig.tax_pro_contact;
+        },
+        mapToCapabilities: (config) => ({
+          recolorables: [],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ['company_name', config.company_name || defaultConfig.company_name],
+          ['headline', config.headline || defaultConfig.headline],
+          ['subheadline', config.subheadline || defaultConfig.subheadline],
+          ['tax_pro_name', config.tax_pro_name || defaultConfig.tax_pro_name],
+          ['tax_pro_contact', config.tax_pro_contact || defaultConfig.tax_pro_contact],
+          ['deadline_text', config.deadline_text || defaultConfig.deadline_text]
+        ])
+      });
+    }
+
+    initializeElementSdk();
+
+    // Navigation Functions
     function goToWizard() {
-      document.getElementById('view-wizard').classList.remove('view-hidden');
-      document.getElementById('view-setup').classList.add('view-hidden');
+      document.getElementById('view-wizard').style.display = 'block';
+      document.getElementById('view-setup').style.display = 'none';
       window.scrollTo(0, 0);
     }
 
     function goToSetupFlow() {
-      document.getElementById('view-wizard').classList.add('view-hidden');
-      document.getElementById('view-setup').classList.remove('view-hidden');
+      document.getElementById('view-wizard').style.display = 'none';
+      document.getElementById('view-setup').style.display = 'flex';
       goToStep(1);
     }
 
@@ -551,522 +652,263 @@
       document.querySelector(`[data-step="${step}"]`).classList.remove('hidden');
       document.getElementById('current-step').textContent = step;
       document.getElementById('progress-fill').style.width = `${(step / 5) * 100}%`;
-      document.getElementById('view-setup').scrollTop = 0;
     }
 
-    function contactPro() {
-      const email = 'contact@example.com';
-      window.open(`mailto:${email}?subject=Kwong Form 843 Support Request`, '_blank');
-    }
+    function generateForm() {
+      const name = document.getElementById('step-name').value || '[Name]';
+      const period = document.getElementById('step-period').value || '2020';
+      const state = document.getElementById('step-state').value || '[State]';
+      const penalty = document.getElementById('step-penalty').value || '[Penalty Type]';
+      const penaltyAmt = document.getElementById('step-penalty-amt').value || '0.00';
+      const interestAmt = document.getElementById('step-interest-amt').value || '0.00';
 
-    function generateForm843() {
-      const name = document.getElementById('input-name').value?.trim() || '[Taxpayer Name]';
-      const taxPeriod = document.getElementById('input-period').value?.trim() || '2020';
-      const state = document.getElementById('input-state').value?.trim() || '[State]';
-      const penaltyTypeInput = document.getElementById('input-penalty-type').value?.trim();
-      const penaltyType = penaltyTypeInput || '[Penalty Type]';
-      const penaltyAmt = document.getElementById('input-penalty-amt').value?.trim() || '0.00';
-      const interestAmt = document.getElementById('input-interest-amt').value?.trim() || '0.00';
-      
       const penaltyNum = parseFloat(penaltyAmt.replace(/[^0-9.]/g, '')) || 0;
       const interestNum = parseFloat(interestAmt.replace(/[^0-9.]/g, '')) || 0;
-      const totalRefund = (penaltyNum + interestNum).toFixed(2);
+      const total = (penaltyNum + interestNum).toFixed(2);
 
-      // Create HTML document as a string
-      const htmlString = `<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <style>
-    body { font-family: Arial, sans-serif; line-height: 1.4; color: #333; margin: 0; padding: 20px; }
-    .container { max-width: 8.5in; margin: 0 auto; }
-    .header { text-align: center; margin-bottom: 24px; }
-    .form-title { font-size: 14px; font-weight: bold; margin-bottom: 4px; }
-    .form-subtitle { font-size: 10px; margin-top: 2px; }
-    .section { margin-bottom: 16px; page-break-inside: avoid; }
-    .section-title { font-weight: bold; font-size: 10px; margin: 12px 0 6px 0; background: #f0f0f0; padding: 4px; }
-    .field-label { display: block; font-size: 9px; font-weight: bold; margin-top: 6px; margin-bottom: 2px; }
-    .field-value { font-size: 10px; border-bottom: 1px solid #000; padding: 3px 0; min-height: 14px; }
-    .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .full-width { grid-column: 1 / -1; }
-    .checkbox-item { margin: 4px 0; font-size: 9px; }
-    .explanation-box { border: 1px solid #000; padding: 6px; margin: 6px 0; min-height: 50px; font-size: 9px; }
-    .signature-area { margin-top: 24px; }
-    .footer { margin-top: 16px; font-size: 7px; color: #666; border-top: 1px solid #000; padding-top: 8px; }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="header">
-      <div class="form-title">FORM 843 – CLAIM FOR REFUND OR ABATEMENT</div>
-      <div class="form-subtitle">Department of the Treasury – Internal Revenue Service</div>
-    </div>
+      const htmlContent = `
+        <div style="font-family: Arial, sans-serif; line-height: 1.5; color: #000; padding: 40px; max-width: 850px; margin: 0 auto;">
+          <div style="text-align: center; margin-bottom: 30px; border-bottom: 2px solid #000; padding-bottom: 15px;">
+            <div style="font-size: 16px; font-weight: bold;">FORM 843</div>
+            <div style="font-size: 14px; font-weight: bold;">CLAIM FOR REFUND OR ABATEMENT</div>
+            <div style="font-size: 11px; margin-top: 5px;">Department of the Treasury – Internal Revenue Service</div>
+          </div>
 
-    <div class="section">
-      <div class="section-title">TAXPAYER INFORMATION</div>
-      <div class="two-column">
-        <div>
-          <label class="field-label">Taxpayer Name:</label>
-          <div class="field-value">${name}</div>
+          <div style="margin-bottom: 20px;">
+            <div style="font-weight: bold; font-size: 11px; background: #e8e8e8; padding: 6px; margin-bottom: 8px;">TAXPAYER INFORMATION</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; font-size: 11px;">
+              <div>
+                <div style="font-weight: bold; margin-bottom: 3px;">Taxpayer Name:</div>
+                <div style="border-bottom: 1px solid #000; padding: 4px 0; min-height: 16px;">${name}</div>
+              </div>
+              <div>
+                <div style="font-weight: bold; margin-bottom: 3px;">State:</div>
+                <div style="border-bottom: 1px solid #000; padding: 4px 0; min-height: 16px;">${state}</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 20px;">
+            <div style="font-weight: bold; font-size: 11px; background: #e8e8e8; padding: 6px; margin-bottom: 8px;">REASON FOR FILING</div>
+            <div style="font-size: 10px; line-height: 1.6;">
+              <div style="margin: 4px 0;"><strong>☑ d) Other (specify):</strong> Kwong v. United States penalty relief claim for COVID-19 pandemic period (Jan 20, 2020 – Jul 10, 2023)</div>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 20px;">
+            <div style="font-weight: bold; font-size: 11px; background: #e8e8e8; padding: 6px; margin-bottom: 8px;">TAX PERIOD</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; font-size: 11px;">
+              <div>
+                <div style="font-weight: bold; margin-bottom: 3px;">Tax Year:</div>
+                <div style="border-bottom: 1px solid #000; padding: 4px 0;">${period}</div>
+              </div>
+              <div>
+                <div style="font-weight: bold; margin-bottom: 3px;">Eligibility Window:</div>
+                <div style="border-bottom: 1px solid #000; padding: 4px 0;">01/20/2020 - 07/10/2023</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 20px;">
+            <div style="font-weight: bold; font-size: 11px; background: #e8e8e8; padding: 6px; margin-bottom: 8px;">PENALTY & INTEREST REFUND</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; font-size: 11px;">
+              <div>
+                <div style="font-weight: bold; margin-bottom: 3px;">Penalty Type:</div>
+                <div style="border-bottom: 1px solid #000; padding: 4px 0;">${penalty}</div>
+              </div>
+              <div>
+                <div style="font-weight: bold; margin-bottom: 3px;">Penalty Amount:</div>
+                <div style="border-bottom: 1px solid #000; padding: 4px 0;">$${penaltyAmt}</div>
+              </div>
+            </div>
+            <div style="margin-top: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; font-size: 11px;">
+              <div>
+                <div style="font-weight: bold; margin-bottom: 3px;">Interest Amount:</div>
+                <div style="border-bottom: 1px solid #000; padding: 4px 0;">$${interestAmt}</div>
+              </div>
+              <div>
+                <div style="font-weight: bold; margin-bottom: 3px;">Total Refund Requested:</div>
+                <div style="border-bottom: 2px solid #000; padding: 4px 0; font-weight: bold;">$${total}</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 20px;">
+            <div style="font-weight: bold; font-size: 11px; background: #e8e8e8; padding: 6px; margin-bottom: 8px;">EXPLANATION</div>
+            <div style="border: 1px solid #000; padding: 12px; min-height: 60px; font-size: 10px; line-height: 1.5;">
+              <strong>Basis for Claim:</strong><br><br>
+              Taxpayer requests abatement of penalties and interest assessed between January 20, 2020 and July 10, 2023, based on the Kwong v. United States decision. All penalties shown were assessed during the Kwong eligibility window and are supported by attached IRS Account Transcript.
+            </div>
+          </div>
+
+          <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #000;">
+            <div style="font-size: 9px; margin-bottom: 10px;">I declare under penalties of perjury that I have examined this claim and to the best of my knowledge and belief, it is true, correct, and complete.</div>
+            <div style="margin-top: 20px;">
+              <div style="border-bottom: 1px solid #000; height: 20px; margin-bottom: 3px;"></div>
+              <div style="font-size: 9px;">Taxpayer Signature</div>
+            </div>
+            <div style="margin-top: 15px;">
+              <div style="border-bottom: 1px solid #000; height: 20px; margin-bottom: 3px;"></div>
+              <div style="font-size: 9px;">Date</div>
+            </div>
+          </div>
         </div>
-        <div>
-          <label class="field-label">State:</label>
-          <div class="field-value">${state}</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-title">REASON FOR FILING – CHECK ONE BOX:</div>
-      <div class="checkbox-item">☐ a) I believe the tax, interest, penalty, or addition to tax is assessed incorrectly</div>
-      <div class="checkbox-item">☐ b) Interest was assessed as a result of IRS errors or delays</div>
-      <div class="checkbox-item">☐ c) I am filing a protective claim to preserve my rights</div>
-      <div class="checkbox-item">☑ d) Other (specify): To file a protective claim under the Kwong v. United States decision relating to penalty relief for the COVID pandemic period (Jan 20, 2020 – Jul 10, 2023)</div>
-    </div>
-
-    <div class="section">
-      <div class="section-title">1. TAX PERIOD</div>
-      <div class="two-column">
-        <div>
-          <label class="field-label">Beginning Date:</label>
-          <div class="field-value">01/20/2020</div>
-        </div>
-        <div>
-          <label class="field-label">Ending Date:</label>
-          <div class="field-value">07/10/2023</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-title">2. AMOUNT TO BE REFUNDED OR ABATED</div>
-      <div class="two-column">
-        <div>
-          <label class="field-label">Penalty Amount:</label>
-          <div class="field-value">$${penaltyAmt}</div>
-        </div>
-        <div>
-          <label class="field-label">Interest Amount:</label>
-          <div class="field-value">$${interestAmt}</div>
-        </div>
-        <div class="full-width">
-          <label class="field-label">Total Amount Requested:</label>
-          <div class="field-value" style="font-weight: bold;">$${totalRefund}</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-title">3. TYPE OF TAX – CHECK ONE BOX:</div>
-      <div class="checkbox-item">☑ e) Income tax</div>
-      <div class="checkbox-item">☐ Other</div>
-    </div>
-
-    <div class="section">
-      <div class="section-title">4. TYPE OF RETURN – CHECK ONE BOX:</div>
-      <div class="checkbox-item">☑ i) Form 1040 (Individual)</div>
-      <div class="checkbox-item">☐ Other</div>
-    </div>
-
-    <div class="section">
-      <div class="section-title">5. PENALTY INFORMATION</div>
-      <div>
-        <label class="field-label">Penalty Type:</label>
-        <div class="field-value">${penaltyType}</div>
-        <label class="field-label">Penalty Amount (from transcript):</label>
-        <div class="field-value">$${penaltyAmt}</div>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-title">6. EXPLANATION AND COMPUTATION</div>
-      <div class="explanation-box">
-        <strong>Basis for Claim:</strong><br>
-        The taxpayer is requesting abatement of penalties and interest assessed between January 20, 2020 and July 10, 2023, based on the Kwong v. United States decision (U.S. Court of Federal Claims, 2025). The taxpayer is claiming relief under this decision which determined that federal tax deadlines should have been postponed during the COVID pandemic period. All penalties and interest shown were assessed during the Kwong eligibility window and are supported by the attached IRS Account Transcript.
-      </div>
-    </div>
-
-    <div class="signature-area">
-      <div style="font-size: 8px; margin-bottom: 12px;">I declare that I have examined this claim and to the best of my knowledge and belief, it is true, correct, and complete.</div>
-      <div style="border-bottom: 1px solid #000; height: 16px; margin: 12px 0;"></div>
-      <div style="font-size: 8px; margin-top: 2px;">Taxpayer Signature</div>
-      <div style="font-size: 8px; margin-top: 8px; margin-bottom: 12px;">_________________________     Date: _______________</div>
-    </div>
-
-    <div class="footer">
-      <strong>Instructions:</strong> Mail this completed Form 843 with: (1) copy of IRS Account Transcript, (2) proof of payment if applicable, (3) detailed penalty calculation. Use certified mail with return receipt. Allow 3-6 months for IRS response.
-    </div>
-  </div>
-</body>
-</html>`;
-
-      // Check if html2pdf is available
-      if (!window.html2pdf) {
-        // Fallback: Create a simple text file download
-        const element = document.createElement('a');
-        const file = new Blob([htmlString], {type: 'text/html'});
-        element.href = URL.createObjectURL(file);
-        element.download = 'Form_843_Kwong_Claim.html';
-        document.body.appendChild(element);
-        element.click();
-        document.body.removeChild(element);
-        
-        setTimeout(() => {
-          goToStep(4);
-        }, 800);
-        return;
-      }
+      `;
 
       try {
         const element = document.createElement('div');
-        element.style.padding = '20px';
-        element.innerHTML = htmlString.replace(/<html>|<\/html>|<!DOCTYPE[^>]*>|<head>.*?<\/head>/gs, '').replace(/<body>|<\/body>/g, '').replace(/<style>.*?<\/style>/gs, '');
+        element.innerHTML = htmlContent;
+        element.style.background = 'white';
         
         const opt = {
-          margin: [10, 10, 10, 10],
-          filename: 'Form_843_Kwong_Claim.pdf',
+          margin: 10,
+          filename: 'Form_843_Kwong.pdf',
           image: { type: 'jpeg', quality: 0.98 },
-          html2canvas: { scale: 2, useCORS: true, logging: false, allowTaint: true },
+          html2canvas: { scale: 2, useCORS: true, logging: false },
           jsPDF: { unit: 'mm', format: 'letter', orientation: 'portrait' }
         };
 
-        window.html2pdf().set(opt).from(element).save().then(() => {
-          setTimeout(() => {
-            goToStep(4);
-          }, 500);
-        }).catch(() => {
-          // If PDF fails, fall back to HTML download
-          const link = document.createElement('a');
-          const file = new Blob([htmlString], {type: 'text/html'});
-          link.href = URL.createObjectURL(file);
-          link.download = 'Form_843_Kwong_Claim.html';
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-          
-          setTimeout(() => {
-            goToStep(4);
-          }, 500);
-        });
+        window.html2pdf().set(opt).from(element).save();
+        setTimeout(() => goToStep(4), 800);
       } catch (err) {
-        // Final fallback: download as HTML
-        const link = document.createElement('a');
-        const file = new Blob([htmlString], {type: 'text/html'});
-        link.href = URL.createObjectURL(file);
-        link.download = 'Form_843_Kwong_Claim.html';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        
-        setTimeout(() => {
-          goToStep(4);
-        }, 500);
+        console.error('PDF error:', err);
+        alert('Unable to generate PDF. Please try again.');
       }
     }
 
-    function applyConfig(config) {
-      currentConfig = { ...defaultConfig, ...config };
-      document.getElementById('irs-phone-1').textContent = currentConfig.irs_contact_phone;
-      document.getElementById('irs-phone').textContent = currentConfig.irs_contact_phone;
-      document.getElementById('kwong-end-date').textContent = currentConfig.kwong_deadline;
-      document.getElementById('kwong-end-date2').textContent = currentConfig.kwong_deadline;
-      document.getElementById('kwong-date').textContent = currentConfig.kwong_deadline;
-      document.getElementById('deadline-date').textContent = currentConfig.kwong_deadline;
-      document.getElementById('pro-contact-name').textContent = currentConfig.tax_pro_name;
-      document.getElementById('pro-contact-info').textContent = currentConfig.tax_pro_contact;
-    }
+    // Tag input for main page penalty field
+    const formPenaltyInput = document.getElementById('form-penalty-input');
+    const formPenaltySearch = document.getElementById('form-penalty-search');
+    const formPenaltyDropdown = document.getElementById('form-penalty-dropdown');
+    const formPenaltyTags = document.getElementById('form-penalty-tags');
+    const formPenaltyHidden = document.getElementById('form-penalty');
+    const formPenaltyOptions = document.querySelectorAll('.penalty-option');
+    let formSelectedPenalties = [];
 
-    async function onConfigChange(config) {
-      const c = key => config[key] || defaultConfig[key];
-      const font = c('font_family');
-      const base = c('font_size');
-      const fontStack = `${font}, sans-serif`;
+    formPenaltyInput.addEventListener('click', () => {
+      formPenaltyDropdown.style.display = 'block';
+    });
 
-      currentConfig = { ...defaultConfig, ...config };
+    formPenaltySearch.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      formPenaltyOptions.forEach(option => {
+        const optionText = option.textContent.toLowerCase();
+        const isSelected = formSelectedPenalties.includes(option.getAttribute('data-value'));
+        const matchesSearch = optionText.includes(searchTerm);
+        option.style.display = (matchesSearch && !isSelected) ? 'block' : 'none';
+      });
+    });
 
-      document.getElementById('app-wrapper').style.background = c('background_color');
-      document.getElementById('app-wrapper').style.fontFamily = fontStack;
-
-      document.getElementById('company-logo-text').textContent = c('company_logo_text');
-      document.getElementById('setup-company-logo-text').textContent = c('company_logo_text');
-      document.getElementById('company-logo-text').style.fontFamily = `Raleway, sans-serif`;
-      document.getElementById('setup-company-logo-text').style.fontFamily = `Raleway, sans-serif`;
-      document.getElementById('company-logo-text').style.fontSize = `${base * 1.1}px`;
-      document.getElementById('setup-company-logo-text').style.fontSize = `${base * 1.1}px`;
-
-      document.getElementById('headline').textContent = c('headline');
-      document.getElementById('headline').style.fontFamily = `Raleway, sans-serif`;
-      document.getElementById('headline').style.fontSize = `${base * 2.2}px`;
-
-      document.getElementById('subheadline').textContent = c('subheadline');
-      document.getElementById('subheadline').style.fontSize = `${base * 1.15}px`;
-      document.getElementById('subheadline').style.color = c('text_color');
-
-      document.getElementById('deadline-text').textContent = c('deadline_text');
-
-      ['cta-primary', 'footer-cta-primary'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) {
-          el.querySelector('span').textContent = c('cta_primary');
-          el.style.background = c('accent_color');
+    formPenaltyOptions.forEach(option => {
+      option.addEventListener('click', () => {
+        const value = option.getAttribute('data-value');
+        if (!formSelectedPenalties.includes(value)) {
+          formSelectedPenalties.push(value);
+          formPenaltySearch.value = '';
+          renderFormPenaltyTags();
+          updateFormPenaltyOptions();
         }
       });
+    });
 
-      ['cta-secondary', 'footer-cta-secondary'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) {
-          el.querySelector('span').textContent = c('cta_secondary');
-        }
+    function updateFormPenaltyOptions() {
+      formPenaltyOptions.forEach(option => {
+        const value = option.getAttribute('data-value');
+        option.style.display = formSelectedPenalties.includes(value) ? 'none' : 'block';
       });
-
-      document.getElementById('pro-contact-name').textContent = c('tax_pro_name');
-      document.getElementById('pro-contact-info').textContent = c('tax_pro_contact');
-      document.getElementById('irs-phone-1').textContent = c('irs_contact_phone');
-      document.getElementById('irs-phone').textContent = c('irs_contact_phone');
-      document.getElementById('kwong-end-date').textContent = c('kwong_deadline');
-      document.getElementById('kwong-end-date2').textContent = c('kwong_deadline');
-      document.getElementById('kwong-date').textContent = c('kwong_deadline');
-      document.getElementById('deadline-date').textContent = c('kwong_deadline');
-
-      document.getElementById('footer-text').textContent = c('footer_text');
-      document.getElementById('footer-text').style.fontSize = `${base * 0.8}px`;
-
-      document.getElementById('footer-company-name').textContent = c('company_name');
-
-      document.querySelectorAll('#steps-container h2').forEach(h => {
-        h.style.fontFamily = `Raleway, sans-serif`;
-        h.style.fontSize = `${base * 1.35}px`;
-        h.style.color = '#f1f1f4';
-      });
-
-      document.querySelectorAll('#steps-container p, #steps-container ul').forEach(el => {
-        el.style.color = c('text_color');
-        if (el.tagName === 'P') el.style.fontSize = `${base * 0.95}px`;
-      });
-
-      document.querySelectorAll('#steps-container > div > .absolute.left-0').forEach(circle => {
-        circle.style.background = c('accent_color');
-      });
-
-      document.querySelectorAll('.step-connector').forEach(conn => {
-        conn.style.background = `linear-gradient(to bottom, ${c('accent_color')}, #1e2130)`;
-      });
-
-      document.querySelectorAll('[data-lucide="check-circle"]').forEach(icon => {
-        icon.style.color = c('highlight_color');
-      });
-
-      lucide.createIcons();
     }
 
-    window.elementSdk.init({
-      defaultConfig,
-      onConfigChange,
-      mapToCapabilities: (config) => {
-        const c = key => config[key] || defaultConfig[key];
-        const make = (key) => ({
-          get: () => c(key),
-          set: (v) => { config[key] = v; window.elementSdk.setConfig({ [key]: v }); }
-        });
-        return {
-          recolorables: [make('background_color'), make('card_color'), make('text_color'), make('accent_color'), make('highlight_color')],
-          borderables: [],
-          fontEditable: make('font_family'),
-          fontSizeable: make('font_size')
-        };
-      },
-      mapToEditPanelValues: (config) => {
-        const c = key => config[key] || defaultConfig[key];
-        return new Map([
-          ["company_logo_text", c("company_logo_text")],
-          ["headline", c("headline")],
-          ["subheadline", c("subheadline")],
-          ["deadline_text", c("deadline_text")],
-          ["cta_primary", c("cta_primary")],
-          ["cta_secondary", c("cta_secondary")],
-          ["tax_pro_name", c("tax_pro_name")],
-          ["tax_pro_contact", c("tax_pro_contact")],
-          ["irs_contact_phone", c("irs_contact_phone")],
-          ["kwong_deadline", c("kwong_deadline")],
-          ["company_name", c("company_name")],
-          ["footer_text", c("footer_text")]
-        ]);
+    function renderFormPenaltyTags() {
+      formPenaltyTags.innerHTML = formSelectedPenalties.map(penalty => `
+        <div style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; background: #dc2626; color: white; border-radius: 16px; font-size: 0.85rem;">
+          <span>${penalty}</span>
+          <button type="button" onclick="removeFormPenalty('${penalty}')" style="background: none; border: none; color: white; cursor: pointer; padding: 0; font-size: 1rem; line-height: 1; display: flex; align-items: center;">×</button>
+        </div>
+      `).join('');
+      formPenaltyHidden.value = formSelectedPenalties.join(', ');
+    }
+
+    window.removeFormPenalty = (penalty) => {
+      formSelectedPenalties = formSelectedPenalties.filter(p => p !== penalty);
+      renderFormPenaltyTags();
+      updateFormPenaltyOptions();
+    };
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('#form-penalty-container')) {
+        formPenaltyDropdown.style.display = 'none';
       }
     });
+
+    // Tag input for step 3 penalty field
+    const stepPenaltyInput = document.getElementById('step-penalty-input');
+    const stepPenaltySearch = document.getElementById('step-penalty-search');
+    const stepPenaltyDropdown = document.getElementById('step-penalty-dropdown');
+    const stepPenaltyTags = document.getElementById('step-penalty-tags');
+    const stepPenaltyHidden = document.getElementById('step-penalty');
+    const stepPenaltyOptions = document.querySelectorAll('.step-penalty-option');
+    let stepSelectedPenalties = [];
+
+    stepPenaltyInput.addEventListener('click', () => {
+      stepPenaltyDropdown.style.display = 'block';
+    });
+
+    stepPenaltySearch.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      stepPenaltyOptions.forEach(option => {
+        const optionText = option.textContent.toLowerCase();
+        const isSelected = stepSelectedPenalties.includes(option.getAttribute('data-value'));
+        const matchesSearch = optionText.includes(searchTerm);
+        option.style.display = (matchesSearch && !isSelected) ? 'block' : 'none';
+      });
+    });
+
+    stepPenaltyOptions.forEach(option => {
+      option.addEventListener('click', () => {
+        const value = option.getAttribute('data-value');
+        if (!stepSelectedPenalties.includes(value)) {
+          stepSelectedPenalties.push(value);
+          stepPenaltySearch.value = '';
+          renderStepPenaltyTags();
+          updateStepPenaltyOptions();
+        }
+      });
+    });
+
+    function updateStepPenaltyOptions() {
+      stepPenaltyOptions.forEach(option => {
+        const value = option.getAttribute('data-value');
+        option.style.display = stepSelectedPenalties.includes(value) ? 'none' : 'block';
+      });
+    }
+
+    function renderStepPenaltyTags() {
+      stepPenaltyTags.innerHTML = stepSelectedPenalties.map(penalty => `
+        <div style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; background: #dc2626; color: white; border-radius: 16px; font-size: 0.85rem;">
+          <span>${penalty}</span>
+          <button type="button" onclick="removeStepPenalty('${penalty}')" style="background: none; border: none; color: white; cursor: pointer; padding: 0; font-size: 1rem; line-height: 1; display: flex; align-items: center;">×</button>
+        </div>
+      `).join('');
+      stepPenaltyHidden.value = stepSelectedPenalties.join(', ');
+    }
+
+    window.removeStepPenalty = (penalty) => {
+      stepSelectedPenalties = stepSelectedPenalties.filter(p => p !== penalty);
+      renderStepPenaltyTags();
+      updateStepPenaltyOptions();
+    };
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('#step-penalty-container')) {
+        stepPenaltyDropdown.style.display = 'none';
+      }
+    });
+
+    function contactPro() {
+      window.open('mailto:contact@example.com?subject=Kwong Form 843 Support', '_blank');
+    }
 
     lucide.createIcons();
-    onConfigChange(defaultConfig);
-
-    // Custom penalty type multi-select dropdown
-    const penaltyTypeContainer = document.getElementById('penalty-type-container');
-    const penaltyTypeInput = document.getElementById('penalty-type-input');
-    const penaltyTypeDropdown = document.getElementById('penalty-type-dropdown');
-    const penaltyTypeHidden = document.getElementById('input-penalty-type');
-    const selectedPenalties = [];
-
-    penaltyTypeInput.addEventListener('click', () => {
-      penaltyTypeDropdown.classList.toggle('hidden');
-    });
-
-    penaltyTypeContainer.addEventListener('click', (e) => {
-      if (e.target === penaltyTypeInput || e.target === penaltyTypeContainer) {
-        penaltyTypeDropdown.classList.toggle('hidden');
-      }
-    });
-
-    document.querySelectorAll('.penalty-option').forEach(option => {
-      option.addEventListener('click', () => {
-        const value = option.dataset.value;
-        if (!selectedPenalties.includes(value)) {
-          selectedPenalties.push(value);
-          updatePenaltyDisplay();
-          updateDropdownVisibility();
-        }
-      });
-    });
-
-    function updatePenaltyDisplay() {
-      const tagsContainer = document.getElementById('penalty-type-container');
-      const existingTags = tagsContainer.querySelectorAll('.penalty-tag');
-      existingTags.forEach(tag => tag.remove());
-
-      selectedPenalties.forEach(penalty => {
-        const tag = document.createElement('div');
-        tag.className = 'penalty-tag flex items-center gap-1 bg-red-600 text-white px-3 py-1 rounded-full text-sm';
-        tag.innerHTML = `
-          <span>${penalty}</span>
-          <button class="ml-1 text-white hover:text-gray-200 focus:outline-none" type="button" onclick="removePenalty('${penalty}')">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-          </button>
-        `;
-        tagsContainer.insertBefore(tag, penaltyTypeInput);
-      });
-
-      penaltyTypeHidden.value = selectedPenalties.join(', ');
-      
-      if (selectedPenalties.length > 0) {
-        penaltyTypeInput.style.display = 'none';
-      } else {
-        penaltyTypeInput.style.display = 'block';
-      }
-    }
-
-    function updateDropdownVisibility() {
-      document.querySelectorAll('.penalty-option').forEach(option => {
-        const value = option.dataset.value;
-        if (selectedPenalties.includes(value)) {
-          option.style.display = 'none';
-        } else {
-          option.style.display = 'block';
-        }
-      });
-    }
-
-    function removePenalty(penalty) {
-      selectedPenalties.splice(selectedPenalties.indexOf(penalty), 1);
-      updatePenaltyDisplay();
-      updateDropdownVisibility();
-    }
-
-    document.addEventListener('click', (e) => {
-      if (!penaltyTypeContainer.contains(e.target) && !penaltyTypeDropdown.contains(e.target)) {
-        penaltyTypeDropdown.classList.add('hidden');
-      }
-    });
-
-    // Main page penalty type multi-select dropdown
-    const penaltyTypeContainerMain = document.getElementById('penalty-type-container-main');
-    const penaltyTypeInputMain = document.getElementById('penalty-type-input-main');
-    const penaltyTypeDropdownMain = document.getElementById('penalty-type-dropdown-main');
-    const penaltyTypeHiddenMain = document.getElementById('input-penalty-type-main');
-    const selectedPenaltiesMain = [];
-
-    penaltyTypeInputMain.addEventListener('click', () => {
-      penaltyTypeDropdownMain.classList.toggle('hidden');
-    });
-
-    penaltyTypeContainerMain.addEventListener('click', (e) => {
-      if (e.target === penaltyTypeInputMain || e.target === penaltyTypeContainerMain) {
-        penaltyTypeDropdownMain.classList.toggle('hidden');
-      }
-    });
-
-    document.querySelectorAll('.penalty-option-main').forEach(option => {
-      option.addEventListener('click', () => {
-        const value = option.dataset.value;
-        if (!selectedPenaltiesMain.includes(value)) {
-          selectedPenaltiesMain.push(value);
-          updatePenaltyDisplayMain();
-          updateDropdownVisibilityMain();
-        }
-      });
-
-      option.addEventListener('mouseenter', () => {
-        option.style.backgroundColor = '#2a2d3e';
-      });
-
-      option.addEventListener('mouseleave', () => {
-        option.style.backgroundColor = 'transparent';
-      });
-    });
-
-    function updatePenaltyDisplayMain() {
-      const tagsContainer = document.getElementById('penalty-type-container-main');
-      const existingTags = tagsContainer.querySelectorAll('.penalty-tag-main');
-      existingTags.forEach(tag => tag.remove());
-
-      selectedPenaltiesMain.forEach(penalty => {
-        const tag = document.createElement('div');
-        tag.className = 'penalty-tag-main';
-        tag.style.cssText = 'display:flex;align-items:center;gap:6px;background:#dc2626;color:#fff;padding:6px 12px;border-radius:20px;font-size:0.85rem;';
-        tag.innerHTML = `
-          <span>${penalty}</span>
-          <button style="background:none;border:none;color:#fff;cursor:pointer;padding:0;display:flex;align-items:center;gap:2px;" type="button" onclick="removePenaltyMain('${penalty}')">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-          </button>
-        `;
-        tagsContainer.insertBefore(tag, penaltyTypeInputMain);
-      });
-
-      penaltyTypeHiddenMain.value = selectedPenaltiesMain.join(', ');
-      
-      if (selectedPenaltiesMain.length > 0) {
-        penaltyTypeInputMain.style.display = 'none';
-      } else {
-        penaltyTypeInputMain.style.display = 'block';
-      }
-    }
-
-    function updateDropdownVisibilityMain() {
-      document.querySelectorAll('.penalty-option-main').forEach(option => {
-        const value = option.dataset.value;
-        if (selectedPenaltiesMain.includes(value)) {
-          option.style.display = 'none';
-        } else {
-          option.style.display = 'block';
-        }
-      });
-    }
-
-    function removePenaltyMain(penalty) {
-      selectedPenaltiesMain.splice(selectedPenaltiesMain.indexOf(penalty), 1);
-      updatePenaltyDisplayMain();
-      updateDropdownVisibilityMain();
-    }
-
-    document.addEventListener('click', (e) => {
-      if (!penaltyTypeContainerMain.contains(e.target) && !penaltyTypeDropdownMain.contains(e.target)) {
-        penaltyTypeDropdownMain.classList.add('hidden');
-      }
-    });
   </script>
-   </div>
-  </div>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e0a40feb4c7d93b',t:'MTc3NDIzNTU0MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e0a9003b293d93b',t:'MTc3NDIzODc3Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
