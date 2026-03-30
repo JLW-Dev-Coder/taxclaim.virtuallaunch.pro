@@ -1,0 +1,13 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/claim/[slug]/page": "/claim/[slug]",
+  "/dashboard/page": "/dashboard",
+  "/demo/page": "/demo",
+  "/favicon.ico/route": "/favicon.ico",
+  "/onboarding/page": "/onboarding",
+  "/page": "/",
+  "/sign-in/page": "/sign-in",
+  "/success/page": "/success",
+  "/support/page": "/support"
+}
