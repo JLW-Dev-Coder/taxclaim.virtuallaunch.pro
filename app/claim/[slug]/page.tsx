@@ -2,6 +2,8 @@ import { headers } from 'next/headers';
 import ClaimClient from './ClaimClient';
 import { getProBySlug, TaxPro } from '@/lib/api';
 
+export const runtime = 'edge';
+
 interface Props {
   params: Promise<{ slug: string }>;
 }
