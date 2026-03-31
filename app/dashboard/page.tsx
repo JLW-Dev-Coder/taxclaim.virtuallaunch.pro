@@ -35,7 +35,8 @@ function DashboardContent({ session }: { session: Session }) {
         .then((p) => setPro(p))
         .finally(() => setLoading(false));
     } else {
-      setLoading(false);
+      const timer = setTimeout(() => setLoading(false), 0);
+      return () => clearTimeout(timer);
     }
   }, [session.pro_id]);
 
