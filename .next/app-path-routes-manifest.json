@@ -1,6 +1,7 @@
 {
   "/_global-error/page": "/_global-error",
   "/_not-found/page": "/_not-found",
+  "/affiliate/page": "/affiliate",
   "/claim/[slug]/page": "/claim/[slug]",
   "/dashboard/page": "/dashboard",
   "/demo/page": "/demo",

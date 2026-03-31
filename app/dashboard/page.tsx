@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import AuthGuard from '@/components/AuthGuard';
 import Header from '@/components/Header';
 import { Session, TaxPro, getPro } from '@/lib/api';
@@ -62,6 +63,9 @@ function DashboardContent({ session }: { session: Session }) {
                 {item.label}
               </button>
             ))}
+            <Link href="/affiliate" className={styles.navItem}>
+              Affiliate
+            </Link>
           </nav>
         </aside>
 

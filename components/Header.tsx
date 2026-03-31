@@ -35,6 +35,7 @@ export default function Header({ showNav = true }: HeaderProps) {
         {!showNav && (
           <div className={styles.links}>
             <Link href="/dashboard" className={styles.navLink}>Dashboard</Link>
+            <Link href="/affiliate" className={styles.navLink}>Affiliate</Link>
             <Link href="/support" className={styles.navLink}>Support</Link>
           </div>
         )}
