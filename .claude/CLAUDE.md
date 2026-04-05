@@ -1,110 +1,89 @@
-# TaxClaim.VirtualLaunch.Pro — CLAUDE.md
+# CLAUDE.md — TaxClaim Virtual Launch Pro (TCVLP)
 
-## Platform Purpose & Business Model
+- **Repo:** `taxclaim.virtuallaunch.pro`
+- **Product:** TaxClaim Pro — Form 843 Penalty Abatement Platform
+- **Domain:** `taxclaim.virtuallaunch.pro`
+- **Last updated:** 2026-04-04
+- **Purpose:** Hosted landing pages + automated Form 843 generation for tax professionals
 
-TaxClaim Pro (TCVLP) is a SaaS tool for tax professionals that enables them to create **branded landing pages** for their clients to generate **Form 843 preparation guides** based on the **Kwong v. US** ruling.
+## System Definition
 
-- **Flat pricing**: $10/month per tax professional
-- **Each pro gets**: `{slug}.taxclaim.virtuallaunch.pro`
-- **Taxpayers** visit the pro's branded page, optionally upload their IRS transcript, and receive a Form 843 preparation guide
+**What it is:**
+- A frontend platform for tax professionals to onboard clients, generate IRS Form 843 refund claims, and manage penalty abatement workflows
+- Static HTML pages served via Cloudflare Pages / Workers
+- Worker API handles form generation, checkout, reviews, support, and onboarding
 
----
+**What it is NOT:**
+- Not a backend database — no D1/R2 writes happen here without VLP orchestration
+- Not the billing system — Stripe is the source of truth for subscriptions
+- Not the IRS transcript system — transcripts come from TaxMonitor Pro (TMP)
 
-## Critical Compliance Rules
+**Audience:** Tax professionals (CPAs, EAs, tax preparers) serving individual taxpayers
 
-### Preparation Guide Watermark (REQUIRED everywhere)
-All generated output **must** display prominently:
+**Stack:**
+- HTML + Tailwind CSS (CDN) + vanilla JS
+- Cloudflare Worker (workers/src/index.js)
+- Fonts: DM Sans (body), Raleway (display)
+- Color: Red primary (#dc2626)
+
+**Backend dependencies:**
+- VLP Worker (`api.virtuallaunch.pro`) — auth, session, orchestration
+- Stripe — checkout, subscriptions (prod_UCK4SzsEnjp19U, price_1TDvQe9ROeyeXOqek1fpOWWH)
+- TMP — IRS transcript data
+
+## Hard Constraints
+
+1. **No PII in public responses** — taxpayer data never appears in static HTML
+2. Do not modify contract JSON files without Principal approval
+3. Do not invent endpoints — all routes defined in workers/src/index.js
+4. Do not deploy without lint/build verification
+5. Stripe product/price IDs are canonical — never fabricate test IDs
+
+## Terminology
+
+| Canonical | Forbidden |
+|-----------|-----------|
+| Form 843 | 843 form, refund form |
+| penalty abatement | penalty relief, tax forgiveness |
+| tax professional | tax pro (in formal docs) |
+| taxpayer | client (ambiguous) |
+| landing page | site, webpage |
+
+## Repo Structure
 
 ```
-PREPARATION GUIDE — NOT AN OFFICIAL IRS FORM
+taxclaim.virtuallaunch.pro/
+├── .claude/           ← Claude config, canonicals, settings
+├── contracts/         ← JSON data contracts (source of truth)
+├── public/            ← Static HTML pages (index, landing, demo, success)
+├── workers/src/       ← Cloudflare Worker API
+└── README.md
 ```
 
-Never describe the output as an "official IRS form" or "Form 843" without the "preparation guide" qualifier.
+## Data Contracts
 
-### July 10, 2026 Deadline (REQUIRED on all taxpayer pages)
-- Display on every taxpayer-facing page via `<DeadlineBanner />`
-- The claim deadline under Kwong v. US is **July 10, 2026**
-- After this date, claims cannot be reopened
+Source of truth: `/contracts/*.contract.json`
+- 11 contract files defining all API endpoints, payloads, validation rules
+- Stripe product/price definitions in `stripe-product.json` and `stripe-price-v1.json`
 
-### Official Form Link
-Always link to the official IRS Form 843:
-`https://www.irs.gov/pub/irs-pdf/f843.pdf`
+## Post-Task Requirements
 
----
-
-## Subdomain Routing
-
-`middleware.ts` extracts the subdomain from the `host` header:
-
-```
-jones-tax.taxclaim.virtuallaunch.pro
-→ internally renders /claim/jones-tax
-→ sets x-pro-slug: jones-tax header
-```
-
-The `x-pro-slug` header is read by the page server component to identify which pro's page to render.
-
----
-
-## VLP API Endpoints
-
-All API calls go through `lib/api.ts`. Base URL: `NEXT_PUBLIC_API_BASE` (default: `https://api.virtuallaunch.pro`).
-
-| Function | Method | Endpoint |
-|---|---|---|
-| `getSession()` | GET | `/v1/auth/session` |
-| `logout()` | POST | `/v1/auth/logout` |
-| `getProBySlug(slug)` | GET | `/v1/tcvlp/pro/by-slug/:slug` |
-| `getPro(pro_id)` | GET | `/v1/tcvlp/pro/:pro_id` |
-| `getMailingAddress(state)` | GET | `/v1/tcvlp/mailing-address?state=` |
-| `uploadTranscript(formData)` | POST | `/v1/tcvlp/transcript/upload` |
-| `generateForm843(data)` | POST | `/v1/tcvlp/forms/843/generate` |
-| `submitForm843(submission_id)` | POST | `/v1/tcvlp/forms/843/submit` |
-| `createCheckout(account_id, platform)` | POST | `/v1/checkout/sessions` |
-| `tcvlpOnboarding(data)` | POST | `/v1/tcvlp/onboarding` |
-| `getTicketsByAccount(account_id)` | GET | `/v1/support/tickets/by-account/:account_id` |
-
-Auth uses the **`vlp_session` cookie** (set by VLP backend). `getSession()` returns `null` if not authenticated.
-
----
-
-## Pages
-
-| Route | Auth | Description |
-|---|---|---|
-| `/` | Public | Tax pro marketing page |
-| `/demo` | Public | Client-facing demo walkthrough |
-| `/support` | Public | Support + Cal.com embeds |
-| `/sign-in` | Public | Magic link + Google OAuth |
-| `/dashboard` | Auth required | Multi-view pro dashboard |
-| `/onboarding` | Auth required | 3-step wizard (firm → slug → payment) |
-| `/success` | Public | Post-payment confirmation |
-| `/claim/[slug]` | Public | Taxpayer claim page (5-step form) |
-
----
-
-## CSS Modules Policy
-
-- **No Tailwind**. No inline styles. CSS Modules only.
-- CSS variables are defined in `app/globals.css` under `:root`
-- Font variables: `--font-display` (Raleway), `--font-body` (DM Sans)
-- Color palette: `--color-bg`, `--color-surface`, `--color-red`, `--color-text-1`, etc.
-
----
-
-## Kwong v. US — Background
-
-The U.S. Court of Federal Claims ruled in **Kwong v. United States** (2023) that certain IRS penalties assessed between **January 20, 2020, and July 10, 2023**, may be challenged via IRS Form 843. This created a limited window for taxpayers to recover penalties.
-
-Tax professionals use TaxClaim Pro to help clients navigate this process before the **July 10, 2026** claim deadline.
-
----
+After every code change:
+1. Verify worker routes match contract definitions
+2. Confirm no PII leaks in HTML templates
+3. Run build if package.json exists
 
 ## Migration Status
 
-- Migrated from: Plain HTML files in `public/`
-- Framework: Next.js 15 App Router
-- TypeScript strict mode
-- Auth: VLP cookie session (`vlp_session`)
-- CSS: CSS Modules (no Tailwind)
-- Deployment: Cloudflare Pages via `wrangler.toml`
+- Worker exists at `workers/src/index.js` (standalone, not VLP-proxied)
+- No `wrangler.toml` at root — deployment config needed
+- Auth: Bearer token (not vlp_session cookie)
+- Frontend points to `taxclaim.virtuallaunch.pro` (self-hosted)
+
+## Related Systems
+
+| System | Path | Relationship |
+|--------|------|-------------|
+| VLP | `virtuallaunch.pro` | Parent platform, auth orchestration |
+| TMP | `taxmonitor.pro` | IRS transcript data source |
+| TTMP | `transcript.taxmonitor.pro` | Transcript processing |
