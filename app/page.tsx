@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Header from '@/components/Header';
 import DeadlineBanner from '@/components/DeadlineBanner';
+import CtaBanner from '@/components/CtaBanner';
+import Footer from '@/components/Footer';
 import styles from './page.module.css';
 
 export const metadata: Metadata = {
@@ -226,22 +228,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className={styles.footer}>
-        <div className={styles.sectionInner}>
-          <p className={styles.footerText}>
-            © {new Date().getFullYear()} TaxClaim Pro — Powered by Virtual Launch Pro.{' '}
-            <Link href="/support" className={styles.footerLink}>Support</Link>
-            {' · '}
-            <a href="https://www.irs.gov/pub/irs-pdf/f843.pdf" target="_blank" rel="noopener noreferrer" className={styles.footerLink}>
-              Official IRS Form 843
-            </a>
-          </p>
-          <p className={styles.footerDisclaimer}>
-            This platform generates preparation guides only — not official IRS forms. Always consult a licensed tax professional.
-          </p>
-        </div>
-      </footer>
+      <CtaBanner />
+      <Footer />
     </div>
   );
 }

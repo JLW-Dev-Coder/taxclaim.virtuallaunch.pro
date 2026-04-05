@@ -21,9 +21,9 @@
 **Audience:** Tax professionals (CPAs, EAs, tax preparers) serving individual taxpayers
 
 **Stack:**
-- HTML + Tailwind CSS (CDN) + vanilla JS
-- Cloudflare Pages (static hosting, no Worker in this repo)
-- Fonts: DM Sans (body), Raleway (display)
+- Next.js (App Router) + TypeScript + CSS Modules
+- Static export (`output: 'export'`) deployed to Cloudflare Pages
+- Fonts: DM Sans (body), Raleway (display) via `next/font/google`
 - Color: Red primary (#dc2626)
 
 **Backend dependencies:**
@@ -54,8 +54,30 @@
 ```
 taxclaim.virtuallaunch.pro/
 ├── .claude/           ← Claude config, canonicals, settings
+├── app/               ← Next.js App Router pages and layouts
+│   ├── layout.tsx     ← Root layout (fonts, metadata)
+│   ├── globals.css    ← Design tokens, CSS variables, animations
+│   ├── page.tsx       ← Homepage
+│   ├── demo/          ← Demo walkthrough page
+│   ├── success/       ← Post-onboarding confirmation
+│   ├── what-is-form-843/ ← SEO content page
+│   ├── sign-in/       ← Login (magic link + Google OAuth)
+│   ├── onboarding/    ← Tax pro onboarding wizard
+│   ├── dashboard/     ← Tax pro dashboard
+│   ├── support/       ← Support page
+│   ├── affiliate/     ← Affiliate program page
+│   └── claim/[slug]/  ← Dynamic branded claim page
+├── components/        ← Shared React components
+│   ├── Header.tsx     ← Sticky header with nav
+│   ├── Footer.tsx     ← Site footer
+│   ├── CtaBanner.tsx  ← Dual CTA (Form 843 + TMP directory)
+│   ├── DeadlineBanner.tsx ← Kwong deadline alert banner
+│   └── AuthGuard.tsx  ← Session check wrapper
+├── lib/
+│   └── api.ts         ← Typed VLP API client
 ├── contracts/         ← JSON data contracts (source of truth)
-├── public/            ← Static HTML pages (index, landing, demo, success)
+├── legacy-html/       ← Original static HTML (reference only — do not modify)
+├── public/            ← Static assets (favicon, images, robots.txt)
 └── README.md
 ```
 
@@ -74,17 +96,25 @@ After every code change:
 
 ## Migration Status
 
+- **Next.js migration** (2026-04-04) — converted from static HTML to Next.js App Router with CSS Modules
 - **Standalone Worker deleted** (2026-04-04) — was at `workers/src/index.js`, never called by frontend
-- Frontend is static HTML served via Cloudflare Pages — no backend in this repo
+- Frontend is Next.js static export deployed to Cloudflare Pages — no backend in this repo
 - All backend API routes live in VLP Worker at `api.virtuallaunch.pro`
 - Auth: `vlp_session` cookie via `credentials: 'include'` (Bearer tokens removed)
-- **Cloudflare SDKs removed** (2026-04-04) — `/_sdk/data_sdk.js` and `/_sdk/element_sdk.js` replaced with `/lib/api.js`
+- **Cloudflare SDKs removed** (2026-04-04) — replaced with `lib/api.ts`
 - Form 843 generation uses VLP Worker route `POST /v1/tcvlp/forms/843/generate`
 - PDF download via `GET /v1/tcvlp/forms/843/:form_id/download`
 - Transcript upload via `POST /v1/tcvlp/transcript/upload`
 - Reviews via `GET /v1/tcvlp/reviews` and `POST /v1/tcvlp/reviews`
 - Session check via `GET /v1/auth/session`
 - All API calls use `https://api.virtuallaunch.pro` with `credentials: 'include'` — no standalone Worker
+
+## Legacy HTML Policy
+
+- Original static HTML files are preserved in `legacy-html/` for reference
+- Do NOT modify legacy HTML files — they are frozen snapshots
+- Do NOT delete legacy HTML until .tsx parity is confirmed by Principal
+- All new work happens in `app/` and `components/` only
 
 ## Related Systems
 
