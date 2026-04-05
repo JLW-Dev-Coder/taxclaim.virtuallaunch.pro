@@ -22,7 +22,7 @@
 
 **Stack:**
 - HTML + Tailwind CSS (CDN) + vanilla JS
-- Cloudflare Worker (workers/src/index.js)
+- Cloudflare Pages (static hosting, no Worker in this repo)
 - Fonts: DM Sans (body), Raleway (display)
 - Color: Red primary (#dc2626)
 
@@ -35,7 +35,7 @@
 
 1. **No PII in public responses** — taxpayer data never appears in static HTML
 2. Do not modify contract JSON files without Principal approval
-3. Do not invent endpoints — all routes defined in workers/src/index.js
+3. **No backend routes in this repo** — all backend logic lives in VLP Worker at `api.virtuallaunch.pro`
 4. Do not deploy without lint/build verification
 5. Stripe product/price IDs are canonical — never fabricate test IDs
 
@@ -56,7 +56,6 @@ taxclaim.virtuallaunch.pro/
 ├── .claude/           ← Claude config, canonicals, settings
 ├── contracts/         ← JSON data contracts (source of truth)
 ├── public/            ← Static HTML pages (index, landing, demo, success)
-├── workers/src/       ← Cloudflare Worker API
 └── README.md
 ```
 
@@ -69,16 +68,18 @@ Source of truth: `/contracts/*.contract.json`
 ## Post-Task Requirements
 
 After every code change:
-1. Verify worker routes match contract definitions
-2. Confirm no PII leaks in HTML templates
-3. Run build if package.json exists
+1. Confirm no PII leaks in HTML templates
+2. Run build if package.json exists
+3. Verify any new API calls use `https://api.virtuallaunch.pro` with `credentials: 'include'`
 
 ## Migration Status
 
-- Worker exists at `workers/src/index.js` (standalone, not VLP-proxied)
-- No `wrangler.toml` at root — deployment config needed
-- Auth: Bearer token (not vlp_session cookie)
-- Frontend points to `taxclaim.virtuallaunch.pro` (self-hosted)
+- **Standalone Worker deleted** (2026-04-04) — was at `workers/src/index.js`, never called by frontend
+- Frontend is static HTML served via Cloudflare Pages — no backend in this repo
+- All backend API routes live in VLP Worker at `api.virtuallaunch.pro`
+- Auth: `vlp_session` cookie via `credentials: 'include'` (Bearer tokens removed)
+- Frontend uses Cloudflare Pages SDKs (`/_sdk/data_sdk.js`, `/_sdk/element_sdk.js`) for data/config
+- 5 of 9 standalone routes were already ported to VLP; 4 unported routes (reviews, checkout, landing-page/create) were unused stubs
 
 ## Related Systems
 
