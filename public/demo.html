@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demo — How Your Clients Claim Their Refund | TaxClaim Pro</title>
+  <meta name="description" content="Follow these steps to generate, print, and mail your IRS Form 843 safely and correctly using TaxClaim Pro.">
+  <link rel="canonical" href="https://taxclaim.virtuallaunch.pro/demo">
+  <link rel="icon" href="https://virtuallaunch.pro/assets/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="https://virtuallaunch.pro/assets/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Raleway:wght@700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; padding: 0; overflow-x: hidden; }
+    body {
+      min-height: 100vh; height: auto; overflow-y: auto;
+      background: #0f1117; color: #f1f1f4;
+      font-family: 'DM Sans', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1,h2,h3 { margin: 0; color: #f1f1f4; }
+    p { margin: 0; color: #9ca3af; }
+    a { color: inherit; text-decoration: none; }
+    :root {
+      --bg: #0f1117; --surface: #161824; --surface-2: #1e2130;
+      --border: #2a2d3e; --red: #dc2626; --green: #22c55e; --blue: #3b82f6;
+      --text-1: #f1f1f4; --text-2: #9ca3af; --text-3: #6b7280;
+      --font-display: 'Raleway', Arial, sans-serif;
+      --transition: 0.15s ease;
+    }
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(220,38,38,0.3); }
+      50% { box-shadow: 0 0 24px 8px rgba(220,38,38,0.15); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes urgencyPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(220,38,38,0); }
+      50% { box-shadow: 0 0 12px 0 rgba(220,38,38,0.2); }
+    }
+
+    /* Deadline Banner */
+    .deadline-banner {
+      display: flex; align-items: center; gap: 0.5rem; width: 100%;
+      padding: 0.625rem 1rem; background: rgba(220,38,38,0.12);
+      border-bottom: 1px solid rgba(220,38,38,0.3);
+      font-size: 0.875rem; color: #fca5a5; justify-content: center;
+    }
+    .deadline-banner strong { color: #f87171; }
+
+    /* Header */
+    .header {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(15,17,23,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid #1e2130;
+    }
+    .nav {
+      max-width: 72rem; margin: 0 auto; padding: 0.75rem 1rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .brand { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+    .logo-box {
+      width: 2rem; height: 2rem; border-radius: 0.5rem; background: #dc2626;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .brand-text { display: flex; flex-direction: column; line-height: 1.2; }
+    .brand-name { font-family: var(--font-display); font-size: 1.125rem; font-weight: 700; color: #f1f1f4; }
+    .brand-sub { font-size: 0.75rem; color: #6b7280; }
+    .nav-links { display: flex; align-items: center; gap: 1.5rem; font-size: 0.875rem; }
+    .nav-link { color: #9ca3af; text-decoration: none; transition: color 0.15s; }
+    .nav-link:hover { color: #f1f1f4; }
+    .cta-btn {
+      padding: 0.5rem 1rem; border-radius: 0.5rem; background: #dc2626;
+      color: #fff; font-size: 0.875rem; font-weight: 600; text-decoration: none;
+    }
+    @media (max-width: 640px) { .nav-links { display: none; } }
+
+    /* Hero */
+    .demo-hero {
+      background: linear-gradient(135deg, #0f1117 0%, #1a1d2e 40%, #1e1f2e 100%);
+      position: relative; overflow: hidden;
+    }
+    .demo-hero-inner {
+      max-width: 50rem; margin: 0 auto; padding: 3rem 1.5rem 2.5rem;
+      text-align: center; position: relative; z-index: 1;
+    }
+    .deadline-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.5rem 1rem; border-radius: 9999px; font-size: 0.875rem; font-weight: 600;
+      background: rgba(220,38,38,0.15); color: #fca5a5; border: 1px solid rgba(220,38,38,0.3);
+      margin-bottom: 1.5rem; animation: pulseGlow 2s infinite;
+    }
+    .headline {
+      font-family: var(--font-display); font-size: 2.5rem; font-weight: 800;
+      color: var(--text-1); margin-bottom: 1rem; line-height: 1.15;
+    }
+    .subheadline { font-size: 1.125rem; color: var(--text-2); max-width: 37rem; margin: 0 auto 2rem; }
+    .hero-ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; }
+    .primary-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; font-size: 0.9375rem;
+      background: var(--red); color: #fff; text-decoration: none; transition: transform var(--transition);
+    }
+    .primary-btn:hover { transform: scale(1.03); }
+    .secondary-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; font-size: 0.9375rem;
+      background: rgba(255,255,255,0.06); color: var(--text-1); border: 1px solid var(--border);
+      text-decoration: none; transition: transform var(--transition);
+    }
+    .secondary-btn:hover { transform: scale(1.03); }
+
+    /* Steps */
+    .main { max-width: 48rem; margin: 0 auto; padding: 3rem 1.5rem; }
+    .steps { display: flex; flex-direction: column; gap: 1.5rem; }
+    .step-row { position: relative; padding-left: 4rem; }
+    .connector {
+      position: absolute; left: 1.625rem; top: 3.5rem; bottom: -1.5rem;
+      width: 2px; background: linear-gradient(to bottom, var(--red), var(--surface-2));
+    }
+    .step-circle {
+      position: absolute; left: 0; top: 0; width: 3.5rem; height: 3.5rem;
+      border-radius: 9999px; background: var(--red); color: #fff;
+      font-weight: 700; font-size: 1.125rem; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 20px rgba(220,38,38,0.3);
+    }
+    .step-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 0.75rem;
+      padding: 1.5rem; animation: fadeUp 0.5s ease-out both;
+    }
+    .step-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+    .step-icon { font-size: 1.375rem; }
+    .step-title { font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; color: var(--text-1); }
+    .step-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+    .step-item { display: flex; gap: 0.5rem; font-size: 0.9375rem; color: var(--text-2); line-height: 1.6; }
+    .step-item a { color: var(--blue); text-decoration: underline; }
+
+    /* CTA */
+    .cta-block { margin-top: 3rem; }
+    .cta-card {
+      background: var(--surface); border: 1px solid var(--border); border-top: 3px solid var(--red);
+      border-radius: 1rem; padding: 2.5rem; text-align: center;
+    }
+    .cta-title { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--text-1); margin-bottom: 0.75rem; }
+    .cta-body { color: var(--text-2); margin-bottom: 1.5rem; }
+  </style>
+</head>
+<body>
+  <!-- Deadline Banner -->
+  <div class="deadline-banner" role="alert">
+    <span>⚠️</span>
+    <span><strong>Kwong claim deadline: July 10, 2026.</strong> File before this date to recover your penalties.</span>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <nav class="nav">
+      <a href="/" class="brand">
+        <div class="logo-box">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">TaxClaim Pro</span>
+          <span class="brand-sub">Powered by Virtual Launch Pro</span>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a href="/#how" class="nav-link">How It Works</a>
+        <a href="/#reviews" class="nav-link">Reviews</a>
+        <a href="/#pricing" class="nav-link">Pricing</a>
+        <a href="/support" class="nav-link">Support</a>
+        <a href="/sign-in?redirect=/onboarding" class="cta-btn">Get Started</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <div class="demo-hero">
+    <div class="demo-hero-inner">
+      <div class="deadline-badge">⚠️ Submit before July 10, 2026</div>
+      <h1 class="headline">How Your Clients Claim Their Refund</h1>
+      <p class="subheadline">Follow these steps to generate, print, and mail your IRS Form 843 safely and correctly.</p>
+      <div class="hero-ctas">
+        <a href="/sign-in?redirect=/onboarding" class="primary-btn">Generate Preparation Guide</a>
+        <a href="/support" class="secondary-btn">Contact Tax Pro</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Steps -->
+  <main class="main">
+    <div class="steps">
+      <!-- Step 1 -->
+      <div class="step-row">
+        <div class="connector"></div>
+        <div class="step-circle">1</div>
+        <div class="step-card">
+          <div class="step-header">
+            <span class="step-icon">📄</span>
+            <h2 class="step-title">Pull Your Transcripts</h2>
+          </div>
+          <ul class="step-list">
+            <li class="step-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:3px"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Access your IRS transcript at <a href="https://www.irs.gov/individuals/get-transcript" target="_blank" rel="noopener noreferrer">irs.gov/get-transcript</a> or call <strong>800-908-9946</strong></span>
+            </li>
+            <li class="step-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:3px"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Print your Account Transcript for tax years <strong>2020 through 2023</strong></span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="step-row">
+        <div class="connector"></div>
+        <div class="step-circle">2</div>
+        <div class="step-card">
+          <div class="step-header">
+            <span class="step-icon">🛡</span>
+            <h2 class="step-title">Confirm Your Eligibility</h2>
+          </div>
+          <ul class="step-list">
+            <li class="step-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:3px"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Review penalties or interest assessed between <strong>Jan 20, 2020 – July 10, 2023</strong></span>
+            </li>
+            <li class="step-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:3px"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Look for Failure-to-File, Failure-to-Pay, or interest charges</span>
+            </li>
+            <li class="step-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:3px"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>If penalties or interest exist, proceed to the Form 843 preparation guide</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="step-row">
+        <div class="connector"></div>
+        <div class="step-circle">3</div>
+        <div class="step-card">
+          <div class="step-header">
+            <span class="step-icon">📝</span>
+            <h2 class="step-title">Generate Your Preparation Guide</h2>
+          </div>
+          <ul class="step-list">
+            <li class="step-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:3px"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Visit your tax pro's branded page and click <strong>Generate Preparation Guide</strong></span>
+            </li>
+            <li class="step-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:3px"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Optionally upload your transcript PDF to auto-fill penalty details</span>
+            </li>
+            <li class="step-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:3px"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Enter your name, state, tax year, and penalty amount</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="step-row">
+        <div class="connector"></div>
+        <div class="step-circle">4</div>
+        <div class="step-card">
+          <div class="step-header">
+            <span class="step-icon">🖨</span>
+            <h2 class="step-title">Print &amp; Review the Guide</h2>
+          </div>
+          <ul class="step-list">
+            <li class="step-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:3px"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>The preparation guide is clearly watermarked <strong>"PREPARATION GUIDE — NOT AN OFFICIAL IRS FORM"</strong></span>
+            </li>
+            <li class="step-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:3px"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Use the guide to fill out the official IRS Form 843 (linked in the guide)</span>
+            </li>
+            <li class="step-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:3px"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Verify all fields match your transcript data</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Step 5 -->
+      <div class="step-row">
+        <div class="step-circle">5</div>
+        <div class="step-card">
+          <div class="step-header">
+            <span class="step-icon">📬</span>
+            <h2 class="step-title">Mail to the IRS</h2>
+          </div>
+          <ul class="step-list">
+            <li class="step-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:3px"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Mail your completed Form 843 to the address shown in the preparation guide (based on your state)</span>
+            </li>
+            <li class="step-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:3px"><polyline points="20 6 9 17 4 12"/></svg>
+              <span><strong>IMPORTANT:</strong> Claims must be postmarked by <strong>July 10, 2026</strong></span>
+            </li>
+            <li class="step-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:3px"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Keep a copy for your records</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom CTA -->
+    <div class="cta-block">
+      <div class="cta-card">
+        <h2 class="cta-title">Ready to Help Your Clients?</h2>
+        <p class="cta-body">Set up your branded page in 5 minutes. $10/month. Deadline July 10, 2026.</p>
+        <a href="/sign-in?redirect=/onboarding" class="primary-btn">Get Started →</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="/lib/api.js"></script>
+</body>
+</html>
