@@ -78,8 +78,13 @@ After every code change:
 - Frontend is static HTML served via Cloudflare Pages — no backend in this repo
 - All backend API routes live in VLP Worker at `api.virtuallaunch.pro`
 - Auth: `vlp_session` cookie via `credentials: 'include'` (Bearer tokens removed)
-- Frontend uses Cloudflare Pages SDKs (`/_sdk/data_sdk.js`, `/_sdk/element_sdk.js`) for data/config
-- 5 of 9 standalone routes were already ported to VLP; 4 unported routes (reviews, checkout, landing-page/create) were unused stubs
+- **Cloudflare SDKs removed** (2026-04-04) — `/_sdk/data_sdk.js` and `/_sdk/element_sdk.js` replaced with `/lib/api.js`
+- Form 843 generation uses VLP Worker route `POST /v1/tcvlp/forms/843/generate`
+- PDF download via `GET /v1/tcvlp/forms/843/:form_id/download`
+- Transcript upload via `POST /v1/tcvlp/transcript/upload`
+- Reviews via `GET /v1/tcvlp/reviews` and `POST /v1/tcvlp/reviews`
+- Session check via `GET /v1/auth/session`
+- All API calls use `https://api.virtuallaunch.pro` with `credentials: 'include'` — no standalone Worker
 
 ## Related Systems
 
