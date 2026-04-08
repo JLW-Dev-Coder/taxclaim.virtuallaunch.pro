@@ -1,4 +1,4 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? 'https://api.virtuallaunch.pro';
+export const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? 'https://api.virtuallaunch.pro';
 
 async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, {
@@ -143,6 +143,15 @@ export async function submitForm843(submission_id: string): Promise<{ success: b
     method: 'POST',
     body: JSON.stringify({ submission_id }),
   });
+}
+
+export async function downloadForm843(formId: string): Promise<Blob> {
+  const res = await fetch(`${API_BASE}/v1/tcvlp/forms/843/${encodeURIComponent(formId)}/download`, {
+    method: 'GET',
+    credentials: 'include',
+  });
+  if (!res.ok) throw new Error('Download failed');
+  return res.blob();
 }
 
 // ── Checkout ──────────────────────────────────────────────────────────────────

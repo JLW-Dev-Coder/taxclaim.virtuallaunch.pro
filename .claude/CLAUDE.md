@@ -3,7 +3,7 @@
 - **Repo:** `taxclaim.virtuallaunch.pro`
 - **Product:** TaxClaim Pro — Form 843 Penalty Abatement Platform
 - **Domain:** `taxclaim.virtuallaunch.pro`
-- **Last updated:** 2026-04-04
+- **Last updated:** 2026-04-07
 - **Purpose:** Hosted landing pages + automated Form 843 generation for tax professionals
 
 ## System Definition
@@ -22,9 +22,11 @@
 
 **Stack:**
 - Next.js (App Router) + TypeScript + CSS Modules
-- Static export (`output: 'export'`) deployed to Cloudflare Pages
+- Static export (`output: 'export'`) — built to `out/`, deployed to Cloudflare Pages
+- `wrangler.toml` → `pages_build_output_dir = "out"` (matches `package.json` deploy script)
 - Fonts: DM Sans (body), Raleway (display) via `next/font/google`
 - Color: Red primary (#dc2626)
+- **Auth:** client-side only. Protected pages wrap in `<AuthGuard>` which calls `getSession()` on mount and redirects to `/sign-in` if missing. No `middleware.ts` (incompatible with static export).
 
 **Backend dependencies:**
 - VLP Worker (`api.virtuallaunch.pro`) — auth, session, orchestration
@@ -66,18 +68,19 @@ taxclaim.virtuallaunch.pro/
 │   ├── dashboard/     ← Tax pro dashboard
 │   ├── support/       ← Support page
 │   ├── affiliate/     ← Affiliate program page
-│   └── claim/[slug]/  ← Dynamic branded claim page
+│   └── claim/         ← Branded claim page (flat route; slug read from `?slug=` query param client-side)
 ├── components/        ← Shared React components
 │   ├── Header.tsx     ← Sticky header with nav
 │   ├── Footer.tsx     ← Site footer
 │   ├── CtaBanner.tsx  ← Dual CTA (Form 843 + TMP directory)
 │   ├── DeadlineBanner.tsx ← Kwong deadline alert banner
-│   └── AuthGuard.tsx  ← Session check wrapper
+│   ├── KwongCard.tsx  ← Clickable Kwong case card + modal (homepage)
+│   └── AuthGuard.tsx  ← Client-side session check wrapper (getSession → /sign-in)
 ├── lib/
 │   └── api.ts         ← Typed VLP API client
 ├── contracts/         ← JSON data contracts (source of truth)
 ├── legacy-html/       ← Original static HTML (reference only — do not modify)
-├── public/            ← Static assets (favicon, images, robots.txt)
+├── public/            ← Static assets: `robots.txt`, `favicon.ico`
 └── README.md
 ```
 
@@ -103,7 +106,7 @@ After every code change:
 - Auth: `vlp_session` cookie via `credentials: 'include'` (Bearer tokens removed)
 - **Cloudflare SDKs removed** (2026-04-04) — replaced with `lib/api.ts`
 - Form 843 generation uses VLP Worker route `POST /v1/tcvlp/forms/843/generate`
-- PDF download via `GET /v1/tcvlp/forms/843/:form_id/download`
+- PDF download via `GET /v1/tcvlp/forms/843/:form_id/download` — wired through `downloadForm843(formId)` in `lib/api.ts`, which returns a `Blob` for browser download
 - Transcript upload via `POST /v1/tcvlp/transcript/upload`
 - Reviews via `GET /v1/tcvlp/reviews` and `POST /v1/tcvlp/reviews`
 - Session check via `GET /v1/auth/session`

@@ -12,6 +12,7 @@ import {
   uploadTranscript,
   generateForm843,
   submitForm843,
+  downloadForm843,
 } from '@/lib/api';
 import styles from './page.module.css';
 
@@ -67,6 +68,8 @@ export default function ClaimClient({ pro, slug }: Props) {
   const [form843Result, setForm843Result] = useState<Form843Result | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [downloading, setDownloading] = useState(false);
+  const [downloadError, setDownloadError] = useState('');
 
   if (!pro) {
     return (
@@ -143,6 +146,25 @@ export default function ClaimClient({ pro, slug }: Props) {
       setGenError(err instanceof Error ? err.message : 'Failed to generate preparation guide.');
     } finally {
       setGenerating(false);
+    }
+  };
+
+  const handleDownloadPdf = async () => {
+    if (!form843Result) return;
+    setDownloading(true);
+    setDownloadError('');
+    try {
+      const blob = await downloadForm843(form843Result.submission_id);
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `form-843-${form843Result.submission_id}.pdf`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      setDownloadError(err instanceof Error ? err.message : 'Download failed.');
+    } finally {
+      setDownloading(false);
     }
   };
 
@@ -467,6 +489,13 @@ export default function ClaimClient({ pro, slug }: Props) {
                     🖨 Print Guide
                   </button>
                   <button
+                    className={styles.printBtn}
+                    onClick={handleDownloadPdf}
+                    disabled={downloading}
+                  >
+                    {downloading ? 'Downloading…' : '⬇ Download PDF'}
+                  </button>
+                  <button
                     className={styles.confirmBtn}
                     onClick={handleSubmit}
                     disabled={submitting}
@@ -474,6 +503,7 @@ export default function ClaimClient({ pro, slug }: Props) {
                     {submitting ? 'Confirming…' : '✓ Confirm I Have Filed'}
                   </button>
                 </div>
+                {downloadError && <div className={styles.errorMsg}>{downloadError}</div>}
 
                 <p className={styles.officialFormNote}>
                   Use this guide to fill out the{' '}

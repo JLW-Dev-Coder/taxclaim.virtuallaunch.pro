@@ -3,9 +3,8 @@
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 import Link from 'next/link';
+import { API_BASE } from '@/lib/api';
 import styles from './page.module.css';
-
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? 'https://api.virtuallaunch.pro';
 
 function SignInForm() {
   const searchParams = useSearchParams();

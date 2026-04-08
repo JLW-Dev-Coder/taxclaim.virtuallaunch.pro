@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import DeadlineBanner from '@/components/DeadlineBanner';
 import CtaBanner from '@/components/CtaBanner';
 import Footer from '@/components/Footer';
+import KwongCard from '@/components/KwongCard';
 import styles from './page.module.css';
 
 export const metadata: Metadata = {
@@ -133,24 +134,7 @@ export default function HomePage() {
             <p className={styles.sectionSub}>Backed by the landmark <em>Kwong v. US</em> court ruling</p>
           </div>
 
-          <div className={styles.rulingCard}>
-            <div className={styles.rulingIcon}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M3 12a9 9 0 1 0 18 0A9 9 0 0 0 3 12z" /><path d="M12 7v5l4 2" />
-              </svg>
-            </div>
-            <div>
-              <h3 className={styles.rulingTitle}>Why Now? The Kwong v. US Ruling</h3>
-              <p className={styles.rulingBody}>
-                In 2023, the U.S. Court of Federal Claims ruled in <strong>Kwong v. United States</strong> that certain
-                penalties assessed between January 20, 2020, and July 10, 2023, may be challenged via Form 843. This creates
-                a limited-time window for clients to claim refunds they&apos;re legally entitled to recover.
-              </p>
-              <p className={styles.rulingNote}>
-                ⏰ <strong>Important:</strong> The deadline to file is <strong>July 10, 2026</strong>. After that, claims cannot be reopened.
-              </p>
-            </div>
-          </div>
+          <KwongCard />
 
           <div className={styles.stepsGrid}>
             {HOW_STEPS.map((step) => (

@@ -1,90 +1,58 @@
 # STYLE.md — TaxClaim Virtual Launch Pro (TCVLP)
 
-Last updated: 2026-04-04
+Last updated: 2026-04-07
 
 ---
 
 ## Stack
 
-- **CSS approach:** Tailwind CSS via CDN (`cdn.tailwindcss.com/3.4.17`)
-- **Global tokens:** Inline `<style>` blocks + Tailwind config in each HTML file
-- **NOT used:** CSS modules, Sass, CSS-in-JS, PostCSS build pipeline
+- **Framework:** Next.js 15 App Router (static export, `output: 'export'`)
+- **CSS approach:** CSS Modules per page/component (`*.module.css`)
+- **Global tokens:** `app/globals.css` — CSS variables accessed via `var(--token)`
+- **Fonts:** `next/font/google` — DM Sans (body), Raleway (display)
+- **NOT used:** Tailwind, Sass, CSS-in-JS, inline styles (except in the tiny loading fallbacks in `AuthGuard`/`Suspense`)
 
 ## Design Tokens
 
-### Colors
+### Colors (from `app/globals.css`)
 | Token | Value | Usage |
 |-------|-------|-------|
-| Primary | `#dc2626` (red-600) | CTAs, active states, accent |
-| Primary hover | `scale(1.05)` | Button hover effect |
-| Primary glow | `rgba(220,38,38,0.3)` | Pulse animation shadow |
-| Primary focus | `rgba(220,38,38,0.2)` | Input focus ring |
-| Background | Dark (`#0f1117` range) | Page backgrounds |
-| Surface | `rgba(255,255,255,.06)` | Card/secondary backgrounds |
-| Border | `#2a2d3e` | Secondary button borders |
-| Text primary | `#f1f1f4` | Body text on dark |
+| `--color-bg` | Dark (`#0f1117` range) | Page backgrounds |
+| `--color-border` | `#2a2d3e` | Card / button borders |
+| `--color-text-1` | `#f1f1f4` | Primary body text |
+| `--color-text-2` | Dim gray | Secondary text |
+| `--color-text-3` | Dimmer gray | Tertiary / hint text |
+| `--color-green` | `#22c55e` | Success / court-backed accents |
+| Red primary | `#dc2626` | CTAs, deadlines, accent |
 
 ### Typography
 | Token | Value |
 |-------|-------|
-| Display font | `Raleway` (700, 800, 900) |
-| Body font | `DM Sans` (400, 500, 600, 700) |
-| Font source | Google Fonts CDN |
+| Display font | Raleway via `next/font/google` (700, 800, 900) |
+| Body font | DM Sans via `next/font/google` (400, 500, 600, 700) |
 
-### Spacing & Layout
+### Spacing & Radii
 | Token | Value |
 |-------|-------|
-| Border radius (buttons) | `8px` |
-| Button padding | `12px 24px` |
-| Animation | `fadeUp 0.5s ease-out` with staggered delays |
+| Button radius | `0.5rem` – `8px` |
+| Card radius | `1rem` |
+| Button padding | `0.75rem 1.25rem` |
 
-## Button Patterns
+## Patterns
 
-```css
-/* Primary */
-.btn-primary {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 12px 24px; border-radius: 8px;
-  font-weight: 600; border: none; cursor: pointer;
-  transition: all 0.2s;
-}
-.btn-primary:hover { transform: scale(1.05); }
-
-/* Secondary */
-.btn-secondary {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 12px 24px; border-radius: 8px;
-  font-weight: 600; border: 1px solid #2a2d3e;
-  background: rgba(255,255,255,.06); color: #f1f1f4;
-  cursor: pointer; transition: all 0.2s;
-}
-.btn-secondary:hover { background: rgba(255,255,255,.12); }
-```
-
-## Animations
-
-```css
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(220,38,38,0.3); }
-  50% { box-shadow: 0 0 0 10px rgba(220,38,38,0); }
-}
-```
-
-## Icons
-
-- **Library:** Lucide (`cdn.jsdelivr.net/npm/lucide@0.263.0`)
+- **Pages:** each `app/<route>/page.tsx` has a colocated `page.module.css`.
+- **Components:** each `components/<Name>.tsx` has a colocated `<Name>.module.css`.
+- **Auth:** protected pages wrap their content in `<AuthGuard>` (client-side `getSession()` → `/sign-in` redirect). No middleware.
+- **API:** all backend calls go through `lib/api.ts` with `credentials: 'include'`. Never re-declare `API_BASE` — import it from `lib/api.ts`.
+- **Buttons:** primary = red `#dc2626` with `transform: scale(1.03)` hover; secondary = bordered translucent surface.
+- **Animations:** `fadeUp`, `slideUp`, `fadeIn` keyframes live inside the CSS module that needs them.
 
 ## Self-Check
 
 Before delivering any styled page:
-- [ ] Uses Tailwind CDN (not build pipeline)
-- [ ] DM Sans for body, Raleway for display headings
-- [ ] Red primary (#dc2626) for CTAs and accents
-- [ ] Dark background theme
-- [ ] fadeUp animation on page sections
-- [ ] pulse-glow on primary CTAs
-- [ ] Focus rings use red-200 opacity
+- [ ] Uses a CSS Module (no Tailwind, no inline styles)
+- [ ] Font tokens come from `next/font/google` via root layout
+- [ ] Colors come from `var(--color-*)` tokens in `globals.css`
+- [ ] Red `#dc2626` used for primary CTAs
+- [ ] Protected content wrapped in `<AuthGuard>`
+- [ ] All API calls use `lib/api.ts` (with `credentials: 'include'`)
