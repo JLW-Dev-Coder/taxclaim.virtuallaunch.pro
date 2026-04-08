@@ -154,6 +154,56 @@ export async function downloadForm843(formId: string): Promise<Blob> {
   return res.blob();
 }
 
+// ── Profile ───────────────────────────────────────────────────────────────────
+
+export interface ProfileData {
+  account_id?: string;
+  email?: string;
+  firm_name?: string;
+  firm_phone?: string;
+  firm_website?: string;
+  firm_logo_url?: string;
+  brand_color?: string;
+  slug?: string;
+}
+
+export async function getProfile(): Promise<ProfileData | null> {
+  try {
+    return await apiFetch<ProfileData>('/v1/tcvlp/profile');
+  } catch {
+    return null;
+  }
+}
+
+export async function updateProfile(data: {
+  firm_name?: string;
+  firm_phone?: string;
+  firm_website?: string;
+  firm_logo_url?: string;
+}): Promise<ProfileData> {
+  return apiFetch<ProfileData>('/v1/tcvlp/profile', {
+    method: 'PATCH',
+    body: JSON.stringify(data),
+  });
+}
+
+// ── Subscription ──────────────────────────────────────────────────────────────
+
+export interface SubscriptionStatus {
+  active: boolean;
+  plan?: string;
+}
+
+export async function checkSubscription(slug: string): Promise<SubscriptionStatus> {
+  try {
+    return await apiFetch<SubscriptionStatus>(
+      `/v1/tcvlp/subscription/status?slug=${encodeURIComponent(slug)}`
+    );
+  } catch {
+    return { active: false };
+  }
+}
+
 // ── Checkout ──────────────────────────────────────────────────────────────────
 
 export interface CheckoutSession {

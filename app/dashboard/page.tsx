@@ -64,6 +64,9 @@ function DashboardContent({ session }: { session: Session }) {
                 {item.label}
               </button>
             ))}
+            <Link href="/calendar" className={styles.navItem}>
+              Calendar
+            </Link>
             <Link href="/affiliate" className={styles.navItem}>
               Affiliate
             </Link>

@@ -75,6 +75,33 @@
   flex-shrink: 0;
 }
 
+.proLogoImg {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.5rem;
+  object-fit: contain;
+  background: #fff;
+  padding: 0.25rem;
+  flex-shrink: 0;
+}
+
+.subGateBanner {
+  background: rgba(220, 38, 38, 0.1);
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  color: #fca5a5;
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+  font-size: 0.9375rem;
+  margin-bottom: 1.5rem;
+}
+
+.subGateLink {
+  color: #fca5a5;
+  text-decoration: underline;
+  font-weight: 600;
+  margin-left: 0.25rem;
+}
+
 .proFirmName {
   font-family: var(--font-display);
   font-size: 1rem;

@@ -3,7 +3,7 @@
 - **Repo:** `taxclaim.virtuallaunch.pro`
 - **Product:** TaxClaim Pro — Form 843 Penalty Abatement Platform
 - **Domain:** `taxclaim.virtuallaunch.pro`
-- **Last updated:** 2026-04-07
+- **Last updated:** 2026-04-07 (calendar page, profile API, subscription gating, white-label branding)
 - **Purpose:** Hosted landing pages + automated Form 843 generation for tax professionals
 
 ## System Definition
@@ -68,6 +68,7 @@ taxclaim.virtuallaunch.pro/
 │   ├── dashboard/     ← Tax pro dashboard
 │   ├── support/       ← Support page
 │   ├── affiliate/     ← Affiliate program page
+│   ├── calendar/      ← Cal.com booking page for client consultations (AuthGuard-wrapped)
 │   └── claim/         ← Branded claim page (flat route; slug read from `?slug=` query param client-side)
 ├── components/        ← Shared React components
 │   ├── Header.tsx     ← Sticky header with nav
@@ -110,7 +111,24 @@ After every code change:
 - Transcript upload via `POST /v1/tcvlp/transcript/upload`
 - Reviews via `GET /v1/tcvlp/reviews` and `POST /v1/tcvlp/reviews`
 - Session check via `GET /v1/auth/session`
+- Profile (white-label branding) via `GET /v1/tcvlp/profile` and `PATCH /v1/tcvlp/profile` — stores `firm_name`, `firm_phone`, `firm_website`, `firm_logo_url`. **⚠️ VLP Worker route not yet implemented — frontend wired, backend needed.**
+- Subscription gating via `GET /v1/tcvlp/subscription/status?slug={slug}` — returns `{ active: boolean, plan?: string }`. Called from the claim page to gate Form 843 generation. **⚠️ VLP Worker route not yet implemented — frontend wired, backend needed.** Frontend defaults to `{ active: false }` on fetch error.
 - All API calls use `https://api.virtuallaunch.pro` with `credentials: 'include'` — no standalone Worker
+
+## White-Label Claim Page
+
+- Route: `/claim?slug={pro-slug}` (e.g. `taxclaim.virtuallaunch.pro/claim?slug=smith-tax`)
+- `ClaimLoader` fetches the tax pro profile via `getProBySlug(slug)`
+- `ClaimClient` renders the pro's `firm_name`, `display_name`, `welcome_message`, and `logo_url` in the sticky header
+- Falls back to the default TCVLP red logo box when `logo_url` is missing
+- Shows a "Page Not Available" state when `slug` resolves to no pro
+
+## Unlimited Client Access Gating
+
+- Subscription check runs on mount in `ClaimClient` via `checkSubscription(slug)`
+- While status is `null` (pending), the claim flow stays enabled optimistically
+- On `{ active: false }`: warning banner at top of main content, generate button disabled with label "Subscription Required", `handleGenerate` short-circuits with an error message
+- On `{ active: true }`: unlimited Form 843 claims allowed for that pro's clients (platform charges the pro $10/mo flat)
 
 ## Legacy HTML Policy
 

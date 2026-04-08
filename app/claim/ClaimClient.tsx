@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import DeadlineBanner from '@/components/DeadlineBanner';
 import {
@@ -13,6 +13,7 @@ import {
   generateForm843,
   submitForm843,
   downloadForm843,
+  checkSubscription,
 } from '@/lib/api';
 import styles from './page.module.css';
 
@@ -71,6 +72,18 @@ export default function ClaimClient({ pro, slug }: Props) {
   const [downloading, setDownloading] = useState(false);
   const [downloadError, setDownloadError] = useState('');
 
+  // Subscription gating — pro must have active subscription for unlimited client access
+  const [subActive, setSubActive] = useState<boolean | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    if (slug) {
+      checkSubscription(slug).then((s) => {
+        if (!cancelled) setSubActive(s.active);
+      });
+    }
+    return () => { cancelled = true; };
+  }, [slug]);
+
   if (!pro) {
     return (
       <div className={styles.notFound}>
@@ -127,6 +140,10 @@ export default function ClaimClient({ pro, slug }: Props) {
 
   const handleGenerate = async () => {
     if (!mailingAddress) return;
+    if (subActive === false) {
+      setGenError('This tax professional does not currently have an active TaxClaim Pro subscription. Please contact them or visit /pricing to activate.');
+      return;
+    }
     setGenerating(true);
     setGenError('');
     try {
@@ -191,12 +208,17 @@ export default function ClaimClient({ pro, slug }: Props) {
       {/* Header with pro branding */}
       <header className={styles.proHeader}>
         <div className={styles.proHeaderInner}>
-          <div className={styles.proLogoBox}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-              <polyline points="14 2 14 8 20 8" />
-            </svg>
-          </div>
+          {pro.logo_url ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={pro.logo_url} alt={`${pro.firm_name} logo`} className={styles.proLogoImg} />
+          ) : (
+            <div className={styles.proLogoBox}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+              </svg>
+            </div>
+          )}
           <div>
             <div className={styles.proFirmName}>{pro.firm_name}</div>
             {pro.display_name && <div className={styles.proDisplayName}>{pro.display_name}</div>}
@@ -205,6 +227,14 @@ export default function ClaimClient({ pro, slug }: Props) {
       </header>
 
       <main className={styles.main}>
+        {subActive === false && (
+          <div className={styles.subGateBanner}>
+            <strong>Subscription inactive.</strong> This firm&apos;s TaxClaim Pro subscription is not currently active.
+            You can still walk through the flow, but Form 843 generation is disabled until the firm reactivates.
+            <Link href="/pricing" className={styles.subGateLink}> View pricing →</Link>
+          </div>
+        )}
+
         {/* Welcome */}
         {pro.welcome_message && (
           <div className={styles.welcomeCard}>
@@ -418,9 +448,9 @@ export default function ClaimClient({ pro, slug }: Props) {
             <button
               className={styles.primaryBtn}
               onClick={handleGenerate}
-              disabled={generating}
+              disabled={generating || subActive === false}
             >
-              {generating ? 'Generating…' : 'Generate Preparation Guide →'}
+              {generating ? 'Generating…' : subActive === false ? 'Subscription Required' : 'Generate Preparation Guide →'}
             </button>
           </div>
         )}
